@@ -35,5 +35,9 @@ add this inside the body near the bottom `<body>`
 <script src= "_content/toast_ui_blazor_calendar/BlazorTuiCalendarInterop.js"></script>
 ```
 
+## Place the Component in a razor file
+```html
+<TUICalendar/>
+```
 
-### More To Come... Help Welcomed
+### Way More To Come... Help Welcomed
