@@ -16,4 +16,8 @@ window.TUICalendar = {
         });
         dotNetRef = dotNetObjectReference;
     },
+
+    setSchedules: function (schedules) {
+        this.calendarRef.createSchedules(schedules);
+    }
 }

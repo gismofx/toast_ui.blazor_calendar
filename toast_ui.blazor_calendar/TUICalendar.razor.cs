@@ -7,6 +7,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 using toast_ui.blazor_calendar.Services;
 using Microsoft.JSInterop;
+using toast_ui.blazor_calendar.Models;
 
 namespace toast_ui.blazor_calendar
 {
@@ -15,6 +16,12 @@ namespace toast_ui.blazor_calendar
 
         [Inject]
         private TUICalendarInteropService CalendarInterop { get; set; }
+
+        /// <summary>
+        /// IEnumerable of all events/tasks etc of type TUISchedule
+        /// </summary>
+        [Parameter]
+        public IEnumerable<TUISchedule> Schedules { get; set; }
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
@@ -28,6 +35,7 @@ namespace toast_ui.blazor_calendar
             if (firstRender)
             {
                 await CalendarInterop.InitCalendarAsync(_ObjectReference);
+                await CalendarInterop.CreateSchedulesAsync(Schedules);
             }
         }
 
