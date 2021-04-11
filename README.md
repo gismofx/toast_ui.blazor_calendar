@@ -36,7 +36,7 @@ add this inside the body near the bottom `<body>`
 ```
 
 ## Place the Component in a razor file
-```html
+```razor
 <TUICalendar/>
 ```
 
