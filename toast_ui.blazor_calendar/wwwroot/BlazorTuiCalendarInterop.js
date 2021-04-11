@@ -9,12 +9,12 @@ window.TUICalendar = {
     calendarRef: null,
     dotNetRef: null,
     initializeCalendar: function(dotNetObjectReference) {
-        calendarRef = new tui.Calendar('#calendar', {
+        this.calendarRef = new tui.Calendar('#calendar', {
             defaultView: 'month', // monthly view option
             useCreationPopup: true,
             useDetailPopup: true
         });
-        dotNetRef = dotNetObjectReference;
+        this.dotNetRef = dotNetObjectReference;
     },
 
     createSchedules: function (schedules) {
