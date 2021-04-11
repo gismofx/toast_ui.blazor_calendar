@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using toast_ui.blazor_calendar.Services;
 using toast_ui.blazor_calendar.Models;
 using Bogus;
 
@@ -9,6 +10,12 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
     public class CalendarViewModel : BaseViewModel
     {
+
+        private readonly TUICalendarInteropService CalendarService;
+        public CalendarViewModel(TUICalendarInteropService calendarService)
+        {
+            CalendarService = calendarService;
+        }
 
         private List<TUISchedule> _Schedules;
         public List<TUISchedule> Schedules
@@ -30,8 +37,31 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             }
         }
 
+        private IEnumerable<TUICalendarProps> _CalendarProps;
+        public IEnumerable<TUICalendarProps> CalendarProps
+        {
+            get => _CalendarProps;
+            set
+            {
+                SetValue(ref _CalendarProps, value);
+            }
+        }
+
+
         public async Task InitCalendarDataAsync()
         {
+            var calendarProps = new List<TUICalendarProps>(); 
+            var calendar1 = new TUICalendarProps()
+            {
+                id = "1",
+                name = "My Test Calendar",
+                color = "#ffffff",
+                bgColor = "#9e5fff",
+                dragBgColor = "#9e5fff",
+                borderColor = "#9e5fff"
+            };
+            calendarProps.Add(calendar1);
+
             await Task.Run(() =>
             {
                _Schedules = new List<TUISchedule>();
@@ -46,7 +76,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         {
             var faker = new Faker();
             
-            var startDate = faker.Date.Between(DateTime.Now.AddDays(-30), DateTime.Now.AddDays(30));
+            var startDate = faker.Date.Between(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(10));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
             var sched = new TUISchedule()
             {
@@ -54,8 +84,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 calendarId = "1",
                 start = startDate,
                 end = endDate,
-                title = faker.Lorem.Words(faker.Random.Int(3, 8)).ToString(),
-                body = faker.Lorem.Paragraph(3)
+                title = faker.Lorem.Sentence(faker.Random.Int(3,7)),
+                body = faker.Lorem.Paragraph(3),
+                category = "time",
+                isVisible = true
+                
             };
 
             return sched;

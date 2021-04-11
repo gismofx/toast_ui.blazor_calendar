@@ -8,7 +8,11 @@ using toast_ui.blazor_calendar.Models;
 
 namespace toast_ui.blazor_calendar.Services
 {
-    class TUICalendarInteropService : IAsyncDisposable
+    /// <summary>
+    /// JSInterop for BlazorTuiCalendarInterop.js
+    /// API: https://nhn.github.io/tui.calendar/latest/
+    /// </summary>
+    public class TUICalendarInteropService : IAsyncDisposable
     {
 
         private readonly IJSRuntime _JSRuntime;
@@ -19,7 +23,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             _JSRuntime = jsRuntime;
         }
-
+        
         /// <summary>
         /// Initialize the Calendar
         /// </summary>
@@ -41,6 +45,16 @@ namespace toast_ui.blazor_calendar.Services
             {
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.createSchedules", schedules);
             }
+        }
+
+        /// <summary>
+        /// Set the calendars' properties via TUICalendarProps 
+        /// </summary>
+        /// <param name="calendars"></param>
+        /// <returns></returns>
+        public async ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars)
+        {
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
         }
 
         public ValueTask DisposeAsync()

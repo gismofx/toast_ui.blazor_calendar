@@ -1,4 +1,6 @@
 ﻿//JS Interop For Tui Calendar and Blazor
+//https://nhn.github.io/tui.calendar/latest/
+//
 function initToastCal() {
     var cal = new tui.Calendar('#calendar', {
         defaultView: 'month' // monthly view option
@@ -19,5 +21,9 @@ window.TUICalendar = {
 
     createSchedules: function (schedules) {
         this.calendarRef.createSchedules(schedules);
+    },
+
+    setCalendars: function (calendars) {
+        this.calendarRef.setCalendars(calendars);
     }
 }

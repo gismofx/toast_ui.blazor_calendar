@@ -29,6 +29,9 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public TUICalendarOptions CalendarOptions { get; set; } = null;
 
+        [Parameter]
+        public IEnumerable<TUICalendarProps> CalendarProperties { get; set; } = null;
+
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
         protected override void OnInitialized()
@@ -41,6 +44,7 @@ namespace toast_ui.blazor_calendar
             if (firstRender)
             {
                 await CalendarInterop.InitCalendarAsync(_ObjectReference);
+                await CalendarInterop.SetCalendars(CalendarProperties);
                 await CalendarInterop.CreateSchedulesAsync(Schedules);
             }
         }
