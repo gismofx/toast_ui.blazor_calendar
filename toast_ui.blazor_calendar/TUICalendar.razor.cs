@@ -23,6 +23,12 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public IEnumerable<TUISchedule> Schedules { get; set; }
 
+        /// <summary>
+        /// Calendar display options and defaults, can be null
+        /// </summary>
+        [Parameter]
+        public TUICalendarOptions CalendarOptions { get; set; } = null;
+
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
         protected override void OnInitialized()

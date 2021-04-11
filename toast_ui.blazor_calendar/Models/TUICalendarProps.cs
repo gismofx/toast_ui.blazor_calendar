@@ -1,6 +1,7 @@
 ﻿namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
+    /// Indivdual Calendar Properties. 
     /// https://nhn.github.io/tui.calendar/latest/CalendarProps
     /// </summary>
     public class TUICalendarProps

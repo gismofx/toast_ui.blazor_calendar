@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject CalendarViewModel ViewModel
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<TUICalendar Schedules ="ViewModel.Schedules" CalendarOptions ="ViewModel.CalendarOptions" ></TUICalendar>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.InitCalendarDataAsync();
+    }
+
+
+}

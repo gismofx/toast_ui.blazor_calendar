@@ -39,7 +39,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             if (schedules is not null)
             {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.setSchedules", schedules);
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.createSchedules", schedules);
             }
         }
 

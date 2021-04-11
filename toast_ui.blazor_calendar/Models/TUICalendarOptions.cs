@@ -3,6 +3,8 @@
 namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
+    /// Used when instantiating a calendar.
+    /// This is the main options class for a TUI calendar display and functions
     /// https://nhn.github.io/tui.calendar/latest/Options
     /// </summary>
     public class TUICalendarOptions

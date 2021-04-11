@@ -17,7 +17,7 @@ window.TUICalendar = {
         dotNetRef = dotNetObjectReference;
     },
 
-    setSchedules: function (schedules) {
+    createSchedules: function (schedules) {
         this.calendarRef.createSchedules(schedules);
     }
 }
