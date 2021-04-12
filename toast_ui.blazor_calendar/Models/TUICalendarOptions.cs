@@ -93,4 +93,19 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         public bool usageStatistics = true;
     }
+
+    public class TUICalendarViewName
+    {
+        private TUICalendarViewName(string value)
+        {
+            Value = value;
+        }
+        public string Value { get; set; }
+
+        public static TUICalendarViewName Day { get { return new TUICalendarViewName("day"); } }
+        public static TUICalendarViewName Week { get { return new TUICalendarViewName("week"); } }
+        public static TUICalendarViewName Month { get { return new TUICalendarViewName("month"); } }
+
+    }
+
 }

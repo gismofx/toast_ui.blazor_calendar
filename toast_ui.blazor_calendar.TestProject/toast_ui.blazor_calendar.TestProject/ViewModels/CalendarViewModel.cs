@@ -47,6 +47,16 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             }
         }
 
+        private TUICalendarViewName _CalendarViewName;
+        public TUICalendarViewName CalendarViewName
+        {
+            get => _CalendarViewName;
+            set
+            {
+                SetValue(ref _CalendarViewName, value);
+            }
+        }
+
 
         public async Task InitCalendarDataAsync()
         {

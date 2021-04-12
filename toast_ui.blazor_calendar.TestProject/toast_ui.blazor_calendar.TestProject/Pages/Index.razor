@@ -1,13 +1,21 @@
 ﻿@page "/"
 @inject CalendarViewModel ViewModel
+@using toast_ui.blazor_calendar.Models
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+Welcome to your new app. <br />
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Month)) class="btn btn-secondary">Month</button>
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Week)) class="btn btn-secondary">Week</button>
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Day)) class="btn btn-secondary">Day</button>
+</div>
 
 <TUICalendar Schedules ="ViewModel.Schedules" 
              CalendarOptions ="ViewModel.CalendarOptions" 
-             CalendarProperties ="ViewModel.CalendarProps"></TUICalendar>
+             CalendarProperties ="ViewModel.CalendarProps"
+             @bind-CalendarViewName=ViewModel.CalendarViewName></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
@@ -17,5 +25,9 @@ Welcome to your new app.
         await ViewModel.InitCalendarDataAsync();
     }
 
+    private void ChangeCalendarView(TUICalendarViewName viewName)
+    {
+        ViewModel.CalendarViewName = viewName;
+    }
 
 }

@@ -29,8 +29,50 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public TUICalendarOptions CalendarOptions { get; set; } = null;
 
+        /// <summary>
+        /// Calendar Properties
+        /// </summary>
         [Parameter]
         public IEnumerable<TUICalendarProps> CalendarProperties { get; set; } = null;
+
+        private TUICalendarViewName _CalendarViewName;
+
+        /// <summary>
+        /// Day, Week, or Month View
+        /// </summary>
+        [Parameter]
+        public TUICalendarViewName CalendarViewName
+        {
+            get => _CalendarViewName;
+            set
+            {
+                if (_CalendarViewName == value) return;
+                _CalendarViewName = value;
+                CalendarViewNameChanged.InvokeAsync(value);
+                CalendarInterop.ChangeView(value);
+            }
+        }   
+
+        [Parameter]
+        public EventCallback<TUICalendarViewName> CalendarViewNameChanged { get; set; }
+
+        /*
+        private DateTime? _SearchDateStart;
+        [Parameter]
+        public DateTime? SearchDateStart
+        {
+            get => _SearchDateStart;
+            set
+            {
+                if (_SearchDateStart == value) return;
+                _SearchDateStart = value;
+                SearchDateStartChanged.InvokeAsync(value);
+            }
+        }
+
+        [Parameter]
+        public EventCallback<DateTime?> SearchDateStartChanged { get; set; }
+        */
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
@@ -49,6 +91,12 @@ namespace toast_ui.blazor_calendar
             }
         }
 
+        [JSInvokable("UpdateSchedule")]
+        public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
+        {
+            Console.WriteLine("Test");
+            //await CalendarInterop.UpdateSchedule(updatedSchedule);
+        }
 
         public TUICalendar()
         {

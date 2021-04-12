@@ -57,6 +57,16 @@ namespace toast_ui.blazor_calendar.Services
             await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
         }
 
+        public async ValueTask ChangeView(TUICalendarViewName viewName)
+        {
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.changeView", viewName.Value);
+        }
+
+        public async ValueTask UpdateSchedule(TUISchedule changedSchedule)
+        {
+            Console.WriteLine("Event Received");
+        }
+
         public ValueTask DisposeAsync()
         {
             return new ValueTask();
