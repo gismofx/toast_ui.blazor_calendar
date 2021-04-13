@@ -36,7 +36,6 @@ add this inside the `<body>` near the bottom
              CalendarOptions ="ViewModel.CalendarOptions" 
              CalendarProperties ="ViewModel.CalendarProps"></TUICalendar>
 ```
-See Test Blazor Server Project
 
 
 ### WAAAYYY More To Come... Help Welcomed
