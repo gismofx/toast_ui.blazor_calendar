@@ -12,19 +12,14 @@ https://ui.toast.com/tui-calendar
 ## This is a work in progress!
 
 ### How to start:
-### in `startup.cs`
-add:  
-```c#
-using toast_ui.blazor_calendar.Services;
-```
 
-### In `_Imports.razor` 
+#### In `_Imports.razor` 
 add: 
 ```c#
 @using toast_ui.blazor_calendar
 ```
 
-### In `_Host.cshtml` 
+#### In `_Host.cshtml` 
 add this inside the body near the bottom `<body>`
 ```html
 <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
@@ -35,7 +30,7 @@ add this inside the body near the bottom `<body>`
 <script src= "_content/toast_ui_blazor_calendar/BlazorTuiCalendarInterop.js"></script>
 ```
 
-## Place the Component in a razor file (See Test Project)
+#### Place the Component in a razor file (See Test Project)
 ```razor
 <TUICalendar Schedules ="ViewModel.Schedules" 
              CalendarOptions ="ViewModel.CalendarOptions" 
