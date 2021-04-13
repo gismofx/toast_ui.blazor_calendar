@@ -97,7 +97,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 title = faker.Lorem.Sentence(faker.Random.Int(3,7)),
                 body = faker.Lorem.Paragraph(3),
                 category = "time",
-                isVisible = true
+                isVisible = true,
+                isAllDay = false,
+                state="busy"
                 
             };
 

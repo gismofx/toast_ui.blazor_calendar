@@ -8,14 +8,21 @@ using Microsoft.AspNetCore.Components;
 using toast_ui.blazor_calendar.Services;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
+using System.Text.Json;
 
 namespace toast_ui.blazor_calendar
 {
     public partial class TUICalendar : ComponentBase, IDisposable
     {
 
+        //[Inject]
+        private TUICalendarInteropService CalendarInterop { get; set; } = null;
+
         [Inject]
-        private TUICalendarInteropService CalendarInterop { get; set; }
+        public  IJSRuntime jsRuntime { get; set; }
+
+        [Parameter]
+        public EventCallback<TUISchedule> OnCalendarEventOrTaskChanged { get; set; }
 
         /// <summary>
         /// IEnumerable of all events/tasks etc of type TUISchedule
@@ -41,20 +48,18 @@ namespace toast_ui.blazor_calendar
         /// Day, Week, or Month View
         /// </summary>
         [Parameter]
-        public TUICalendarViewName CalendarViewName
+        public TUICalendarViewName CalendarViewName 
         {
             get => _CalendarViewName;
             set
             {
                 if (_CalendarViewName == value) return;
                 _CalendarViewName = value;
-                CalendarViewNameChanged.InvokeAsync(value);
-                CalendarInterop.ChangeView(value);
             }
         }   
 
-        [Parameter]
-        public EventCallback<TUICalendarViewName> CalendarViewNameChanged { get; set; }
+        //[Parameter]
+        //public EventCallback<TUICalendarViewName> CalendarViewNameChanged { get; set; }
 
         /*
         private DateTime? _SearchDateStart;
@@ -81,6 +86,33 @@ namespace toast_ui.blazor_calendar
             _ObjectReference = DotNetObjectReference.Create(this);
         }
 
+        public override async Task SetParametersAsync(ParameterView parameters)
+        {
+            
+            if (CalendarInterop is null)
+            {
+                CalendarInterop = new TUICalendarInteropService(jsRuntime);
+            }
+            var changeQueue = new Queue<ValueTask>();
+            var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
+            if (viewName != CalendarViewName)
+            {
+                changeQueue.Enqueue(CalendarInterop.ChangeView(viewName));
+                //await CalendarInterop.ChangeView(viewName);
+            }
+            CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
+            CalendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
+            Schedules = parameters.GetValueOrDefault<IEnumerable<TUISchedule>>("Schedules");
+
+            await base.SetParametersAsync(ParameterView.Empty);
+
+            foreach (var t in changeQueue)
+            {
+                await InvokeAsync(t.AsTask);
+            }
+
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -94,13 +126,32 @@ namespace toast_ui.blazor_calendar
         [JSInvokable("UpdateSchedule")]
         public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
         {
-            Console.WriteLine("Test");
-            //await CalendarInterop.UpdateSchedule(updatedSchedule);
+            var curentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
+            var updatedSchedule = CombineTuiSchedule(curentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
+            OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
         }
 
-        public TUICalendar()
+        //Todo: Refactor or move to service?
+        private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes )
         {
+            var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
+            CopyValues(schedule, c);
+            return schedule;
+        }
 
+        //Todo: Refactor
+        public void CopyValues<T>(T target, T source)
+        {
+            Type t = typeof(T);
+
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(source, null);
+                if (value != null)
+                    prop.SetValue(target, value, null);
+            }
         }
 
         public void Dispose()
