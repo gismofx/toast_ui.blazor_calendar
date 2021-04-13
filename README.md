@@ -15,11 +15,6 @@ add:
 using toast_ui.blazor_calendar.Services;
 ```
 
-and somewhere inside the Configuration method add:  
-```c#
-services.AddTUIBlazorCalendar();
-```
-
 ### In `_Imports.razor` 
 add: 
 ```c#
