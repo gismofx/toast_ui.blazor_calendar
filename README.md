@@ -20,7 +20,7 @@ add:
 ```
 
 #### In `_Host.cshtml` 
-add this inside the body near the bottom `<body>`
+add this inside the `<body>` near the bottom 
 ```html
 <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
 <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
