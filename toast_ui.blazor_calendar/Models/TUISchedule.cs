@@ -29,15 +29,15 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// The start time. It's 'string' for input. It's 'TZDate' for output like event handler.
         /// </summary>
-        [JsonConverter(typeof(TZDateObjectJsonConverter))]
-        public TUITzDate start { get; set; }
+        [JsonConverter(typeof(TZDateJsonConverter))]
+        public DateTimeOffset start { get; set; }
 
         /// <summary>
         /// The end time. It's 'string' for input. It's 'TZDate' for output like event handler.
         /// </summary>
 
-        [JsonConverter(typeof(TZDateObjectJsonConverter))]
-        public TUITzDate end { get; set; }
+        [JsonConverter(typeof(TZDateJsonConverter))]
+        public DateTimeOffset end { get; set; }
 
         /// <summary>
         /// The travel time: Going duration minutes
