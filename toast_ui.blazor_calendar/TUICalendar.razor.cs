@@ -58,47 +58,26 @@ namespace toast_ui.blazor_calendar
             }
         }   
 
-        //[Parameter]
-        //public EventCallback<TUICalendarViewName> CalendarViewNameChanged { get; set; }
-
-        /*
-        private DateTime? _SearchDateStart;
-        [Parameter]
-        public DateTime? SearchDateStart
-        {
-            get => _SearchDateStart;
-            set
-            {
-                if (_SearchDateStart == value) return;
-                _SearchDateStart = value;
-                SearchDateStartChanged.InvokeAsync(value);
-            }
-        }
-
-        [Parameter]
-        public EventCallback<DateTime?> SearchDateStartChanged { get; set; }
-        */
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
+        private Queue<ValueTask> _OnParameterChangeEvents = new Queue<ValueTask>();
 
         protected override void OnInitialized()
         {
             _ObjectReference = DotNetObjectReference.Create(this);
-        }
-
-        public override async Task SetParametersAsync(ParameterView parameters)
-        {
-            
             if (CalendarInterop is null)
             {
                 CalendarInterop = new TUICalendarInteropService(jsRuntime);
             }
-            var changeQueue = new Queue<ValueTask>();
+        }
+
+        public override async Task SetParametersAsync(ParameterView parameters)
+        {
+            //var changeQueue = new Queue<ValueTask>();
             var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
             if (viewName != CalendarViewName)
             {
-                changeQueue.Enqueue(CalendarInterop.ChangeView(viewName));
-                //await CalendarInterop.ChangeView(viewName);
+                _OnParameterChangeEvents.Enqueue(CalendarInterop.ChangeView(viewName));
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
             CalendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
@@ -106,11 +85,17 @@ namespace toast_ui.blazor_calendar
 
             await base.SetParametersAsync(ParameterView.Empty);
 
-            foreach (var t in changeQueue)
-            {
-                await InvokeAsync(t.AsTask);
-            }
+        }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            if (CalendarInterop is not null)
+            {
+                while (_OnParameterChangeEvents.Count > 0)
+                {
+                    await InvokeAsync(_OnParameterChangeEvents.Dequeue().AsTask);
+                }
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
