@@ -60,6 +60,12 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
         public async Task InitCalendarDataAsync()
         {
+            CalendarOptions = new TUICalendarOptions()
+            {
+                useCreationPopup = true,
+                useDetailPopup = true,
+            };
+            
             var calendarProps = new List<TUICalendarProps>(); 
             var calendar1 = new TUICalendarProps()
             {
@@ -71,6 +77,18 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 borderColor = "#9e5fff"
             };
             calendarProps.Add(calendar1);
+
+            var calendar2 = new TUICalendarProps()
+            {
+                id = "2",
+                name = "My Test Calendar2",
+                color = "#00a9ff",
+                bgColor = "#00a9ff",
+                dragBgColor = "#00a9ff",
+                borderColor = "#00a9ff"
+            };
+            calendarProps.Add(calendar2);
+            CalendarProps = calendarProps;
 
             await Task.Run(() =>
             {
@@ -86,14 +104,14 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         {
             var faker = new Faker();
             
-            var startDate = faker.Date.Between(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(10));
+            var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
             var sched = new TUISchedule()
             {
                 id = Guid.NewGuid().ToString(),
-                calendarId = "1",
-                start = startDate,
-                end = endDate,
+                calendarId = faker.Random.Int(1,2).ToString(),
+                start = new TUITzDate(startDate),
+                end = new TUITzDate(endDate),
                 title = faker.Lorem.Sentence(faker.Random.Int(3,7)),
                 body = faker.Lorem.Paragraph(3),
                 category = "time",
