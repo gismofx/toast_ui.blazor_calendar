@@ -10,7 +10,7 @@ https://ui.toast.com/tui-calendar
 
 
 ## This is a work in progress!
-
+Current Issue: https://stackoverflow.com/questions/67084574/custom-json-converter-for-passing-datetimeoffset-between-blazor-and-js-js-prope
 ### How to start:
 
 #### In `_Imports.razor` 
