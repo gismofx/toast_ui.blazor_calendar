@@ -110,8 +110,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             {
                 id = Guid.NewGuid().ToString(),
                 calendarId = faker.Random.Int(1,2).ToString(),
-                start = new TUITzDate(startDate),
-                end = new TUITzDate(endDate),
+                start = new TUITzDate() { _date =startDate },
+                end = new TUITzDate() { _date = endDate },
                 title = faker.Lorem.Sentence(faker.Random.Int(3,7)),
                 body = faker.Lorem.Paragraph(3),
                 category = "time",

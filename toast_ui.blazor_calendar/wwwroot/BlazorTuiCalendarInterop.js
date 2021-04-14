@@ -30,7 +30,7 @@ window.TUICalendar = {
     },
 
     setCalendars: function (calendars) {
-        this.calendarRef.setCalendars(calendars);
+        this.calendarRef.setCalendars(calendars, true);
     },
 
     changeView: function (viewName) {

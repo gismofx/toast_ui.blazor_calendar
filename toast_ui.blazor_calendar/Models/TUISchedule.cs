@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+using toast_ui.blazor_calendar.Services;
 
 namespace toast_ui.blazor_calendar.Models
 {
@@ -27,12 +29,15 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// The start time. It's 'string' for input. It's 'TZDate' for output like event handler.
         /// </summary>
-        public DateTime? start { get; set; }
+        [JsonConverter(typeof(TZDateObjectJsonConverter))]
+        public TUITzDate start { get; set; }
 
         /// <summary>
         /// The end time. It's 'string' for input. It's 'TZDate' for output like event handler.
         /// </summary>
-        public DateTime? end { get; set; }
+
+        [JsonConverter(typeof(TZDateObjectJsonConverter))]
+        public TUITzDate end { get; set; }
 
         /// <summary>
         /// The travel time: Going duration minutes
