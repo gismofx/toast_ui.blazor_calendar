@@ -24,6 +24,9 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public EventCallback<TUISchedule> OnCalendarEventOrTaskChanged { get; set; }
 
+        [Parameter]
+        public EventCallback<TUISchedule> OnCalendarEventOrTaskCreated { get; set; }
+
         /// <summary>
         /// IEnumerable of all events/tasks etc of type TUISchedule
         /// </summary>
@@ -113,7 +116,15 @@ namespace toast_ui.blazor_calendar
         {
             var curentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
             var updatedSchedule = CombineTuiSchedule(curentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
-            OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
+            await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
+        }
+
+        [JSInvokable("CreateSchedule")]
+        public async Task CreateSchedule(JsonElement newSchedule)
+        {
+            var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
+            await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
+            Console.WriteLine("New Schedule");
         }
 
         //Todo: Refactor or move to service?
