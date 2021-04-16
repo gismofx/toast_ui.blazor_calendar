@@ -1,7 +1,7 @@
 # toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
 For Events, Task, and Scheduling
-![Sample](https://github.com/gismofx/toast_ui.blazor_calendar/blob/main/Sample.JPG?raw=true)
+![Sample](Sample.JPG)
 
 See Toast UI Calendar for details:
 https://github.com/nhn/tui.calendar  
