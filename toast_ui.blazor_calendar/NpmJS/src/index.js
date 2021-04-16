@@ -24,10 +24,14 @@ window.TUICalendar = {
             useDetailPopup: true
         });
         TUICalendar.dotNetRef = dotNetObjectReference;
+        //how do I separate
         //this.calendarRef.on('beforeUpdateSchedule', function (event) { beforeUpdateScheduleB(event); });
         //this.calendarRef.on('beforeUpdateSchedule',beforeUpdateSchedule);
         //this.calendarRef.beforeUpdateSchedule = beforeUpdateSchedule2;
 
+
+        //Events
+        https://nhn.github.io/tui.calendar/latest/Calendar#event-beforeUpdateSchedule
         TUICalendar.calendarRef.on('beforeUpdateSchedule', function (event) {
             var schedule = event.schedule;
             var changes = event.changes;
@@ -35,6 +39,7 @@ window.TUICalendar = {
             TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, changes);
         });
 
+        //beforeCreateSchedule
         TUICalendar.calendarRef.on("beforeCreateSchedule", function (event) {
             var id = uuidv4();
             var schedule =
@@ -53,6 +58,16 @@ window.TUICalendar = {
             TUICalendar.dotNetRef.invokeMethodAsync('CreateSchedule', schedule);
             TUICalendar.calendarRef.createSchedules([schedule]);
             TUICalendar.calendarRef.render(true);
+        });
+
+        //beforeDeleteSchedule
+        TUICalendar.calendarRef.on('beforeDeleteSchedule', function (event) {
+            TUICalendar.dotNetRef.invokeMethodAsync('DeleteSchedule', event.schedule.id);
+        });
+
+        //clickSchedule
+        calendar.on('clickSchedule', function (event) {
+            TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id)
         });
 
     },
@@ -76,4 +91,23 @@ window.TUICalendar = {
         TUICalendar.calendarRef.changeView(viewName);
     },
 
+    moveToNextOrPreviousOrToday: function (val) {
+        if (val === -1) {
+            TUICalendar.calendarRef.prev();
+        }
+        else if (val === 1) {
+            TUICalendar.calendarRef.next();
+        }
+        else if (val === 0) {
+            TUICalendar.calendarRef.today();
+        }
+    },
+
+    HideShowCalendar: function (calendarId, hide) {
+        TUICalendar.calendarRef.toggleSchedules(calendarId, hide);
+    },
+
+    setDate: function (date) {
+        TUICalendar.calendarRef.setDate(date);
+    }
 }
