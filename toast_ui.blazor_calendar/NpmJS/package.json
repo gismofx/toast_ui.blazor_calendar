@@ -1,0 +1,22 @@
+{
+  "name": "NpmJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode=production --minimize=false --devtool=source-map ./src/index.js --output-path ../wwwroot/ --output-filename TUI.blazor_calendar.js",
+    "build": "webpack --mode=production --devtool=source-map ./src/index.js --output-path ../wwwroot/ --output-filename TUI.blazor_calendar.min.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "tui-calendar": "^1.13.0",
+    "uuid": "^8.3.2"
+  }
+}

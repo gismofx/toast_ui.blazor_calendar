@@ -93,7 +93,7 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// The schedule visibility flag
         /// </summary>
-        public bool? isVisible { get; set; }
+        public bool? isVisible { get; set; } = true;
 
         /// <summary>
         /// The schedule read-only flag

@@ -15,10 +15,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\BlazorTuiCalendarInterop.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="npm install" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run build" WorkingDirectory="NpmJS" />
+  </Target>
+  
 </Project>

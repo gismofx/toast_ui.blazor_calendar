@@ -82,7 +82,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             {
                 id = "2",
                 name = "My Test Calendar2",
-                color = "#00a9ff",
+                color = "#ffffff",
                 bgColor = "#00a9ff",
                 dragBgColor = "#00a9ff",
                 borderColor = "#00a9ff"
