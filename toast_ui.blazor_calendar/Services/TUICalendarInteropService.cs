@@ -67,6 +67,24 @@ namespace toast_ui.blazor_calendar.Services
             Console.WriteLine("Event Received");
         }
 
+        public async ValueTask MoveCalendar(CalendarMove moveTo)
+        {
+            short value=0;
+            switch (moveTo)
+            {
+                case CalendarMove.Next:
+                    value = 1;
+                    break;
+                case CalendarMove.Previous:
+                    value = -1;
+                    break;
+                case CalendarMove.Today:
+                    value = 0;
+                    break;
+            }
+            await _JSRuntime.InvokeVoidAsync("TUICalenda.moveToNextOrPreviousOrToday", value);
+        }
+
         public ValueTask DisposeAsync()
         {
             return new ValueTask();

@@ -16,7 +16,7 @@ namespace toast_ui.blazor_calendar
     {
 
         //[Inject]
-        private TUICalendarInteropService CalendarInterop { get; set; } = null;
+        public TUICalendarInteropService CalendarInterop { get; private set; } = null;
 
         [Inject]
         public  IJSRuntime jsRuntime { get; set; }
@@ -26,6 +26,17 @@ namespace toast_ui.blazor_calendar
 
         [Parameter]
         public EventCallback<TUISchedule> OnCalendarEventOrTaskCreated { get; set; }
+
+        [Parameter]
+        public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
+
+        [Parameter]
+        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
+
+        public async ValueTask MoveCalendar(CalendarMove moveTo)
+        {
+            await CalendarInterop.MoveCalendar(moveTo);
+        }
 
         /// <summary>
         /// IEnumerable of all events/tasks etc of type TUISchedule
@@ -64,6 +75,38 @@ namespace toast_ui.blazor_calendar
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
         private Queue<ValueTask> _OnParameterChangeEvents = new Queue<ValueTask>();
+
+
+        [JSInvokable("UpdateSchedule")]
+        public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
+        {
+            var currentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
+            var updatedSchedule = CombineTuiSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
+            await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
+            Console.WriteLine($"Schedule {scheduleId} Modified");
+        }
+
+        [JSInvokable("CreateSchedule")]
+        public async Task CreateSchedule(JsonElement newSchedule)
+        {
+            var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
+            await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
+            Console.WriteLine("New Schedule Created");
+        }
+        
+        [JSInvokable("OnClickSchedule")]
+        public async Task OnScheduleClick(string scheduleId)
+        {
+            await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
+            Console.WriteLine($"Schedule {scheduleId} Clicked!");
+        }
+
+        [JSInvokable("DeleteSchedule")]
+        public async Task OnDeleteSchedule(string scheduleId)
+        {
+            await OnDeleteCalendarEventOrTask.InvokeAsync(scheduleId);
+            Console.WriteLine($"Schedule {scheduleId} Deleted!");
+        }
 
         protected override void OnInitialized()
         {
@@ -111,23 +154,9 @@ namespace toast_ui.blazor_calendar
             }
         }
 
-        [JSInvokable("UpdateSchedule")]
-        public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
-        {
-            var curentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
-            var updatedSchedule = CombineTuiSchedule(curentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
-            await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-        }
-
-        [JSInvokable("CreateSchedule")]
-        public async Task CreateSchedule(JsonElement newSchedule)
-        {
-            var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
-            await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
-            Console.WriteLine("New Schedule");
-        }
 
         //Todo: Refactor or move to service?
+        //Todo: Bug when modifying a create event from UI
         private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes )
         {
             var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
@@ -159,5 +188,12 @@ namespace toast_ui.blazor_calendar
                 _ObjectReference.Dispose();
             }
         }
+    }
+
+    public enum CalendarMove
+    {
+        Next,
+        Previous,
+        Today
     }
 }

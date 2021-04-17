@@ -17,7 +17,7 @@
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run build" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run wbp" WorkingDirectory="NpmJS" />
   </Target>
   
 </Project>

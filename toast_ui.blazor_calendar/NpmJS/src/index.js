@@ -1,11 +1,12 @@
 ﻿import Calendar from 'tui-calendar'; /* ES6 */
-/*
+
 import "tui-calendar/dist/tui-calendar.css";
 
 // If you use the default popups, use this.
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
-*/
+
+//UUID
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -63,10 +64,11 @@ window.TUICalendar = {
         //beforeDeleteSchedule
         TUICalendar.calendarRef.on('beforeDeleteSchedule', function (event) {
             TUICalendar.dotNetRef.invokeMethodAsync('DeleteSchedule', event.schedule.id);
+            TUICalendar.calendarRef.deleteSchedule(event.schedule.id, event.schedule.calendarId);
         });
 
         //clickSchedule
-        calendar.on('clickSchedule', function (event) {
+        TUICalendar.calendarRef.on('clickSchedule', function (event) {
             TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id)
         });
 
@@ -102,6 +104,11 @@ window.TUICalendar = {
             TUICalendar.calendarRef.today();
         }
     },
+
+    deleteSchedule: function (calendarId, scheduleId) {
+        TUICalendar.calendarRef.deleteSchedule(scheduleId, calendarId);
+    },
+
 
     HideShowCalendar: function (calendarId, hide) {
         TUICalendar.calendarRef.toggleSchedules(calendarId, hide);
