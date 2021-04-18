@@ -15,7 +15,6 @@ namespace toast_ui.blazor_calendar
     public partial class TUICalendar : ComponentBase, IDisposable
     {
 
-        //[Inject]
         public TUICalendarInteropService CalendarInterop { get; private set; } = null;
 
         [Inject]
@@ -30,9 +29,20 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
 
+        /// <summary>
+        /// Not Working
+        /// </summary>
+        [Parameter]
+        public EventCallback<string> OnDoubleClickCalendarEventOrTask { get; set; }
+
         [Parameter]
         public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
 
+        /// <summary>
+        /// Call this method and Advance the calendar, in any view, forward,backward, or to today.
+        /// </summary>
+        /// <param name="moveTo">Previous, Next, or Today</param>
+        /// <returns></returns>
         public async ValueTask MoveCalendar(CalendarMove moveTo)
         {
             await CalendarInterop.MoveCalendar(moveTo);
@@ -81,7 +91,7 @@ namespace toast_ui.blazor_calendar
         public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
         {
             var currentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
-            var updatedSchedule = CombineTuiSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
+            var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
             await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
             Console.WriteLine($"Schedule {scheduleId} Modified");
         }
@@ -99,6 +109,13 @@ namespace toast_ui.blazor_calendar
         {
             await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
             Console.WriteLine($"Schedule {scheduleId} Clicked!");
+        }
+
+        [JSInvokable("OnDoubleClickSchedule")]
+        public async Task OnScheduleDoubleClick(string scheduleId)
+        {
+            await OnDoubleClickCalendarEventOrTask.InvokeAsync(scheduleId);
+            Console.WriteLine($"Schedule {scheduleId} Double-Clicked!");
         }
 
         [JSInvokable("DeleteSchedule")]
@@ -154,30 +171,6 @@ namespace toast_ui.blazor_calendar
             }
         }
 
-
-        //Todo: Refactor or move to service?
-        //Todo: Bug when modifying a create event from UI
-        private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes )
-        {
-            var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
-            CopyValues(schedule, c);
-            return schedule;
-        }
-
-        //Todo: Refactor
-        public void CopyValues<T>(T target, T source)
-        {
-            Type t = typeof(T);
-
-            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
-
-            foreach (var prop in properties)
-            {
-                var value = prop.GetValue(source, null);
-                if (value != null)
-                    prop.SetValue(target, value, null);
-            }
-        }
 
         public void Dispose()
         {

@@ -6,20 +6,30 @@
 
 Welcome to your new app. <br />
 
-<div class="btn-group" role="group" aria-label="Basic example">
+<div class="btn-group m-2" role="group" aria-label="Basic example">
   <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Month)) class="btn btn-secondary">Month</button>
   <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Week)) class="btn btn-secondary">Week</button>
   <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Day)) class="btn btn-secondary">Day</button>
 </div>
+<br />
+<div class="btn-group m-2" role="group" aria-label="Basic example">
+  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
+  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
+  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
+</div>
+
 
 <TUICalendar Schedules ="ViewModel.Schedules" 
              CalendarOptions ="ViewModel.CalendarOptions" 
              CalendarProperties ="ViewModel.CalendarProps"
-             CalendarViewName=ViewModel.CalendarViewName></TUICalendar>
+             CalendarViewName=ViewModel.CalendarViewName
+             @ref=_calendarRef></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code{
+    private TUICalendar _calendarRef;
+
     protected override async Task OnInitializedAsync()
     {
         await ViewModel.InitCalendarDataAsync();
@@ -28,5 +38,11 @@ Welcome to your new app. <br />
     private void ChangeCalendarView(TUICalendarViewName viewName)
     {
         ViewModel.CalendarViewName = viewName;
+    }
+
+    private async Task MoveCalendarView(CalendarMove move)
+    {
+        await _calendarRef.MoveCalendar(move);
+
     }
 }

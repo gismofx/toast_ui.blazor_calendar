@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
@@ -62,11 +63,16 @@ namespace toast_ui.blazor_calendar.Services
             await _JSRuntime.InvokeVoidAsync("TUICalendar.changeView", viewName.Value);
         }
 
-        public async ValueTask UpdateSchedule(TUISchedule changedSchedule)
+        public TUISchedule UpdateSchedule(TUISchedule scheduleToModify, JsonElement changedSchedule)
         {
-            Console.WriteLine("Event Received");
+            return CombineTuiSchedule(scheduleToModify, changedSchedule);
         }
 
+        /// <summary>
+        /// Move/Change the Calendar Viewing Date Range
+        /// </summary>
+        /// <param name="moveTo"></param>
+        /// <returns></returns>
         public async ValueTask MoveCalendar(CalendarMove moveTo)
         {
             short value=0;
@@ -82,7 +88,31 @@ namespace toast_ui.blazor_calendar.Services
                     value = 0;
                     break;
             }
-            await _JSRuntime.InvokeVoidAsync("TUICalenda.moveToNextOrPreviousOrToday", value);
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.moveToNextOrPreviousOrToday", value);
+        }
+
+        //Todo: Refactor or move to service?
+        //Todo: Bug when modifying a create event from UI
+        private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
+        {
+            var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
+            CopyValues(schedule, c);
+            return schedule;
+        }
+
+        //Todo: Refactor
+        private void CopyValues<T>(T target, T source)
+        {
+            Type t = typeof(T);
+
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(source, null);
+                if (value != null)
+                    prop.SetValue(target, value, null);
+            }
         }
 
         public ValueTask DisposeAsync()

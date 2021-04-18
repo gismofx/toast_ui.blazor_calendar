@@ -69,7 +69,15 @@ window.TUICalendar = {
 
         //clickSchedule
         TUICalendar.calendarRef.on('clickSchedule', function (event) {
-            TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id)
+            TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id);
+            /*
+            var triggerEventName = event.triggerEventName;
+            if (triggerEventName === 'click') {
+                TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id);
+            } else if (triggerEventName === 'dblclick') {
+                TUICalendar.dotNetRef.invokeMethodAsync('OnDoubleClickSchedule', event.schedule.id);
+            }
+            */
         });
 
     },
