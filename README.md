@@ -20,6 +20,11 @@ add:
 ```
 
 #### In `_Host.cshtml` 
+add this inside the `<head>` 
+```html
+<link href="_content/toast_ui_blazor_calendar/TuiCalendar.css" rel="stylesheet">
+```
+
 add this inside the `<body>` near the bottom 
 ```html
 
