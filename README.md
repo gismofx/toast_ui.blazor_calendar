@@ -13,6 +13,10 @@ https://ui.toast.com/tui-calendar
 
 ### How to start:
 
+####
+Nuget Pre-release:  
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha3`
+
 #### In `_Imports.razor` 
 add: 
 ```c#
@@ -22,13 +26,13 @@ add:
 #### In `_Host.cshtml` 
 add this inside the `<head>` 
 ```html
-<link href="_content/toast_ui_blazor_calendar/TuiCalendar.css" rel="stylesheet">
+<link href="_content/toast_ui.blazorCalendar/TuiCalendar.css" rel="stylesheet">
 ```
 
 add this inside the `<body>` near the bottom 
 ```html
 
-    <script src="_content/toast_ui_blazor_calendar/TUI.blazor_calendar.min.js"></script> 
+    <script src="_content/toast_ui.blazor_calendar/TUI.blazor_calendar.min.js"></script> 
 ```
 
 #### Place the Component in a razor file (See Test Project)
