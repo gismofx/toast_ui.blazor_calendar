@@ -13,6 +13,10 @@ https://ui.toast.com/tui-calendar
 
 ### How to start:
 
+####
+Nuget Pre-release
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha3`
+
 #### In `_Imports.razor` 
 add: 
 ```c#
