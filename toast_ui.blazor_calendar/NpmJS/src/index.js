@@ -36,7 +36,7 @@ window.TUICalendar = {
         TUICalendar.calendarRef.on('beforeUpdateSchedule', function (event) {
             var schedule = event.schedule;
             var changes = event.changes;
-            TUICalendar.dotNetRef.invokeMethodAsync('UpdateSchedule', schedule.id, changes);
+            TUICalendar.dotNetRef.invokeMethodAsync('UpdateSchedule', schedule, changes);
             TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, changes);
         });
 
@@ -80,13 +80,6 @@ window.TUICalendar = {
             */
         });
 
-    },
-
-    beforeUpdateSchedule2: function (event) {
-        var schedule = event.schedule;
-        var changes = event.changes;
-        TUICalendar.dotNetRef.invokeMethodAsync('UpdateSchedule', schedule.id, changes);
-        TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, changes);
     },
 
     createSchedules: function (schedules) {

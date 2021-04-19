@@ -94,18 +94,20 @@ namespace toast_ui.blazor_calendar
         private Queue<ValueTask> _OnParameterChangeEvents = new Queue<ValueTask>();
 
         [JSInvokable("UpdateSchedule")]
-        public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
+        public async Task UpdateSchedule(dynamic scheduleBeingModified, dynamic updatedScheduleFields)
         {
-            var currentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
+            //var currentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
+            var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
             var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
             await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Schedule {scheduleId} Modified");
+            Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
         }
 
         [JSInvokable("CreateSchedule")]
         public async Task CreateSchedule(JsonElement newSchedule)
         {
             var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
+            Schedules.ToList().Add(schedule);
             await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
             Debug.WriteLine("New Schedule Created");
         }
