@@ -9,6 +9,7 @@ using toast_ui.blazor_calendar.Services;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
 using System.Text.Json;
+using System.Diagnostics;
 
 namespace toast_ui.blazor_calendar
 {
@@ -49,7 +50,8 @@ namespace toast_ui.blazor_calendar
         }
 
         /// <summary>
-        /// IEnumerable of all events/tasks etc of type TUISchedule
+        /// IEnumerable of all events/tasks etc of type TUISchedule.
+        /// The initial set to be loaded
         /// </summary>
         [Parameter]
         public IEnumerable<TUISchedule> Schedules { get; set; }
@@ -61,7 +63,7 @@ namespace toast_ui.blazor_calendar
         public TUICalendarOptions CalendarOptions { get; set; } = null;
 
         /// <summary>
-        /// Calendar Properties
+        /// Calendar Properties for each calendar, i.e. colors, name, etc
         /// </summary>
         [Parameter]
         public IEnumerable<TUICalendarProps> CalendarProperties { get; set; } = null;
@@ -69,7 +71,9 @@ namespace toast_ui.blazor_calendar
         private TUICalendarViewName _CalendarViewName;
 
         /// <summary>
-        /// Day, Week, or Month View
+        /// Change the Calendar View Mode to Day, Week, or Month View
+        /// The initial setting of this parameter has no affect.
+        /// The calendar Options initial view will override this
         /// </summary>
         [Parameter]
         public TUICalendarViewName CalendarViewName 
@@ -82,10 +86,12 @@ namespace toast_ui.blazor_calendar
             }
         }   
 
-
         private DotNetObjectReference<TUICalendar> _ObjectReference;
+        
+        /// <summary>
+        /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
+        /// </summary>
         private Queue<ValueTask> _OnParameterChangeEvents = new Queue<ValueTask>();
-
 
         [JSInvokable("UpdateSchedule")]
         public async Task UpdateSchedule(string scheduleId, dynamic updatedScheduleFields)
@@ -93,7 +99,7 @@ namespace toast_ui.blazor_calendar
             var currentSchedule = Schedules.Where(x => x.id == scheduleId).FirstOrDefault();
             var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
             await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Console.WriteLine($"Schedule {scheduleId} Modified");
+            Debug.WriteLine($"Schedule {scheduleId} Modified");
         }
 
         [JSInvokable("CreateSchedule")]
@@ -101,28 +107,28 @@ namespace toast_ui.blazor_calendar
         {
             var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
             await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
-            Console.WriteLine("New Schedule Created");
+            Debug.WriteLine("New Schedule Created");
         }
         
         [JSInvokable("OnClickSchedule")]
         public async Task OnScheduleClick(string scheduleId)
         {
             await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Console.WriteLine($"Schedule {scheduleId} Clicked!");
+            Debug.WriteLine($"Schedule {scheduleId} Clicked!");
         }
 
         [JSInvokable("OnDoubleClickSchedule")]
         public async Task OnScheduleDoubleClick(string scheduleId)
         {
             await OnDoubleClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Console.WriteLine($"Schedule {scheduleId} Double-Clicked!");
+            Debug.WriteLine($"Schedule {scheduleId} Double-Clicked!");
         }
 
         [JSInvokable("DeleteSchedule")]
         public async Task OnDeleteSchedule(string scheduleId)
         {
             await OnDeleteCalendarEventOrTask.InvokeAsync(scheduleId);
-            Console.WriteLine($"Schedule {scheduleId} Deleted!");
+            Debug.WriteLine($"Schedule {scheduleId} Deleted!");
         }
 
         protected override void OnInitialized()
@@ -182,7 +188,9 @@ namespace toast_ui.blazor_calendar
             }
         }
     }
-
+    /// <summary>
+    /// Enum Used to Advance the Calendar Forward, Reverse, or to Today
+    /// </summary>
     public enum CalendarMove
     {
         Next,

@@ -4,15 +4,37 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>toast_ui.blazor_calendar</RootNamespace>
     <AssemblyName>toast_ui_blazor_calendar</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>MIT</Copyright>
+    <Description>Toast UI Calandar Wrapper For Blazor. A fully featured calendar component for blazor projects. Comes bundled with ToastUI Calendar JS and CSS files. visit github repo for examples on how to implement.</Description>
+    <Company></Company>
+    <Version>1.0.0-alpha1</Version>
+    <PackageId>toast_ui.blazor_calendar</PackageId>
+    <PackageProjectUrl>https://github.com/gismofx/toast_ui.blazor_calendar</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gismofx/toast_ui.blazor_calendar</RepositoryUrl>
+    <PackageTags>blazor calendar jsinterop toastui c#</PackageTags>
+    <PackageReleaseNotes>Initial pre-release. Missing support for timezones in calendar</PackageReleaseNotes>
+    <Product>toast_ui.blazor_calendar</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>gismofx</Authors>
+    <PackageIcon>Toast-blazor.png</PackageIcon>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
-  
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Documents\Toast-blazor.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

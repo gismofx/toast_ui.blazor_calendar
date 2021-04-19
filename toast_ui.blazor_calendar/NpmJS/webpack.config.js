@@ -11,7 +11,7 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin(
             {
-                filename: 'TUICalendar.blazor.css'
+                filename: 'TUI.blazorCalendar.css'
             })
     ],
     module: {
