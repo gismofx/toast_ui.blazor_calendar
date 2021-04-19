@@ -9,7 +9,7 @@ Toast UI Calendar Site:
 https://ui.toast.com/tui-calendar
 
 
-## This is a work in progress!
+### Pre-Release Nuget available, but this is a work in progress!
 
 ### How to start:
 
