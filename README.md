@@ -9,13 +9,13 @@ Toast UI Calendar Site:
 https://ui.toast.com/tui-calendar
 
 
-## This is a work in progress!
+### Pre-Release Nuget available, but this is a work in progress!
 
 ### How to start:
 
 ####
 Nuget Pre-release:  
-`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha3`
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha4`
 
 #### In `_Imports.razor` 
 add: 
