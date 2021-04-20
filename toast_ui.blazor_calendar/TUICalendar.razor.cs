@@ -22,10 +22,10 @@ namespace toast_ui.blazor_calendar
         public IJSRuntime jsRuntime { get; set; }
 
         [Parameter]
-        public EventCallback<TUISchedule> OnCalendarEventOrTaskChanged { get; set; }
+        public EventCallback<TUISchedule> OnChangeCalendarEventOrTask { get; set; }
 
         [Parameter]
-        public EventCallback<TUISchedule> OnCalendarEventOrTaskCreated { get; set; }
+        public EventCallback<TUISchedule> OnCreateCalendarEventOrTask { get; set; }
 
         [Parameter]
         public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
@@ -84,16 +84,7 @@ namespace toast_ui.blazor_calendar
         /// The Start Date of the Range of days displayed on the calendar
         /// </summary>
         [Parameter]
-        public DateTimeOffset? VisibleStartDateRange
-        {
-            get => _VisibleStartDateRange;
-            set
-            {
-                if (_VisibleStartDateRange == value) return;
-                _VisibleStartDateRange = value;
-                VisibleStartDateRangeChanged.InvokeAsync(value);
-            }
-        }
+        public DateTimeOffset? VisibleStartDateRange { get; set; }
 
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleStartDateRangeChanged { get; set; }
@@ -104,16 +95,8 @@ namespace toast_ui.blazor_calendar
         /// The End Date of the Range of days displated on the calendar
         /// </summary>
         [Parameter]
-        public DateTimeOffset? VisibleEndDateRange
-        {
-            get => _VisibleEndDateRange;
-            set
-            {
-                if (_VisibleEndDateRange == value) return;
-                _VisibleEndDateRange = value;
-                VisibleEndDateRangeChanged.InvokeAsync(value);
-            }
-        }
+        public DateTimeOffset? VisibleEndDateRange { get; set; }
+
         
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleEndDateRangeChanged { get; set; }
@@ -144,7 +127,7 @@ namespace toast_ui.blazor_calendar
         {
             var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
             var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
-            await OnCalendarEventOrTaskChanged.InvokeAsync(updatedSchedule); //Todo: Test This callback!
+            await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
             Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
         }
 
@@ -153,7 +136,7 @@ namespace toast_ui.blazor_calendar
         {
             var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
             Schedules.ToList().Add(schedule);
-            await OnCalendarEventOrTaskCreated.InvokeAsync(schedule);
+            await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Schedule Created");
         }
         
@@ -235,10 +218,13 @@ namespace toast_ui.blazor_calendar
             }
         }
 
+        //@Bug: Bound Properties are being set when invoking the change event.
         private async Task SetDateRange()
         {
-            VisibleStartDateRange = await CalendarInterop.GetDateRangeStart();
-            VisibleEndDateRange = await CalendarInterop.GetDateRangeEnd();
+            var value = await CalendarInterop.GetDateRangeStart();
+            VisibleStartDateRangeChanged.InvokeAsync(value);
+            //VisibleStartDateRangeChanged = await CalendarInterop.GetDateRangeStart();
+            VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
         }
 
         public void Dispose()
@@ -261,3 +247,14 @@ namespace toast_ui.blazor_calendar
         Today
     }
 }
+
+
+/*        {
+            get => _VisibleEndDateRange;
+            set
+            {
+                if (_VisibleEndDateRange == value) return;
+                _VisibleEndDateRange = value;
+                VisibleEndDateRangeChanged.InvokeAsync(value);
+            }
+        }*/
