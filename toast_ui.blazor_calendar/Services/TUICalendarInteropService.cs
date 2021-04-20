@@ -13,7 +13,7 @@ namespace toast_ui.blazor_calendar.Services
     /// JSInterop for BlazorTuiCalendarInterop.js
     /// API: https://nhn.github.io/tui.calendar/latest/
     /// </summary>
-    public class TUICalendarInteropService : IAsyncDisposable
+    public class TUICalendarInteropService : ITUICalendarInteropService, IAsyncDisposable
     {
 
         private readonly IJSRuntime _JSRuntime;
@@ -24,13 +24,13 @@ namespace toast_ui.blazor_calendar.Services
         {
             _JSRuntime = jsRuntime;
         }
-        
+
         /// <summary>
         /// Initialize the Calendar
         /// </summary>
         /// <param name="objectReference"></param>
         /// <returns></returns>
-        public async Task InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference)
+        public async ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference)
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.initializeCalendar", objectReference);
         }
@@ -75,7 +75,7 @@ namespace toast_ui.blazor_calendar.Services
         /// <returns></returns>
         public async ValueTask MoveCalendar(CalendarMove moveTo)
         {
-            short value=0;
+            short value = 0;
             switch (moveTo)
             {
                 case CalendarMove.Next:
@@ -91,8 +91,6 @@ namespace toast_ui.blazor_calendar.Services
             await _JSRuntime.InvokeVoidAsync("TUICalendar.moveToNextOrPreviousOrToday", value);
         }
 
-        //Todo: Refactor or move to service?
-        //Todo: Bug when modifying a create event from UI
         private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
         {
             var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
@@ -100,7 +98,7 @@ namespace toast_ui.blazor_calendar.Services
             return schedule;
         }
 
-        //Todo: Refactor
+        //@Todo: Refactor
         private void CopyValues<T>(T target, T source)
         {
             Type t = typeof(T);
@@ -120,5 +118,36 @@ namespace toast_ui.blazor_calendar.Services
             return new ValueTask();
             //throw new NotImplementedException();
         }
+
+        public async ValueTask HideShowCalendar(string calendarId, bool hide)
+        {
+            await _JSRuntime.InvokeVoidAsync("hideShowCalendar", calendarId, hide);
+        }
+
+        public async ValueTask SetDate(DateTimeOffset? dateToDisplay)
+        {
+            if (dateToDisplay is not null)
+            {
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.setDate", dateToDisplay);
+            }
+        }
+
+        public async ValueTask<DateTimeOffset?> GetDateRangeStart()
+        {
+            var result = await _JSRuntime.InvokeAsync<JsonElement>("TUICalendar.getDateRangeStart");
+            var deserializeOptions = new JsonSerializerOptions();
+            deserializeOptions.Converters.Add(new TZDateJsonConverter());
+            return JsonSerializer.Deserialize<DateTimeOffset?>(result.ToString(), deserializeOptions);
+            
+        }
+
+        public async ValueTask<DateTimeOffset?> GetDateRangeEnd()
+        {
+            var result = await _JSRuntime.InvokeAsync<JsonElement>("TUICalendar.getDateRangeEnd");
+            var deserializeOptions = new JsonSerializerOptions();
+            deserializeOptions.Converters.Add(new TZDateJsonConverter());
+            return JsonSerializer.Deserialize<DateTimeOffset?>(result.ToString(), deserializeOptions);
+        }
+
     }
 }

@@ -111,11 +111,20 @@ window.TUICalendar = {
     },
 
 
-    HideShowCalendar: function (calendarId, hide) {
+    hideShowCalendar: function (calendarId, hide) {
         TUICalendar.calendarRef.toggleSchedules(calendarId, hide);
     },
 
     setDate: function (date) {
         TUICalendar.calendarRef.setDate(date);
-    }
+    },
+
+    getDateRangeStart: function () {
+        return TUICalendar.calendarRef.getDateRangeStart();
+    },
+
+    getDateRangeEnd: function () {
+        return TUICalendar.calendarRef.getDateRangeEnd();
+    },
+
 }

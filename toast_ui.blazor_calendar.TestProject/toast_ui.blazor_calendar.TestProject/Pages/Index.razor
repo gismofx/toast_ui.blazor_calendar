@@ -1,6 +1,8 @@
 ﻿@page "/"
 @inject CalendarViewModel ViewModel
 @using toast_ui.blazor_calendar.Models
+@implements IDisposable
+@using System.ComponentModel;
 
 <h1>Hello, world!</h1>
 
@@ -18,11 +20,14 @@ Welcome to your new app. <br />
   <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
 </div>
 
+<div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
 
 <TUICalendar Schedules ="ViewModel.Schedules" 
              CalendarOptions ="ViewModel.CalendarOptions" 
              CalendarProperties ="ViewModel.CalendarProps"
              CalendarViewName=ViewModel.CalendarViewName
+             @bind-VisibleStartDateRange=ViewModel.StartDate
+             @bind-VisibleEndDateRange=ViewModel.EndDate
              @ref=_calendarRef></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
@@ -30,9 +35,19 @@ Welcome to your new app. <br />
 @code{
     private TUICalendar _calendarRef;
 
+
     protected override async Task OnInitializedAsync()
     {
         await ViewModel.InitCalendarDataAsync();
+        ViewModel.PropertyChanged += OnPropertyChangedHandler;
+    }
+
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
     }
 
     private void ChangeCalendarView(TUICalendarViewName viewName)
@@ -44,5 +59,10 @@ Welcome to your new app. <br />
     {
         await _calendarRef.MoveCalendar(move);
 
+    }
+
+    public void Dispose()
+    {
+        ViewModel.PropertyChanged -= OnPropertyChangedHandler;
     }
 }

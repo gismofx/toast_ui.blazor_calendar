@@ -56,6 +56,26 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             }
         }
 
+        private DateTimeOffset? _StartDate;
+        public DateTimeOffset? StartDate
+        {
+            get => _StartDate;
+            set
+            {
+                SetValue(ref _StartDate, value);
+            }
+        }
+
+        private DateTimeOffset? _EndDate;
+        public DateTimeOffset? EndDate
+        {
+            get => _EndDate;
+            set
+            {
+                SetValue(ref _EndDate, value);
+            }
+        }
+
 
         public async Task InitCalendarDataAsync()
         {
