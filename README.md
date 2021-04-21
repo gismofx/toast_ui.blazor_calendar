@@ -31,15 +31,18 @@ add this inside the `<head>`
 
 add this inside the `<body>` near the bottom 
 ```html
-
-    <script src="_content/toast_ui.blazor_calendar/TUI.blazor_calendar.min.js"></script> 
+<script src="_content/toast_ui.blazor_calendar/TUI.blazor_calendar.min.js"></script> 
 ```
 
 #### Place the Component in a razor file (See Test Project)
 ```razor
-<TUICalendar Schedules ="ViewModel.Schedules" 
-             CalendarOptions ="ViewModel.CalendarOptions" 
-             CalendarProperties ="ViewModel.CalendarProps"></TUICalendar>
+<TUICalendar Schedules="ViewModel.Schedules" 
+             CalendarOptions="ViewModel.CalendarOptions" 
+             CalendarProperties="ViewModel.CalendarProps"
+             CalendarViewName="ViewModel.CalendarViewName"
+             @bind-VisibleStartDateRange="ViewModel.StartDate"
+             @bind-VisibleEndDateRange="ViewModel.EndDate"
+             @ref=_calendarRef></TUICalendar>
 ```
 
 
