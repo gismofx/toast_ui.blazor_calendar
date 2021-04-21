@@ -1,6 +1,7 @@
-# toast_ui.blazor_calendar
+## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
 For Events, Task, and Scheduling
+---
 ![Sample](Sample.JPG)
 
 See Toast UI Calendar for details:
@@ -11,12 +12,13 @@ https://ui.toast.com/tui-calendar
 
 ### Pre-Release Nuget available, but this is a work in progress!
 
-### How to start:
+## How to start:
 
 ####
 Nuget Pre-release:  
 `Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha5`
 
+### Edit your project files:
 #### In `_Imports.razor` 
 add: 
 ```c#
