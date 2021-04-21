@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using toast_ui.blazor_calendar.Services;
-using toast_ui.blazor_calendar.Models;
 using Bogus;
+using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Services;
 
 namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
     public class CalendarViewModel : BaseViewModel
     {
-
         private readonly TUICalendarInteropService CalendarService;
+
         public CalendarViewModel()
         {
         }
 
         private List<TUISchedule> _Schedules;
+
         public List<TUISchedule> Schedules
         {
             get => _Schedules;
@@ -27,6 +27,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         }
 
         private TUICalendarOptions _CalendarOptions;
+
         public TUICalendarOptions CalendarOptions
         {
             get => _CalendarOptions;
@@ -37,6 +38,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         }
 
         private IEnumerable<TUICalendarProps> _CalendarProps;
+
         public IEnumerable<TUICalendarProps> CalendarProps
         {
             get => _CalendarProps;
@@ -47,6 +49,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         }
 
         private TUICalendarViewName _CalendarViewName;
+
         public TUICalendarViewName CalendarViewName
         {
             get => _CalendarViewName;
@@ -57,6 +60,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         }
 
         private DateTimeOffset? _StartDate;
+
         public DateTimeOffset? StartDate
         {
             get => _StartDate;
@@ -67,6 +71,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         }
 
         private DateTimeOffset? _EndDate;
+
         public DateTimeOffset? EndDate
         {
             get => _EndDate;
@@ -76,16 +81,18 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             }
         }
 
-
         public async Task InitCalendarDataAsync()
         {
+            StartDate = DateTimeOffset.Now;
+            EndDate = DateTimeOffset.Now;
+
             CalendarOptions = new TUICalendarOptions()
             {
                 useCreationPopup = true,
                 useDetailPopup = true,
             };
-            
-            var calendarProps = new List<TUICalendarProps>(); 
+
+            var calendarProps = new List<TUICalendarProps>();
             var calendar1 = new TUICalendarProps()
             {
                 id = "1",
@@ -111,37 +118,35 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             await Task.Run(() =>
             {
-               _Schedules = new List<TUISchedule>();
-               for (int i = 0; i < 50; i++)
-               {
-                   _Schedules.Add(GetFakeSchedule());
-               }
+                _Schedules = new List<TUISchedule>();
+                for (int i = 0; i < 50; i++)
+                {
+                    _Schedules.Add(GetFakeSchedule());
+                }
             });
         }
 
         private TUISchedule GetFakeSchedule()
         {
             var faker = new Faker();
-            
+
             var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
             var sched = new TUISchedule()
             {
                 id = Guid.NewGuid().ToString(),
-                calendarId = faker.Random.Int(1,2).ToString(),
+                calendarId = faker.Random.Int(1, 2).ToString(),
                 start = startDate,
                 end = endDate,
-                title = faker.Lorem.Sentence(faker.Random.Int(3,7)),
+                title = faker.Lorem.Sentence(faker.Random.Int(3, 7)),
                 body = faker.Lorem.Paragraph(3),
                 category = "time",
                 isVisible = true,
                 isAllDay = false,
-                state="busy"
-                
+                state = "busy"
             };
 
             return sched;
-
         }
     }
 }

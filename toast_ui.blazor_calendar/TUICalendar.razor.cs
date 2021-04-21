@@ -10,6 +10,8 @@ using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
 using System.Text.Json;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Linq.Expressions;
 
 namespace toast_ui.blazor_calendar
 {
@@ -30,6 +32,9 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
 
+        [Parameter]
+        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
+        
         /// <summary>
         /// Not Working
         /// </summary>
@@ -38,8 +43,6 @@ namespace toast_ui.blazor_calendar
         public EventCallback<string> OnDoubleClickCalendarEventOrTask { get; set; }
         */
 
-        [Parameter]
-        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
 
         /// <summary>
         /// IEnumerable of all events/tasks etc of type TUISchedule.
@@ -77,19 +80,17 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public DateTimeOffset? GoToDate { get; set; }
 
-
-        private DateTimeOffset? _VisibleStartDateRange;
-
         /// <summary>
         /// The Start Date of the Range of days displayed on the calendar
         /// </summary>
         [Parameter]
         public DateTimeOffset? VisibleStartDateRange { get; set; }
-
+        
+        /// <summary>
+        /// The Start Date of the Range of days displayed on the calendar
+        /// </summary>
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleStartDateRangeChanged { get; set; }
-
-        private DateTimeOffset? _VisibleEndDateRange;
 
         /// <summary>
         /// The End Date of the Range of days displated on the calendar
@@ -97,11 +98,11 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public DateTimeOffset? VisibleEndDateRange { get; set; }
 
-        
+        /// <summary>
+        /// The End Date of the Range of days displated on the calendar
+        /// </summary>
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleEndDateRangeChanged { get; set; }
-
-
 
         /// <summary>
         /// Call this method and Advance the calendar, in any view, forward,backward, or to today.
@@ -172,28 +173,52 @@ namespace toast_ui.blazor_calendar
             }
         }
 
+        /// <summary>
+        /// Any time a new parameter is added, it must be MANUALLY set here
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public override async Task SetParametersAsync(ParameterView parameters)
         {
-            //var changeQueue = new Queue<ValueTask>();
             var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
             if (viewName != CalendarViewName)
             {
-                _OnParameterChangeEvents.Enqueue(CalendarInterop.ChangeView(viewName).AsTask());
+                CalendarViewName = viewName;
+                _OnParameterChangeEvents.Enqueue(CalendarInterop?.ChangeView(viewName).AsTask());
                 _OnParameterChangeEvents.Enqueue(SetDateRange());
             }
             
             var newDateDisplay = parameters.GetValueOrDefault<DateTimeOffset?>("GoToDate");
             if (newDateDisplay != GoToDate)
             {
-                _OnParameterChangeEvents.Enqueue(CalendarInterop.SetDate(newDateDisplay).AsTask());
+                GoToDate = newDateDisplay;
+                _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetDate(newDateDisplay).AsTask());
                 _OnParameterChangeEvents.Enqueue(SetDateRange());
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
             CalendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
             Schedules = parameters.GetValueOrDefault<IEnumerable<TUISchedule>>("Schedules");
+            
+            //Visible Date Range
+            VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
+            VisibleStartDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleStartDateRange");
+            VisibleStartDateRangeChanged = parameters.GetValueOrDefault<EventCallback<DateTimeOffset?>>("VisibleStartDateRangeChanged");
+            VisibleEndDateRangeChanged = parameters.GetValueOrDefault<EventCallback<DateTimeOffset?>>("VisibleEndDateRangeChanged");
+
+            //Events
+            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUISchedule>>("OnChangeCalendarEventOrTask");
+            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUISchedule>>("OnCreateCalendarEventOrTask");
+            OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnClickCalendarEventOrTask");
+            OnDeleteCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEventOrTask");
 
             await base.SetParametersAsync(ParameterView.Empty);
 
+        }
+
+        protected override bool ShouldRender()
+        {
+            return false;
+            //return shouldRender;
         }
 
         protected override async Task OnParametersSetAsync()
@@ -221,10 +246,10 @@ namespace toast_ui.blazor_calendar
         //@Bug: Bound Properties are being set when invoking the change event.
         private async Task SetDateRange()
         {
-            var value = await CalendarInterop.GetDateRangeStart();
-            VisibleStartDateRangeChanged.InvokeAsync(value);
-            //VisibleStartDateRangeChanged = await CalendarInterop.GetDateRangeStart();
-            VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
+            //VisibleStartDateRange = ;
+            await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
+            //VisibleEndDateRange = ;
+            await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
         }
 
         public void Dispose()
@@ -248,13 +273,50 @@ namespace toast_ui.blazor_calendar
     }
 }
 
-
-/*        {
-            get => _VisibleEndDateRange;
-            set
+/*
+ * if (!_hasSetInitialParameters)
             {
-                if (_VisibleEndDateRange == value) return;
-                _VisibleEndDateRange = value;
-                VisibleEndDateRangeChanged.InvokeAsync(value);
+                // This is the first run
+                // Could put this logic in OnInit, but its nice to avoid forcing people who override OnInit to call base.OnInit()
+
+                if (ValueExpression != null)
+                {
+                    FieldIdentifier = FieldIdentifier.Create(ValueExpression);
+                }
+
+                //EditContext = CascadedEditContext;
+                _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TUICalendar));
+                _hasSetInitialParameters = true;
+
+                //LogMBDebug($"SetParametersAsync setting ComponentValue value to '{Value?.ToString() ?? "null"}'");
+
+                _cachedValue = Value;
+                _componentValue = Value;
             }
-        }*/
+
+private Type _nullableUnderlyingType;
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the bound value.
+        /// </summary>
+        [Parameter] public Expression<Func<TUICalendar>> ValueExpression { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="FieldIdentifier"/> for the bound value.
+        /// </summary>
+        protected FieldIdentifier FieldIdentifier { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the value of the input. This should be used with two-way binding.
+        /// </summary>
+        /// <example>
+        /// @bind-Value="@model.PropertyName"
+        /// </example>
+        [Parameter] public TUICalendar Value { get; set; }
+        private TUICalendar _cachedValue;
+
+        private TUICalendar _componentValue;
+
+        private bool _hasSetInitialParameters;
+
+*/

@@ -22,19 +22,19 @@ Welcome to your new app. <br />
 
 <div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
 
+
 <TUICalendar Schedules="ViewModel.Schedules" 
              CalendarOptions="ViewModel.CalendarOptions" 
              CalendarProperties="ViewModel.CalendarProps"
-             CalendarViewName=ViewModel.CalendarViewName
-             @bind-VisibleStartDateRange=ViewModel.StartDate
-             @bind-VisibleEndDateRange=ViewModel.EndDate
+             CalendarViewName="ViewModel.CalendarViewName"
+             @bind-VisibleStartDateRange="ViewModel.StartDate"
+             @bind-VisibleEndDateRange="ViewModel.EndDate"
              @ref=_calendarRef></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code{
     private TUICalendar _calendarRef;
-
 
     protected override async Task OnInitializedAsync()
     {

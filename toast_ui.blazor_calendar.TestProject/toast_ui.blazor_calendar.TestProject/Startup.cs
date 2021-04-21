@@ -32,7 +32,7 @@ namespace toast_ui.blazor_calendar.TestProject
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
-            services.AddScoped<CalendarViewModel>();
+            services.AddTransient<CalendarViewModel>();
             
 
         }
