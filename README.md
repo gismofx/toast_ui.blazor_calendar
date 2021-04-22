@@ -1,6 +1,7 @@
-# toast_ui.blazor_calendar
+## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
 For Events, Task, and Scheduling
+---
 ![Sample](Sample.JPG)
 
 See Toast UI Calendar for details:
@@ -11,12 +12,13 @@ https://ui.toast.com/tui-calendar
 
 ### Pre-Release Nuget available, but this is a work in progress!
 
-### How to start:
+## How to start:
 
 ####
 Nuget Pre-release:  
-`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha4`
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-alpha5`
 
+### Edit your project files:
 #### In `_Imports.razor` 
 add: 
 ```c#
@@ -31,15 +33,18 @@ add this inside the `<head>`
 
 add this inside the `<body>` near the bottom 
 ```html
-
-    <script src="_content/toast_ui.blazor_calendar/TUI.blazor_calendar.min.js"></script> 
+<script src="_content/toast_ui.blazor_calendar/TUI.blazor_calendar.min.js"></script> 
 ```
 
 #### Place the Component in a razor file (See Test Project)
 ```razor
-<TUICalendar Schedules ="ViewModel.Schedules" 
-             CalendarOptions ="ViewModel.CalendarOptions" 
-             CalendarProperties ="ViewModel.CalendarProps"></TUICalendar>
+<TUICalendar Schedules="ViewModel.Schedules" 
+             CalendarOptions="ViewModel.CalendarOptions" 
+             CalendarProperties="ViewModel.CalendarProps"
+             CalendarViewName="ViewModel.CalendarViewName"
+             @bind-VisibleStartDateRange="ViewModel.StartDate"
+             @bind-VisibleEndDateRange="ViewModel.EndDate"
+             @ref=_calendarRef></TUICalendar>
 ```
 
 
