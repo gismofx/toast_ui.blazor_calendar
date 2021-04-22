@@ -57,6 +57,8 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public TUICalendarOptions CalendarOptions { get; set; } = null;
 
+        public EventCallback<TUICalendarOptions> CalendarOptionsChanged { get; set; }
+
         /// <summary>
         /// Calendar Properties for each calendar, i.e. colors, name, etc
         /// </summary>
@@ -114,7 +116,6 @@ namespace toast_ui.blazor_calendar
             await CalendarInterop.MoveCalendar(moveTo);
             await SetDateRange();
         }
-
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
         
@@ -195,8 +196,18 @@ namespace toast_ui.blazor_calendar
                 _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetDate(newDateDisplay).AsTask());
                 _OnParameterChangeEvents.Enqueue(SetDateRange());
             }
+
+            var calendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
+            if (calendarOptions is not null)
+            {
+                if (!calendarOptions.Equals(CalendarOptions))
+                {
+                    CalendarOptions = calendarOptions;
+                    _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetCalendarOptionsAsync(calendarOptions).AsTask());
+                    _OnParameterChangeEvents.Enqueue(SetDateRange());
+                }
+            }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
-            CalendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
             Schedules = parameters.GetValueOrDefault<IEnumerable<TUISchedule>>("Schedules");
             
             //Visible Date Range
@@ -227,7 +238,14 @@ namespace toast_ui.blazor_calendar
             {
                 while (_OnParameterChangeEvents.Count > 0)
                 {
-                    await _OnParameterChangeEvents.Dequeue();
+                    try
+                    {
+                        await _OnParameterChangeEvents.Dequeue();
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        //do nothing
+                    }
                 }
             }
         }
@@ -236,7 +254,7 @@ namespace toast_ui.blazor_calendar
         {
             if (firstRender)
             {
-                await CalendarInterop.InitCalendarAsync(_ObjectReference);
+                await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
                 await CalendarInterop.SetCalendars(CalendarProperties);
                 await CalendarInterop.CreateSchedulesAsync(Schedules);
                 await SetDateRange();
@@ -246,10 +264,13 @@ namespace toast_ui.blazor_calendar
         //@Bug: Bound Properties are being set when invoking the change event.
         private async Task SetDateRange()
         {
-            //VisibleStartDateRange = ;
-            await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
-            //VisibleEndDateRange = ;
-            await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
+            if (CalendarInterop is not null)
+            {
+                //VisibleStartDateRange = ;
+                await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
+                //VisibleEndDateRange = ;
+                await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
+            }
         }
 
         public void Dispose()

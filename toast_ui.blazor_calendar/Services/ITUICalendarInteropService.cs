@@ -11,7 +11,7 @@ namespace toast_ui.blazor_calendar.Services
     {
         ValueTask ChangeView(TUICalendarViewName viewName);
         ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules);
-        ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference);
+        ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
         ValueTask MoveCalendar(CalendarMove moveTo);
         ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars);
         TUISchedule UpdateSchedule(TUISchedule scheduleToModify, JsonElement changedSchedule);
@@ -19,5 +19,6 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask SetDate(DateTimeOffset? dateToDisplay);
         ValueTask<DateTimeOffset?> GetDateRangeStart();
         ValueTask<DateTimeOffset?> GetDateRangeEnd();
+        ValueTask SetCalendarOptionsAsync(TUICalendarOptions calendarOptions);
     }
 }

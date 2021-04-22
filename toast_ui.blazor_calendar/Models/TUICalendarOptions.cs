@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Text.Json.Serialization;
+using toast_ui.blazor_calendar.Services;
 
 namespace toast_ui.blazor_calendar.Models
 {
@@ -12,20 +15,21 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Default view of calendar. The default value is 'week'.
         /// </summary>
-        public string defaultView { get; set; }
+        [JsonConverter(typeof(TUICalendarViewNameJsonConverter))]
+        public TUICalendarViewName defaultView { get; set; }
 
         /// <summary>
         /// Show the milestone and task in weekly, daily view.
         /// The default value is true. If the value is array, it can be ['milestone', 'task'].
         /// </summary>
-        public string taskView { get; set; } = "true";
+        public string[] taskView { get; set; } = new[] {"milestone", "task"};
 
         /// <summary>
         /// Show the all day and time grid in weekly, daily view.
         /// The default value is false.
         /// If the value is array, it can be ['allday', 'time'].
         /// </summary>
-        public string scheduleView { get; set; } = "true";
+        public string[] scheduleView { get; set; } = new[] { "allday", "time" };
 
         /// <summary>
         /// themeConfig for custom style.
@@ -51,7 +55,7 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// CalendarProps List that can be used to add new schedule. The default value is [].
         /// </summary>
-        public string[] calendars { get; set; }
+        public TUICalendarProps[] calendars { get; set; }
 
         /// <summary>
         /// Whether use default creation popup or not. The default value is false.
@@ -91,7 +95,94 @@ namespace toast_ui.blazor_calendar.Models
         /// Let us know the hostname.
         /// If you don't want to send the hostname, please set to false.
         /// </summary>
-        public bool usageStatistics = true;
+        public bool usageStatistics { get; set; } = true;
+
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+            //# private method to compare members.
+            return CompareMembers(obj as TUICalendarOptions);
+
+        }
+
+        private bool CompareMembers(TUICalendarOptions options)
+        {
+            if (!defaultView.Value.Equals(options.defaultView.Value))
+            {
+                return false;
+            }
+            if (!taskView.SequenceEqual(options.taskView))
+            {
+                return false;
+            }
+            if (!scheduleView.SequenceEqual(options.scheduleView))
+            {
+                return false;
+            }
+            if (!theme.Equals(options.theme))
+            {
+                return false;
+            }
+            if (!TUItemplate.Equals(options.TUItemplate))
+            {
+                return false;
+            }
+            if (!week.Equals(options.week))
+            {
+                return false;
+            }
+            if (!month.Equals(options.month))
+            {
+                return false;
+            }
+            if (!calendars.Equals(options.calendars))
+            {
+                return false;
+            }
+            if (!useCreationPopup.Equals(options.useCreationPopup))
+            {
+                return false;
+            }
+            if (!useDetailPopup.Equals(options.useDetailPopup))
+            {
+                return false;
+            }
+            /*
+            if (!timezome.Equals(options.timezone))
+            {
+                return false;
+            }
+            */
+            if (!disableDblClick.Equals(options.disableDblClick))
+            {
+                return false;
+            }
+            if (!disableClick.Equals(options.disableClick))
+            {
+                return false;
+            }
+            if (!isReadOnly.Equals(options.isReadOnly))
+            {
+                return false;
+            }
+            if (!usageStatistics.Equals(options.usageStatistics))
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 
     public class TUICalendarViewName

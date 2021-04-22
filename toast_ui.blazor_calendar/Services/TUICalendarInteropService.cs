@@ -30,9 +30,19 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="objectReference"></param>
         /// <returns></returns>
-        public async ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference)
+        public async ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions)
         {
-            await _JSRuntime.InvokeVoidAsync("TUICalendar.initializeCalendar", objectReference);
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.initializeCalendar", objectReference, calendarOptions);
+        }
+
+        /// <summary>
+        /// Sets Calendar Options
+        /// </summary>
+        /// <param name="calendarOptions"></param>
+        /// <returns></returns>
+        public async ValueTask SetCalendarOptionsAsync(TUICalendarOptions calendarOptions)
+        {
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarOptions", calendarOptions);
         }
 
         /// <summary>
@@ -55,7 +65,10 @@ namespace toast_ui.blazor_calendar.Services
         /// <returns></returns>
         public async ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars)
         {
-            await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
+            if (calendars is not null)
+            {
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
+            }
         }
 
         public async ValueTask ChangeView(TUICalendarViewName viewName)

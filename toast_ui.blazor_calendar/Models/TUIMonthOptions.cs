@@ -1,4 +1,6 @@
-﻿namespace toast_ui.blazor_calendar.Models
+﻿using System.Linq;
+
+namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/MonthOptions
@@ -57,5 +59,34 @@
         /// A parameter is {Schedule} object.
         /// </summary>
         public string scheduleFilter { get; set; } = null; //@Todo: What is this?
+
+        /*
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+            //# private method to compare members.
+            return CompareMembers(obj as TUIMonthOptions);
+
+        }
+
+        private bool CompareMembers(TUIMonthOptions options)
+        {
+            if (this.daynames.SequenceEqual(options.daynames))
+            {
+                
+            }
+        }
+        */
     }
 }

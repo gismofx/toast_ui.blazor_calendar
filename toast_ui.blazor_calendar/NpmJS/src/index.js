@@ -18,12 +18,13 @@ import { v4 as uuidv4 } from 'uuid';
 window.TUICalendar = {
     calendarRef: null,
     dotNetRef: null,
-    initializeCalendar: function (dotNetObjectReference) {
-        TUICalendar.calendarRef = new Calendar('#calendar', {
+    initializeCalendar: function (dotNetObjectReference, options) {
+        TUICalendar.calendarRef = new Calendar('#calendar', options
+            /*{
             defaultView: 'month', // monthly view option
             useCreationPopup: true,
             useDetailPopup: true
-        });
+        }*/);
         TUICalendar.dotNetRef = dotNetObjectReference;
         //how do I separate
         //this.calendarRef.on('beforeUpdateSchedule', function (event) { beforeUpdateScheduleB(event); });
@@ -54,7 +55,7 @@ window.TUICalendar = {
                 state: event.state,
                 isAllDay: event.isAllDay,
                 isVisible: true,
-                category: 'time',                
+                category: event.isAllDay ? 'allday' : 'time',                
             };
             TUICalendar.dotNetRef.invokeMethodAsync('CreateSchedule', schedule);
             TUICalendar.calendarRef.createSchedules([schedule]);
@@ -110,6 +111,9 @@ window.TUICalendar = {
         TUICalendar.calendarRef.deleteSchedule(scheduleId, calendarId);
     },
 
+    setCalendarOptions: function (options) {
+        TUICalendar.calendarRef.setOptions(options);
+    },
 
     hideShowCalendar: function (calendarId, hide) {
         TUICalendar.calendarRef.toggleSchedules(calendarId, hide);

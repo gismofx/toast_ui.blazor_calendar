@@ -86,10 +86,12 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             StartDate = DateTimeOffset.Now;
             EndDate = DateTimeOffset.Now;
 
+            //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
             {
                 useCreationPopup = true,
                 useDetailPopup = true,
+                defaultView = TUICalendarViewName.Month
             };
 
             var calendarProps = new List<TUICalendarProps>();
