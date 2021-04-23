@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Services;
+using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
@@ -22,14 +23,16 @@ namespace toast_ui.blazor_calendar.Models
         /// Show the milestone and task in weekly, daily view.
         /// The default value is true. If the value is array, it can be ['milestone', 'task'].
         /// </summary>
-        public string[] taskView { get; set; } = new[] {"milestone", "task"};
+        //[JsonConverter(typeof(TUITaskViewJsonConverter))]
+        public bool taskView { get; set; } = true;
 
         /// <summary>
         /// Show the all day and time grid in weekly, daily view.
         /// The default value is false.
         /// If the value is array, it can be ['allday', 'time'].
         /// </summary>
-        public string[] scheduleView { get; set; } = new[] { "allday", "time" };
+        //public string[] scheduleView { get; set; } = new[] { "allday", "time" };
+        public bool scheduleView { get; set; } = true; 
 
         /// <summary>
         /// themeConfig for custom style.
@@ -122,11 +125,11 @@ namespace toast_ui.blazor_calendar.Models
             {
                 return false;
             }
-            if (!taskView.SequenceEqual(options.taskView))
+            if (!taskView.Equals(options.taskView))
             {
                 return false;
             }
-            if (!scheduleView.SequenceEqual(options.scheduleView))
+            if (!scheduleView.Equals(options.scheduleView))
             {
                 return false;
             }
@@ -199,4 +202,17 @@ namespace toast_ui.blazor_calendar.Models
 
     }
 
+public class TUITaskView
+{
+    private TUITaskView(string[] value)
+    {
+        Value = value;
+    }
+    public string[] Value { get; set; }
+
+    public static TUITaskView MilestoneAndTask { get { return new TUITaskView(new[] { "milestone", "task" });  }}
+    public static TUITaskView Milestone { get { return new TUITaskView(new[] { "milestone" }); } }
+    public static TUITaskView Task { get { return new TUITaskView(new[] { "task" }); } }
+    public static TUITaskView None { get { return new TUITaskView(new[] { "" }); } }
+}
 }

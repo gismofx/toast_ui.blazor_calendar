@@ -15,41 +15,30 @@ using System.Linq.Expressions;
 
 namespace toast_ui.blazor_calendar
 {
+    /// <summary>
+    /// Enum Used to Advance the Calendar Forward, Reverse, or to Today
+    /// </summary>
+    public enum CalendarMove
+    {
+        Next,
+        Previous,
+        Today
+    }
+
     public partial class TUICalendar : ComponentBase, IDisposable
     {
 
-        public TUICalendarInteropService CalendarInterop { get; private set; } = null;
-
-        [Inject]
-        public IJSRuntime jsRuntime { get; set; }
-
-        [Parameter]
-        public EventCallback<TUISchedule> OnChangeCalendarEventOrTask { get; set; }
-
-        [Parameter]
-        public EventCallback<TUISchedule> OnCreateCalendarEventOrTask { get; set; }
-
-        [Parameter]
-        public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
-
-        [Parameter]
-        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
+        private DotNetObjectReference<TUICalendar> _ObjectReference;
         
         /// <summary>
-        /// Not Working
+        /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
         /// </summary>
-        /*
-        [Parameter]
-        public EventCallback<string> OnDoubleClickCalendarEventOrTask { get; set; }
-        */
-
+        private Queue<Task> _OnParameterChangeEvents = new Queue<Task>();
 
         /// <summary>
-        /// IEnumerable of all events/tasks etc of type TUISchedule.
-        /// The initial set to be loaded
+        /// Direct access to some calendar functions via the Interop
         /// </summary>
-        [Parameter]
-        public IEnumerable<TUISchedule> Schedules { get; set; }
+        public TUICalendarInteropService CalendarInterop { get; private set; } = null;
 
         /// <summary>
         /// Calendar display options and defaults, can be null
@@ -82,18 +71,48 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public DateTimeOffset? GoToDate { get; set; }
 
+        [Inject]
+        public IJSRuntime jsRuntime { get; set; }
+
         /// <summary>
-        /// The Start Date of the Range of days displayed on the calendar
+        /// Invoked when a calendar Event or Task is changed
         /// </summary>
         [Parameter]
-        public DateTimeOffset? VisibleStartDateRange { get; set; }
+        public EventCallback<TUISchedule> OnChangeCalendarEventOrTask { get; set; }
+
+        /// <summary>
+        /// Invoked when a calendar Event or Task is Clicked
+        /// </summary>
+        [Parameter]
+        public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
+
+        /// <summary>
+        /// Raised when a calendar Event or Task is Created
+        /// </summary>
+        [Parameter]
+        public EventCallback<TUISchedule> OnCreateCalendarEventOrTask { get; set; }
         
         /// <summary>
-        /// The Start Date of the Range of days displayed on the calendar
+        /// Raised when a calendar Event or Task is Deleted
         /// </summary>
         [Parameter]
-        public EventCallback<DateTimeOffset?> VisibleStartDateRangeChanged { get; set; }
+        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
+        
+        /// <summary>
+        /// Not Working
+        /// </summary>
+        /*
+        [Parameter]
+        public EventCallback<string> OnDoubleClickCalendarEventOrTask { get; set; }
+        */
 
+        /// <summary>
+        /// IEnumerable of all events/tasks etc of type TUISchedule.
+        /// This is the initial set of schedules/events to be loaded
+        /// </summary>
+        [Parameter]
+        public IEnumerable<TUISchedule> Schedules { get; set; }
+        
         /// <summary>
         /// The End Date of the Range of days displated on the calendar
         /// </summary>
@@ -107,6 +126,42 @@ namespace toast_ui.blazor_calendar
         public EventCallback<DateTimeOffset?> VisibleEndDateRangeChanged { get; set; }
 
         /// <summary>
+        /// The Start Date of the Range of days displayed on the calendar
+        /// </summary>
+        [Parameter]
+        public DateTimeOffset? VisibleStartDateRange { get; set; }
+        
+        /// <summary>
+        /// The Start Date of the Range of days displayed on the calendar
+        /// </summary>
+        [Parameter]
+        public EventCallback<DateTimeOffset?> VisibleStartDateRangeChanged { get; set; }
+        
+        /// <summary>
+        /// When the user created a new schedule from the UI
+        /// </summary>
+        /// <param name="newSchedule"></param>
+        /// <returns></returns>
+        [JSInvokable("CreateSchedule")]
+        public async Task CreateSchedule(JsonElement newSchedule)
+        {
+            var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
+            Schedules.ToList().Add(schedule);
+            await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
+            Debug.WriteLine("New Schedule Created");
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            if (_ObjectReference != null)
+            {
+                //Now dispose our object reference so our component can be garbage collected
+                _ObjectReference.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Call this method and Advance the calendar, in any view, forward,backward, or to today.
         /// </summary>
         /// <param name="moveTo">Previous, Next, or Today</param>
@@ -116,48 +171,12 @@ namespace toast_ui.blazor_calendar
             await CalendarInterop.MoveCalendar(moveTo);
             await SetDateRange();
         }
-
-        private DotNetObjectReference<TUICalendar> _ObjectReference;
         
         /// <summary>
-        /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
+        /// When a schedule is deleted from calendar UI, this is invoked        
         /// </summary>
-        private Queue<Task> _OnParameterChangeEvents = new Queue<Task>();
-
-        [JSInvokable("UpdateSchedule")]
-        public async Task UpdateSchedule(dynamic scheduleBeingModified, dynamic updatedScheduleFields)
-        {
-            var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
-            var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
-            await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
-        }
-
-        [JSInvokable("CreateSchedule")]
-        public async Task CreateSchedule(JsonElement newSchedule)
-        {
-            var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
-            Schedules.ToList().Add(schedule);
-            await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
-            Debug.WriteLine("New Schedule Created");
-        }
-        
-        [JSInvokable("OnClickSchedule")]
-        public async Task OnScheduleClick(string scheduleId)
-        {
-            await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Schedule {scheduleId} Clicked!");
-        }
-
-        /*@Todo: Waiting for Double click in TUI API
-        [JSInvokable("OnDoubleClickSchedule")]
-        public async Task OnScheduleDoubleClick(string scheduleId)
-        {
-            await OnDoubleClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Schedule {scheduleId} Double-Clicked!");
-        }
-        */
-
+        /// <param name="scheduleId"></param>
+        /// <returns></returns>
         [JSInvokable("DeleteSchedule")]
         public async Task OnDeleteSchedule(string scheduleId)
         {
@@ -165,13 +184,16 @@ namespace toast_ui.blazor_calendar
             Debug.WriteLine($"Schedule {scheduleId} Deleted!");
         }
 
-        protected override void OnInitialized()
+        /// <summary>
+        /// When a schedule is clicked from the calendar UI, this is invoked
+        /// </summary>
+        /// <param name="scheduleId"></param>
+        /// <returns></returns>
+        [JSInvokable("OnClickSchedule")]
+        public async Task OnScheduleClick(string scheduleId)
         {
-            _ObjectReference = DotNetObjectReference.Create(this);
-            if (CalendarInterop is null)
-            {
-                CalendarInterop = new TUICalendarInteropService(jsRuntime);
-            }
+            await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
+            Debug.WriteLine($"Schedule {scheduleId} Clicked!");
         }
 
         /// <summary>
@@ -188,7 +210,7 @@ namespace toast_ui.blazor_calendar
                 _OnParameterChangeEvents.Enqueue(CalendarInterop?.ChangeView(viewName).AsTask());
                 _OnParameterChangeEvents.Enqueue(SetDateRange());
             }
-            
+
             var newDateDisplay = parameters.GetValueOrDefault<DateTimeOffset?>("GoToDate");
             if (newDateDisplay != GoToDate)
             {
@@ -209,7 +231,7 @@ namespace toast_ui.blazor_calendar
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
             Schedules = parameters.GetValueOrDefault<IEnumerable<TUISchedule>>("Schedules");
-            
+
             //Visible Date Range
             VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
             VisibleStartDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleStartDateRange");
@@ -226,12 +248,49 @@ namespace toast_ui.blazor_calendar
 
         }
 
-        protected override bool ShouldRender()
+        /// <summary>
+        /// When an schedule is updated from the UI, this is invoked.
+        /// </summary>
+        /// <param name="scheduleBeingModified"></param>
+        /// <param name="updatedScheduleFields"></param>
+        /// <returns></returns>
+        [JSInvokable("UpdateSchedule")]
+        public async Task UpdateSchedule(dynamic scheduleBeingModified, dynamic updatedScheduleFields)
         {
-            return false;
-            //return shouldRender;
+            var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
+            var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
+            await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
+            Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
+        }
+        
+        /*@Todo: Waiting for Double click in TUI API
+        [JSInvokable("OnDoubleClickSchedule")]
+        public async Task OnScheduleDoubleClick(string scheduleId)
+        {
+            await OnDoubleClickCalendarEventOrTask.InvokeAsync(scheduleId);
+            Debug.WriteLine($"Schedule {scheduleId} Double-Clicked!");
+        }
+        */
+        
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
+                await CalendarInterop.SetCalendars(CalendarProperties);
+                await CalendarInterop.CreateSchedulesAsync(Schedules);
+                await SetDateRange();
+            }
         }
 
+        protected override void OnInitialized()
+        {
+            _ObjectReference = DotNetObjectReference.Create(this);
+            if (CalendarInterop is null)
+            {
+                CalendarInterop = new TUICalendarInteropService(jsRuntime);
+            }
+        }
         protected override async Task OnParametersSetAsync()
         {
             if (CalendarInterop is not null)
@@ -250,50 +309,31 @@ namespace toast_ui.blazor_calendar
             }
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        /// <summary>
+        /// Since there is no subsequent rendering required by blazor after the first render, this set to false
+        /// </summary>
+        /// <returns></returns>
+        protected override bool ShouldRender()
         {
-            if (firstRender)
-            {
-                await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
-                await CalendarInterop.SetCalendars(CalendarProperties);
-                await CalendarInterop.CreateSchedulesAsync(Schedules);
-                await SetDateRange();
-            }
+            return false;
         }
-
-        //@Bug: Bound Properties are being set when invoking the change event.
+        
+        /// <summary>
+        /// Each time there is a view change or advance of the calendar, ask the calendar what date range is visible
+        /// </summary>
+        /// <returns></returns>
         private async Task SetDateRange()
         {
             if (CalendarInterop is not null)
             {
-                //VisibleStartDateRange = ;
                 await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
-                //VisibleEndDateRange = ;
                 await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
             }
         }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            if (_ObjectReference != null)
-            {
-                //Now dispose our object reference so our component can be garbage collected
-                _ObjectReference.Dispose();
-            }
-        }
-    }
-    /// <summary>
-    /// Enum Used to Advance the Calendar Forward, Reverse, or to Today
-    /// </summary>
-    public enum CalendarMove
-    {
-        Next,
-        Previous,
-        Today
     }
 }
 
+//SOME REFERENCE CODE
 /*
  * if (!_hasSetInitialParameters)
             {

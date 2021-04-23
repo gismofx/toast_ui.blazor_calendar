@@ -91,7 +91,10 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             {
                 useCreationPopup = true,
                 useDetailPopup = true,
-                defaultView = TUICalendarViewName.Month
+                defaultView = TUICalendarViewName.Month,
+                taskView = false,
+                scheduleView = true
+                
             };
 
             var calendarProps = new List<TUICalendarProps>();

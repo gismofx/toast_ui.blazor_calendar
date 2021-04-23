@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace toast_ui.blazor_calendar.Services
+namespace toast_ui.blazor_calendar.Services.JsonConverters
 {
     class TZDateJsonConverter : JsonConverter<DateTimeOffset>
     {

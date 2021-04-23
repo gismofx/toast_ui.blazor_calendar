@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using toast_ui.blazor_calendar.Models;
 
-namespace toast_ui.blazor_calendar.Services
+namespace toast_ui.blazor_calendar.Services.JsonConverters
 {
     class TUICalendarViewNameJsonConverter : JsonConverter<TUICalendarViewName>
     {

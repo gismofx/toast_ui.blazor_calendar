@@ -131,4 +131,8 @@ window.TUICalendar = {
         return TUICalendar.calendarRef.getDateRangeEnd();
     },
 
+    scrollToNow: function () {
+        TUICalendar.calendarRef.scrollToNow();
+    }
+
 }
