@@ -1,11 +1,12 @@
 ## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
 For Events, Task, and Scheduling  
-![NuGet](https://img.shields.io/nuget/vpre/toast_ui.blazor_calendar)
-![NuGetPre](https://img.shields.io/nuget/v/toast_ui.blazor_calendar?label=Pre-Release&logoColor=yellow)
-![NugetDLs](https://img.shields.io/nuget/dt/toast_ui.blazor_calendar?logoColor=blue)
-![Issues](https://img.shields.io/github/issues/gismofx/toast_ui.blazor_calendar?logoColor=red)
+![NuGet](https://img.shields.io/nuget/vpre/toast_ui.blazor_calendar?color=blue)
+![NuGetPre](https://img.shields.io/nuget/v/toast_ui.blazor_calendar?label=Pre-Release&color=yellow)
+![NugetDLs](https://img.shields.io/nuget/dt/toast_ui.blazor_calendar?color=blue)
+![Issues](https://img.shields.io/github/issues/gismofx/toast_ui.blazor_calendar?color=red)
 ![stars](https://img.shields.io/github/stars/gismofx/toast_ui.blazor_calendar?style=social)
+![license](https://img.shields.io/github/license/gismofx/toast_ui.blazor_calendar?color=green)
 ---
 ![Sample](Sample.JPG)
 
