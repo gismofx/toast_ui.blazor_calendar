@@ -8,12 +8,12 @@
     <Copyright>MIT</Copyright>
     <Description>Toast UI Calandar Wrapper For Blazor. A fully featured calendar component for blazor projects. Comes bundled with ToastUI Calendar JS and CSS files. visit github repo for examples on how to implement.</Description>
     <Company></Company>
-    <Version>1.0.0-alpha6</Version>
+    <Version>1.0.0-beta1</Version>
     <PackageId>toast_ui.blazor_calendar</PackageId>
     <PackageProjectUrl>https://github.com/gismofx/toast_ui.blazor_calendar</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gismofx/toast_ui.blazor_calendar</RepositoryUrl>
     <PackageTags>blazor calendar jsinterop toastui c#</PackageTags>
-    <PackageReleaseNotes>Initial pre-release. All dates are stores in UTC time. TUI Calendar should recognize your timezone and adjust times automatically to UTC when making modifications</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial beta release. Visit the GitHub repo for examples and sample project. Post any issues. All dates are stored in UTC time, but rendered in your local time based on browser.</PackageReleaseNotes>
     <Product>toast_ui.blazor_calendar</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>gismofx</Authors>

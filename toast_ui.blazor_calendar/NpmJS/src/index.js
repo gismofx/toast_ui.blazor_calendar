@@ -131,8 +131,11 @@ window.TUICalendar = {
         return TUICalendar.calendarRef.getDateRangeEnd();
     },
 
-    scrollToNow: function () {
-        TUICalendar.calendarRef.scrollToNow();
-    }
+    scrollToNowInView: function () {
+        if (TUICalendar.calendarRef.getViewName() !== 'month') {
+            TUICalendar.calendarRef.scrollToNow();
+            TUICalendar.calendarRef.render();
+        }
+    },
 
 }

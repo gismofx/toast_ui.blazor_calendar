@@ -19,6 +19,9 @@ Welcome to your new app. <br />
   <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
   <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
 </div>
+<div>
+<button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+</div>
 
 <div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
 
@@ -59,6 +62,11 @@ Welcome to your new app. <br />
     {
         await _calendarRef.MoveCalendar(move);
 
+    }
+
+    private void ScrollToNow()
+    {
+        _calendarRef.CalendarInterop.ScrollToNow();
     }
 
     public void Dispose()

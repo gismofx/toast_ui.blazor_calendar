@@ -109,7 +109,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         public void ScrollToNow()
         {
-            _JSRuntime.InvokeVoidAsync("TUICalendar.scrollToNow");
+            _JSRuntime.InvokeVoidAsync("TUICalendar.scrollToNowInView");
         }
 
         /// <summary>
