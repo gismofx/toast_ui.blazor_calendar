@@ -111,7 +111,7 @@ namespace toast_ui.blazor_calendar
         /// This is the initial set of schedules/events to be loaded
         /// </summary>
         [Parameter]
-        public IEnumerable<TUISchedule> Schedules { get; set; }
+        public ICollection<TUISchedule> Schedules { get; set; }
         
         /// <summary>
         /// The End Date of the Range of days displated on the calendar
@@ -146,7 +146,7 @@ namespace toast_ui.blazor_calendar
         public async Task CreateSchedule(JsonElement newSchedule)
         {
             var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
-            Schedules.ToList().Add(schedule);
+            Schedules.Add(schedule);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Schedule Created");
         }
