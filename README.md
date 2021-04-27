@@ -56,3 +56,6 @@ add this inside the `<body>` near the bottom
 
 
 ### WAAAYYY More To Come... Help Welcomed
+
+I am attempting to implement a simple CalDav Server and Client to make a better example of the calendar component.
+[CalDavSharp](https://github.com/gismofx/CalDavSharp)
