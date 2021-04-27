@@ -143,6 +143,7 @@ namespace toast_ui.blazor_calendar
         /// <param name="newSchedule"></param>
         /// <returns></returns>
         [JSInvokable("CreateSchedule")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task CreateSchedule(JsonElement newSchedule)
         {
             var schedule = JsonSerializer.Deserialize<TUISchedule>(newSchedule.ToString());
@@ -178,6 +179,7 @@ namespace toast_ui.blazor_calendar
         /// <param name="scheduleId"></param>
         /// <returns></returns>
         [JSInvokable("DeleteSchedule")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnDeleteSchedule(string scheduleId)
         {
             await OnDeleteCalendarEventOrTask.InvokeAsync(scheduleId);
@@ -190,6 +192,7 @@ namespace toast_ui.blazor_calendar
         /// <param name="scheduleId"></param>
         /// <returns></returns>
         [JSInvokable("OnClickSchedule")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnScheduleClick(string scheduleId)
         {
             await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
@@ -201,6 +204,7 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
@@ -230,7 +234,7 @@ namespace toast_ui.blazor_calendar
                 }
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
-            Schedules = parameters.GetValueOrDefault<IEnumerable<TUISchedule>>("Schedules");
+            Schedules = parameters.GetValueOrDefault<ICollection<TUISchedule>>("Schedules");
 
             //Visible Date Range
             VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
@@ -255,6 +259,7 @@ namespace toast_ui.blazor_calendar
         /// <param name="updatedScheduleFields"></param>
         /// <returns></returns>
         [JSInvokable("UpdateSchedule")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateSchedule(dynamic scheduleBeingModified, dynamic updatedScheduleFields)
         {
             var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
