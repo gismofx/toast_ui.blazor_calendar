@@ -265,7 +265,7 @@ namespace toast_ui.blazor_calendar
             var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
             var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
+            Debug.WriteLine($"Schedule {currentSchedule.id} Modified");
         }
         
         /*@Todo: Waiting for Double click in TUI API
