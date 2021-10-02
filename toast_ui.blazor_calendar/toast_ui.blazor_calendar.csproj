@@ -17,7 +17,7 @@
     <Product>toast_ui.blazor_calendar</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>gismofx</Authors>
-    <PackageIcon>Toast-blazor-600.png</PackageIcon>
+    <PackageIcon>Toast-Blazor-Calendar-600.png</PackageIcon>
     <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
@@ -31,7 +31,7 @@
 
 
   <ItemGroup>
-    <None Include="..\..\..\..\Documents\Toast-blazor-600.png">
+    <None Include="..\..\..\..\Documents\Toast-Blazor-Calendar-600.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
