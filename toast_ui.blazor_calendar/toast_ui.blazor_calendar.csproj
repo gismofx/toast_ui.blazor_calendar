@@ -8,7 +8,7 @@
     <Copyright>MIT</Copyright>
     <Description>Toast UI Calandar Wrapper For Blazor. A fully featured calendar component for blazor projects. Comes bundled with ToastUI Calendar JS and CSS files. visit github repo for examples on how to implement.</Description>
     <Company></Company>
-    <Version>1.0.0-beta1.2</Version>
+    <Version>1.0.0-beta1.3</Version>
     <PackageId>toast_ui.blazor_calendar</PackageId>
     <PackageProjectUrl>https://github.com/gismofx/toast_ui.blazor_calendar</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gismofx/toast_ui.blazor_calendar</RepositoryUrl>
