@@ -15,12 +15,20 @@ Welcome to your new app. <br />
 </div>
 <br />
 <div class="btn-group m-2" role="group" aria-label="Basic example">
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
+
 </div>
 <div>
-<button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+    <button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+</div>
+
+<div class="row" style="padding:10px 0px 0px 20px;">
+    <p>Scroll To Date:</p>
+    <div class="text-sm-center">
+        <input type="date" value="@selectDate.ToString("MM/dd/yyyy")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
+    </div>
 </div>
 
 <div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
@@ -38,6 +46,7 @@ Welcome to your new app. <br />
 
 @code{
     private TUICalendar _calendarRef;
+    private DateTimeOffset selectDate = DateTimeOffset.Now;
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,5 +81,10 @@ Welcome to your new app. <br />
     public void Dispose()
     {
         ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private async Task ScrollToDate(DateTimeOffset selectedDateTime)
+    {
+        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
     }
 }
