@@ -24,8 +24,8 @@ Welcome to your new app. <br />
     <button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
 </div>
 
-<div class="row" style="padding:10px 0px 0px 20px;">
-    <p>Scroll To Date:</p>
+<div class="d-flex flex-row align-items-center m-2">
+    <div class="pr-2">Scroll To Date:</div>
     <div class="text-sm-center">
         <input type="date" value="@selectDate.ToString("MM/dd/yyyy")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
     </div>
