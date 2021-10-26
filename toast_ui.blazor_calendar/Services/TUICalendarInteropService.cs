@@ -137,7 +137,8 @@ namespace toast_ui.blazor_calendar.Services
         {
             if (dateToDisplay is not null)
             {
-                long dateTimeInMilliseconds = ((DateTimeOffset)dateToDisplay).ToUnixTimeMilliseconds();
+
+                var dateTimeInMilliseconds = dateToDisplay.Value.ToUnixTimeMilliseconds();
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.setDate", dateTimeInMilliseconds);
             }
         }
