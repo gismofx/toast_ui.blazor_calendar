@@ -1,6 +1,7 @@
 ## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
 For Events, Task, and Scheduling  
+
 ![NuGet](https://img.shields.io/nuget/vpre/toast_ui.blazor_calendar?color=blue)
 ![NuGetPre](https://img.shields.io/nuget/v/toast_ui.blazor_calendar?label=Pre-Release&color=yellow)
 ![DLs](https://img.shields.io/nuget/dt/toast_ui.blazor_calendar?color=brightgreen&label=NuGet%20downloads)
@@ -23,7 +24,7 @@ https://ui.toast.com/tui-calendar
 
 ####
 Nuget Pre-release:  
-`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta1.1`
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta1.3`
 
 ### Edit your project files:
 #### In `_Imports.razor` 
@@ -53,6 +54,9 @@ add this inside the `<body>` near the bottom
              @bind-VisibleEndDateRange="ViewModel.EndDate"
              @ref=_calendarRef></TUICalendar>
 ```
+
+### Contributing
+Create and/or make a pull request on the `dev` branch.
 
 
 ### WAAAYYY More To Come... Help Welcomed
