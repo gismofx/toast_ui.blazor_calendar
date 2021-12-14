@@ -162,6 +162,11 @@ namespace toast_ui.blazor_calendar
             }
         }
 
+        /// <summary>
+        /// Clears all schedules from the calendar.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
         public async ValueTask ClearCalendar()
         {
             await CalendarInterop.Clear();
