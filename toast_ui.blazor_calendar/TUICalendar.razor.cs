@@ -97,7 +97,7 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         [Parameter]
         public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
-        
+
         /// <summary>
         /// Not Working
         /// </summary>
@@ -160,6 +160,11 @@ namespace toast_ui.blazor_calendar
                 //Now dispose our object reference so our component can be garbage collected
                 _ObjectReference.Dispose();
             }
+        }
+
+        public async ValueTask ClearCalendar()
+        {
+            await CalendarInterop.Clear();
         }
 
         /// <summary>
@@ -265,7 +270,7 @@ namespace toast_ui.blazor_calendar
             var currentSchedule = JsonSerializer.Deserialize<TUISchedule>(scheduleBeingModified.ToString());
             var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Schedule {currentSchedule.Id} Modified");
+            Debug.WriteLine($"Schedule {currentSchedule.id} Modified");
         }
         
         /*@Todo: Waiting for Double click in TUI API

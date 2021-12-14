@@ -24,6 +24,16 @@ namespace toast_ui.blazor_calendar.Services
             _JSRuntime = jsRuntime;
         }
 
+        /// <summary>
+        /// Wraps the tui.Calendar Api clear function
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public async ValueTask Clear()
+        {
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.clear");
+        }
+
         public async ValueTask ChangeView(TUICalendarViewName viewName)
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.changeView", viewName.Value);

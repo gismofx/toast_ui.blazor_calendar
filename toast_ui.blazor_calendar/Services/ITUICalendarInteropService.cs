@@ -9,6 +9,7 @@ namespace toast_ui.blazor_calendar.Services
 {
     public interface ITUICalendarInteropService
     {
+        ValueTask Clear();
         ValueTask ChangeView(TUICalendarViewName viewName);
         ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules);
         ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
