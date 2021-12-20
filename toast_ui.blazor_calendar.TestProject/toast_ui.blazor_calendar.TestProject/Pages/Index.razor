@@ -15,12 +15,19 @@ Welcome to your new app. <br />
 </div>
 <br />
 <div class="btn-group m-2" role="group" aria-label="Basic example">
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
-  <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
 </div>
-<div class="btn-group m-2" role="group" aria-label="Basic example">
-<button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+<div>
+    <button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+</div>
+
+<div class="d-flex flex-row align-items-center m-2">
+    <div class="pr-2">Scroll To Date:</div>
+    <div class="text-sm-center">
+        <input type="date" value="@selectDate.ToString("MM/dd/yyyy")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
+    </div>
 </div>
 <div class="btn-group m-2" role="group" aria-label="Basic example">
 <button type="button" @onclick=@(()=> ClearCalendar()) class="btn btn-secondary">Clear Calendar</button>
@@ -41,6 +48,7 @@ Welcome to your new app. <br />
 
 @code{
     private TUICalendar _calendarRef;
+    private DateTimeOffset selectDate = DateTimeOffset.Now;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,5 +88,10 @@ Welcome to your new app. <br />
     public void Dispose()
     {
         ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private async Task ScrollToDate(DateTimeOffset selectedDateTime)
+    {
+        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
     }
 }
