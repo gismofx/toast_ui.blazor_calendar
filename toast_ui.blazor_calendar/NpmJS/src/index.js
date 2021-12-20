@@ -83,6 +83,10 @@ window.TUICalendar = {
 
     },
 
+    clear: function () {
+        TUICalendar.calendarRef.clear();
+    },
+
     createSchedules: function (schedules) {
         TUICalendar.calendarRef.createSchedules(schedules);
     },
