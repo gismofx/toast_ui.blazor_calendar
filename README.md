@@ -24,7 +24,7 @@ https://ui.toast.com/tui-calendar
 
 ####
 Nuget Pre-release:  
-`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta1.3`
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta1.4`
 
 ### Edit your project files:
 #### In `_Imports.razor` 
