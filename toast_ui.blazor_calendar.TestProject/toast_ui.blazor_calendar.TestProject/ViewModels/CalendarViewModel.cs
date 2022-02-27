@@ -85,6 +85,15 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         {
             StartDate = DateTimeOffset.Now;
             EndDate = DateTimeOffset.Now;
+            
+            var month = new TUIMonthOptions()
+            {
+                //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
+                //startDayOfWeek = 0,
+                visibleWeeksCount = 6,
+                //visibleScheduleCount = 0,
+            };
+            
 
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
@@ -93,7 +102,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 useDetailPopup = true,
                 defaultView = TUICalendarViewName.Month,
                 taskView = false,
-                scheduleView = true
+                scheduleView = true,
+                month = month
                 
             };
 
@@ -120,6 +130,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             };
             calendarProps.Add(calendar2);
             CalendarProps = calendarProps;
+
+            
 
             await Task.Run(() =>
             {

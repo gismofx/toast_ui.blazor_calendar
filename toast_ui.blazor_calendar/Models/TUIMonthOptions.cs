@@ -1,16 +1,24 @@
 ﻿using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
+using toast_ui.blazor_calendar.Services;
+using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/MonthOptions
     /// </summary>
+
+
     public class TUIMonthOptions
     {
         /// <summary>
         /// The day names in monthly. Default values are 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
         /// </summary>
-        public string[] daynames { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string[] daynames { get; set; } = null;
 
         /// <summary>
         /// The start day of week
@@ -42,16 +50,19 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// The visible schedule count in monthly grid
         /// </summary>
-        public int visibleScheduleCount { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? visibleScheduleCount { get; set; } = null;
 
         /// <summary>
         /// The more layer size
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object moreLayerSize { get; set; } = null; //@Todo: What is this?
 
         /// <summary>
         /// The grid's header and footer information
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object grid { get; set; } = null; //@Todo: What is this?
 
         /// <summary>
