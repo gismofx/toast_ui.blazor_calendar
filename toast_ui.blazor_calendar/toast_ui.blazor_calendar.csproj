@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>toast_ui.blazor_calendar</RootNamespace>
     <AssemblyName>toast_ui_blazor_calendar</AssemblyName>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
