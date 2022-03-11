@@ -52,6 +52,10 @@ add this inside the `<body>` near the bottom
              CalendarViewName="ViewModel.CalendarViewName"
              @bind-VisibleStartDateRange="ViewModel.StartDate"
              @bind-VisibleEndDateRange="ViewModel.EndDate"
+             OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+             OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+             OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+             OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
              @ref=_calendarRef></TUICalendar>
 ```
 
