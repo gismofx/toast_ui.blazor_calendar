@@ -42,6 +42,11 @@ Welcome to your new app. <br />
              CalendarViewName="ViewModel.CalendarViewName"
              @bind-VisibleStartDateRange="ViewModel.StartDate"
              @bind-VisibleEndDateRange="ViewModel.EndDate"
+             OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+             OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+             OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+             OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
+
              @ref=_calendarRef></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />

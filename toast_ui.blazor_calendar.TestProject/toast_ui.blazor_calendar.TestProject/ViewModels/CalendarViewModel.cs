@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bogus;
+using Microsoft.Extensions.Logging;
 using toast_ui.blazor_calendar.Models;
 using toast_ui.blazor_calendar.Services;
+using System.Diagnostics;
 
 namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
@@ -165,5 +167,32 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             return sched;
         }
+
+        public async Task OnChangeCalendarEventOrTask(TUISchedule schedule)
+        {
+            //do something when an event is clicked
+            //Show a custom pop up if some conditions are met?
+            Debug.WriteLine($"Event or Task Changed: {schedule.title}");
+        }
+
+        public async Task OnClickCalendarEventOrTask(string eventId)
+        {
+            //do something when an event is clicked
+            //You can find Event in Database by Id
+            Debug.WriteLine($"Event or Task Clicked: {eventId}");
+        }
+
+        public async Task OnCreateCalendarEventOrTask(TUISchedule newSchedule)
+        {
+            //Save event to database
+            Debug.WriteLine($"Event or Task Created: {newSchedule.title}");
+        }
+
+        public async Task OnDeleteCalendarEventOrTask(string EventId)
+        {
+            //Delete the event from database
+            Debug.WriteLine($"Delete this Event: {EventId}");
+        }
+
     }
 }
