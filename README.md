@@ -36,7 +36,7 @@ add:
 #### In `_Host.cshtml` 
 add this inside the `<head>` 
 ```html
-<link href="_content/toast_ui.blazor_Calendar/TUI.blazorCalendar.css" rel="stylesheet">
+<link href="_content/toast_ui.blazor_calendar/TUI.blazorCalendar.css" rel="stylesheet">
 ```
 
 add this inside the `<body>` near the bottom 
