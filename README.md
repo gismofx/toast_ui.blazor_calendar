@@ -1,6 +1,6 @@
 ## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
-For Events, Task, and Scheduling  
+Drag-And-Drop Events, Tasks, and Scheduling  
 
 ![NuGet](https://img.shields.io/nuget/vpre/toast_ui.blazor_calendar?color=blue)
 ![NuGetPre](https://img.shields.io/nuget/v/toast_ui.blazor_calendar?label=Pre-Release&color=yellow)
@@ -19,6 +19,8 @@ https://ui.toast.com/tui-calendar
 
 
 ### Pre-Release BETA now available on Nuget.
+
+##Please visit Disucssions for any questions or comments or open an issue for any bugs found.
 
 ## How to start:
 
