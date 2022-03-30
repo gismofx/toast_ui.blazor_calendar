@@ -20,7 +20,7 @@ https://ui.toast.com/tui-calendar
 
 ### Pre-Release BETA now available on Nuget.
 
-##Please visit Disucssions for any questions or comments or open an issue for any bugs found.
+## Please visit Disucssions for any questions or comments or open an issue for any bugs found.
 
 ## How to start:
 
