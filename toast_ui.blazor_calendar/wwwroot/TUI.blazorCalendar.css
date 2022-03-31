@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Calendar
- * @version 1.13.0 | Wed Dec 23 2020
+ * @version 1.15.3 | Thu Feb 17 2022
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -95,7 +95,6 @@
   font-weight: bold;
   margin-left: 2px;
 }
-.tui-full-calendar-weekday-container,
 .tui-full-calendar-weekday-grid,
 .tui-full-calendar-weekday-grid-line {
   height: 100%;
@@ -108,12 +107,6 @@
 }
 .tui-full-calendar-weekday-border {
   border-top: 1px solid #ddd;
-}
-.tui-full-calendar-weekday-container {
-  position: relative;
-}
-.tui-full-calendar-weekday-container>div {
-  height: 100%;
 }
 .tui-full-calendar-weekday-grid-line {
   position: absolute;
@@ -129,10 +122,6 @@
   height: 27px;
   line-height: 27px;
   text-align: center;
-}
-.tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-date-title {
-  line-height: 27px;
-  margin-right: 5px;
 }
 .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-more-schedules {
   float: right;
@@ -161,10 +150,6 @@
   position: absolute;
   font-size: 12px;
   overflow-y: scroll;
-}
-.tui-full-calendar-weekday-schedules-height-span {
-  width: 1px;
-  margin-left: -1px;
 }
 .tui-full-calendar-weekday-schedule-block {
   position: absolute;
@@ -1164,7 +1149,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
 /*# sourceMappingURL=tui-calendar.css.map*/
 /*!
  * TOAST UI Date Picker
- * @version 4.2.0
+ * @version 4.3.1
  * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -1259,6 +1244,12 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
     line-height: 34px;
     color: #777;
     background-color: #f4f4f4
+}
+
+.tui-calendar .tui-calendar-title-today:hover {
+    color: #333;
+    background-color: #edf4fc;
+    cursor: pointer;
 }
 
 .tui-calendar .tui-calendar-title {
@@ -1721,7 +1712,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
 
 /*!
  * TOAST UI Time Picker
- * @version 2.0.3
+ * @version 2.1.4
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */

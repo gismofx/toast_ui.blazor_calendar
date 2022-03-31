@@ -69,6 +69,7 @@ namespace toast_ui.blazor_calendar.Models
         /// The filter schedules on month view.
         /// A parameter is {Schedule} object.
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string scheduleFilter { get; set; } = null; //@Todo: What is this?
 
         /*
