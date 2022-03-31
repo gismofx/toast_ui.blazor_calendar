@@ -20,7 +20,7 @@
         "webpack-cli": "^4.6.0"
     },
     "dependencies": {
-        "tui-calendar": "^1.13.0",
+        "tui-calendar": "^1.15.3",
         "uuid": "^8.3.2"
     }
 }
