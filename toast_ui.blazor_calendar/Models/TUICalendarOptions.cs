@@ -43,6 +43,8 @@ namespace toast_ui.blazor_calendar.Models
         /// https://nhn.github.io/tui.calendar/latest/Template
         /// had to rename from 'template' - violates naming rule
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("template")]
         public TUITemplate TUItemplate { get; set; } = null;
 
         /// <summary>

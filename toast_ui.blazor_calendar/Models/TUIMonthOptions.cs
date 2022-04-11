@@ -54,7 +54,8 @@ namespace toast_ui.blazor_calendar.Models
         public int? visibleScheduleCount { get; set; } = null;
 
         /// <summary>
-        /// The more layer size
+        /// The 
+        /// layer size
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object moreLayerSize { get; set; } = null; //@Todo: What is this?

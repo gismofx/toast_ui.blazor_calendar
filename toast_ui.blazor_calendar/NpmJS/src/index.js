@@ -19,6 +19,24 @@ window.TUICalendar = {
     calendarRef: null,
     dotNetRef: null,
     initializeCalendar: function (dotNetObjectReference, options) {
+        var tTemplate;
+
+        var templates = {
+            milestone: function (schedule) {
+                return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>';
+            }
+        };
+
+        if (options.template !== undefined) {
+            var templateFunctions = new Object();
+            options.template.forEach(templateFunction => {
+
+                var tfunc = new Function(templateFunction.args, templateFunction.functionBody);
+                templateFunctions[templateFunction.functionName] = tfunc;
+            });
+        }
+
+        options.template = templateFunctions;
         TUICalendar.calendarRef = new Calendar('#calendar', options
             /*{
             defaultView: 'month', // monthly view option
