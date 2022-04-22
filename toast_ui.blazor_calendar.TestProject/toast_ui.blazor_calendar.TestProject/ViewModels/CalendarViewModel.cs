@@ -112,8 +112,12 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 taskView = false,
                 scheduleView = true,
                 month = month,
-                TUItemplate = calendarTemplate
-                
+                TUItemplate = calendarTemplate,
+                TimeZones = new List<TimeZoneInfo>
+                {
+                    TimeZoneInfo.Local,
+                    TimeZoneInfo.Utc
+                }
             };
 
             var calendarProps = new List<TUICalendarProps>();

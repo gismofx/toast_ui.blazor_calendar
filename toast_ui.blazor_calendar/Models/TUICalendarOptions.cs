@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Services;
@@ -13,6 +14,9 @@ namespace toast_ui.blazor_calendar.Models
     /// </summary>
     public class TUICalendarOptions
     {
+        private TUICalendarTimeZoneOption _timeZoneOption;
+        private List<TimeZoneInfo> _timeZones;
+
         /// <summary>
         /// Default view of calendar. The default value is 'week'.
         /// </summary>
@@ -77,7 +81,40 @@ namespace toast_ui.blazor_calendar.Models
         /// You can add secondary timezone in the weekly/daily view.
         /// https://nhn.github.io/tui.calendar/latest/Timezone
         /// </summary>
-        public TimeZoneInfo timezone { get; set; } //Todo: Map this or implement TUI timezone class
+        public TUICalendarTimeZoneOption timezone
+        {
+            get =>
+                //if there aren't any time zones configured return nothing
+                _timeZoneOption?.zones?.Count < 1 ? null : _timeZoneOption;
+
+            set => _timeZoneOption = value;
+        }
+
+        /// <summary>
+        /// List of TimeZoneInfo which will automatically be converted to TUI compatible time zone information
+        /// </summary>
+        [JsonIgnore]
+        public List<TimeZoneInfo> TimeZones
+        {
+            get => _timeZones;
+            set
+            {
+                _timeZones = value;
+
+                if (_timeZones == null) return;
+
+                _timeZoneOption ??= new TUICalendarTimeZoneOption();
+
+                foreach (TimeZoneInfo timeZone in _timeZones)
+                {
+                    TUITimeZone tuiTimeZone = _timeZoneOption.ToTuiTimeZone(timeZone);
+
+                    if (tuiTimeZone == null) continue;
+
+                    _timeZoneOption.zones.Add(tuiTimeZone);
+                }
+            }
+        }
 
         /// <summary>
         /// Disable double click to create a schedule.
