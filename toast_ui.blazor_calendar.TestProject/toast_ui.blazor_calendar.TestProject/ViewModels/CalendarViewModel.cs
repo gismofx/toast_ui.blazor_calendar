@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using toast_ui.blazor_calendar.Models;
 using toast_ui.blazor_calendar.Services;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
@@ -102,7 +104,6 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 //visibleScheduleCount = 0,
             };
             
-
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
             {
@@ -113,10 +114,17 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 scheduleView = true,
                 month = month,
                 TUItemplate = calendarTemplate,
-                TimeZones = new List<TimeZoneInfo>
+                timezone = new TUICalendarTimeZoneOption
+                (
+                    dl => Regex.Replace(dl.Id, @"[^A-Z]", ""),
+                    tp => tp.DisplayName
+                )
                 {
-                    TimeZoneInfo.Local,
-                    TimeZoneInfo.Utc
+                    zones = new List<TimeZoneInfo>
+                    {
+                        TimeZoneInfo.Local,
+                        TimeZoneInfo.Utc
+                    }
                 }
             };
 
