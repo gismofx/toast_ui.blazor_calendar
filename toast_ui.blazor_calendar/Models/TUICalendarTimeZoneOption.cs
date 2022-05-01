@@ -14,7 +14,7 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// List of TUITimeZone calendar time zones
         /// </summary>
-        public List<TimeZoneInfo> zones { get; set; }
+        public List<TUITimeZone> zones { get; set; }
 
         /// <summary>
         /// Function Expression to return the Display Label
@@ -33,7 +33,7 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         public TUICalendarTimeZoneOption()
         {
-            zones = new List<TimeZoneInfo>();
+            zones = new List<TUITimeZone>();
         }
 
         /// <summary>
@@ -41,11 +41,20 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         /// <param name="displayLabelFunction">Function Expression to return the Display Label</param>
         /// <param name="toolTipFunction">Function Expression to return the Tool Tip</param>
-        public TUICalendarTimeZoneOption(Func<TimeZoneInfo, string> displayLabelFunction, Func<TimeZoneInfo, string> toolTipFunction)
+        public TUICalendarTimeZoneOption(Func<TimeZoneInfo, string> displayLabelFunction, Func<TimeZoneInfo, string> toolTipFunction): this()
         {
-            zones = new List<TimeZoneInfo>();
             DisplayLabelFunction = displayLabelFunction;
             ToolTipFunction = toolTipFunction;
         }
+
+        public void AddTimeZoneInfo(TimeZoneInfo timeZoneInfo)
+        {
+            var tz = new TUITimeZone();
+            tz.displayLabel = DisplayLabelFunction(timeZoneInfo) ?? timeZoneInfo.DisplayName;
+            tz.tooltip = ToolTipFunction(timeZoneInfo) ?? timeZoneInfo.DisplayName;
+            tz.timezoneOffset = timeZoneInfo.BaseUtcOffset.TotalMinutes;
+            tz.timezoneName = timeZoneInfo.StandardName;
+        }
+
     }
 }
