@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Services;
@@ -77,7 +78,8 @@ namespace toast_ui.blazor_calendar.Models
         /// You can add secondary timezone in the weekly/daily view.
         /// https://nhn.github.io/tui.calendar/latest/Timezone
         /// </summary>
-        public TimeZoneInfo timezone { get; set; } //Todo: Map this or implement TUI timezone class
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TUICalendarTimeZoneOption timezone { get; set; } = null;
 
         /// <summary>
         /// Disable double click to create a schedule.
