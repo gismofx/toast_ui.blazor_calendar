@@ -101,7 +101,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 visibleWeeksCount = 6,
                 //visibleScheduleCount = 0,
             };
-            
+
+            //optionally setup timezones for display
+            var timeZones = new TUICalendarTimeZoneOption();
+            timeZones.AddTimeZone(TimeZoneInfo.Local);
+            timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
@@ -113,11 +117,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 scheduleView = true,
                 month = month,
                 TUItemplate = calendarTemplate,
-                TimeZones = new List<TimeZoneInfo>
-                {
-                    TimeZoneInfo.Local,
-                    TimeZoneInfo.Utc
-                }
+                timezone = timeZones
             };
 
             var calendarProps = new List<TUICalendarProps>();
