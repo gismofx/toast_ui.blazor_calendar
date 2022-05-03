@@ -3,13 +3,13 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    mode: 'production'
+    mode: 'production',
     devtool: 'source-map',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, '../wwwroot/'),
         filename: 'TUI.blazor_calendar.min.js',
-        sourceMapFilename: 'TUI.blazor_calendar.js.map',
+        sourceMapFilename: "[file].map",
     },
     plugins: [
         new MiniCssExtractPlugin(
