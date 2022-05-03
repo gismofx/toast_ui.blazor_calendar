@@ -87,7 +87,13 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
         {
             StartDate = DateTimeOffset.Now;
             EndDate = DateTimeOffset.Now;
+
+            //Todo: Add More Template Examples
+            //TUITemplate calendarTemplate = null;
+            var calendarTemplate = new TUITemplate();
+            calendarTemplate.AddMonthGridHeaderExceed(@"return '<span class=""weekday-grid-more-schedules"">+' + hiddenSchedules + ' says gismofx' + '</span>';");
             
+
             var month = new TUIMonthOptions()
             {
                 //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
@@ -95,7 +101,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 visibleWeeksCount = 6,
                 //visibleScheduleCount = 0,
             };
-            
+
+            //optionally setup timezones for display
+            var timeZones = new TUICalendarTimeZoneOption();
+            timeZones.AddTimeZone(TimeZoneInfo.Local);
+            timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
@@ -105,8 +115,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 defaultView = TUICalendarViewName.Month,
                 taskView = false,
                 scheduleView = true,
-                month = month
-                
+                month = month,
+                TUItemplate = calendarTemplate,
+                timezone = timeZones
             };
 
             var calendarProps = new List<TUICalendarProps>();

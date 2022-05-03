@@ -17,23 +17,25 @@ namespace toast_ui.blazor_calendar.Services
     {
         private readonly IJSRuntime _JSRuntime;
 
-        //private DotNetObjectReference<TUICalendar> ObjectReference;
-
         public TUICalendarInteropService(IJSRuntime jsRuntime)
         {
             _JSRuntime = jsRuntime;
         }
 
         /// <summary>
+        /// Clear the Calendar
         /// Wraps the tui.Calendar Api clear function
         /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
         public async ValueTask Clear()
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.clear");
         }
 
+        /// <summary>
+        /// Change the Display Mode/View of the Calendar
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
         public async ValueTask ChangeView(TUICalendarViewName viewName)
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.changeView", viewName.Value);
@@ -42,7 +44,7 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Put the events/task/etc on the calendar
         /// </summary>
-        /// <param name=""></param>
+        /// <param name="schedules">Schedule/Events/Tasks To Display</param>
         /// <returns></returns>
         public async ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules)
         {
@@ -58,6 +60,10 @@ namespace toast_ui.blazor_calendar.Services
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Retrieve the start date of the date range being displayed
+        /// </summary>
+        /// <returns></returns>
         public async ValueTask<DateTimeOffset?> GetDateRangeEnd()
         {
             var result = await _JSRuntime.InvokeAsync<JsonElement>("TUICalendar.getDateRangeEnd");
@@ -66,6 +72,10 @@ namespace toast_ui.blazor_calendar.Services
             return JsonSerializer.Deserialize<DateTimeOffset?>(result.ToString(), deserializeOptions);
         }
 
+        /// <summary>
+        /// Retrieve the ending rate of the date range being displayed 
+        /// </summary>
+        /// <returns></returns>
         public async ValueTask<DateTimeOffset?> GetDateRangeStart()
         {
             var result = await _JSRuntime.InvokeAsync<JsonElement>("TUICalendar.getDateRangeStart");
@@ -74,6 +84,12 @@ namespace toast_ui.blazor_calendar.Services
             return JsonSerializer.Deserialize<DateTimeOffset?>(result.ToString(), deserializeOptions);
         }
 
+        /// <summary>
+        /// Hide or Show a Specific Calendar of Events/Tasks By Calendar Id
+        /// </summary>
+        /// <param name="calendarId">Id of the calendar you want to hide or show</param>
+        /// <param name="hide">True will hide. False will show</param>
+        /// <returns></returns>
         public async ValueTask HideShowCalendar(string calendarId, bool hide)
         {
             await _JSRuntime.InvokeVoidAsync("hideShowCalendar", calendarId, hide);
@@ -131,6 +147,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarOptions", calendarOptions);
         }
+        
         /// <summary>
         /// Set the calendars' properties via TUICalendarProps
         /// </summary>
@@ -143,6 +160,12 @@ namespace toast_ui.blazor_calendar.Services
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
             }
         }
+        
+        /// <summary>
+        /// Sett/Go To a Date on the Calendar
+        /// </summary>
+        /// <param name="dateToDisplay"></param>
+        /// <returns></returns>
         public async ValueTask SetDate(DateTimeOffset? dateToDisplay)
         {
             if (dateToDisplay is not null)
@@ -162,6 +185,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             return CombineTuiSchedule(scheduleToModify, changedSchedule);
         }
+        
         private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
         {
             var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());

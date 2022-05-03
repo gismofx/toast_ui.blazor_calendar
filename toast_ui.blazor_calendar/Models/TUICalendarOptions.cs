@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Services;
@@ -43,6 +44,8 @@ namespace toast_ui.blazor_calendar.Models
         /// https://nhn.github.io/tui.calendar/latest/Template
         /// had to rename from 'template' - violates naming rule
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("template")]
         public TUITemplate TUItemplate { get; set; } = null;
 
         /// <summary>
@@ -75,7 +78,8 @@ namespace toast_ui.blazor_calendar.Models
         /// You can add secondary timezone in the weekly/daily view.
         /// https://nhn.github.io/tui.calendar/latest/Timezone
         /// </summary>
-        public TimeZoneInfo timezone { get; set; } //Todo: Map this or implement TUI timezone class
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TUICalendarTimeZoneOption timezone { get; set; } = null;
 
         /// <summary>
         /// Disable double click to create a schedule.
@@ -187,32 +191,4 @@ namespace toast_ui.blazor_calendar.Models
         }
 
     }
-
-    public class TUICalendarViewName
-    {
-        private TUICalendarViewName(string value)
-        {
-            Value = value;
-        }
-        public string Value { get; set; }
-
-        public static TUICalendarViewName Day { get { return new TUICalendarViewName("day"); } }
-        public static TUICalendarViewName Week { get { return new TUICalendarViewName("week"); } }
-        public static TUICalendarViewName Month { get { return new TUICalendarViewName("month"); } }
-
-    }
-
-public class TUITaskView
-{
-    private TUITaskView(string[] value)
-    {
-        Value = value;
-    }
-    public string[] Value { get; set; }
-
-    public static TUITaskView MilestoneAndTask { get { return new TUITaskView(new[] { "milestone", "task" });  }}
-    public static TUITaskView Milestone { get { return new TUITaskView(new[] { "milestone" }); } }
-    public static TUITaskView Task { get { return new TUITaskView(new[] { "task" }); } }
-    public static TUITaskView None { get { return new TUITaskView(new[] { "" }); } }
-}
 }

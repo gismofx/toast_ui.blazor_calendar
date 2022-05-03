@@ -42,9 +42,20 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuildB" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+    <Exec Command="npm install" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run dev" WorkingDirectory="NpmJS" />
+  </Target>
+
+  <Target Name="PreBuildA" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
     <Exec Command="npm run wbp" WorkingDirectory="NpmJS" />
   </Target>
-  
+
+<!--
+  <Target Name="PreBuild1" BeforeTargets="PreBuildEvent">
+    <Exec Command="npm install" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run wbp" WorkingDirectory="NpmJS" />
+  </Target>
+  -->
 </Project>
