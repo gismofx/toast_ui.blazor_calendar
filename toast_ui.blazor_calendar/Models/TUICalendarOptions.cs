@@ -191,32 +191,4 @@ namespace toast_ui.blazor_calendar.Models
         }
 
     }
-
-    public class TUICalendarViewName
-    {
-        private TUICalendarViewName(string value)
-        {
-            Value = value;
-        }
-        public string Value { get; set; }
-
-        public static TUICalendarViewName Day { get { return new TUICalendarViewName("day"); } }
-        public static TUICalendarViewName Week { get { return new TUICalendarViewName("week"); } }
-        public static TUICalendarViewName Month { get { return new TUICalendarViewName("month"); } }
-
-    }
-
-public class TUITaskView
-{
-    private TUITaskView(string[] value)
-    {
-        Value = value;
-    }
-    public string[] Value { get; set; }
-
-    public static TUITaskView MilestoneAndTask { get { return new TUITaskView(new[] { "milestone", "task" });  }}
-    public static TUITaskView Milestone { get { return new TUITaskView(new[] { "milestone" }); } }
-    public static TUITaskView Task { get { return new TUITaskView(new[] { "task" }); } }
-    public static TUITaskView None { get { return new TUITaskView(new[] { "" }); } }
-}
 }
