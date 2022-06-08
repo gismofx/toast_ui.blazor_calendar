@@ -57,7 +57,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
             Utf8JsonWriter writer,
             DateTimeOffset dateTimeValue,
             JsonSerializerOptions options) =>
-                writer.WriteStringValue(dateTimeValue.ToString());
+                writer.WriteStringValue(dateTimeValue);// JsonSerializer.Serialize(dateTimeValue));
         
     }
 }
