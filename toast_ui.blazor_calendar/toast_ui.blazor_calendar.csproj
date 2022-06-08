@@ -49,13 +49,12 @@
 -->
   <Target Name="PreBuildA" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run wbp" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run prod" WorkingDirectory="NpmJS" />
   </Target>
 
-<!--
-  <Target Name="PreBuild1" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild1" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run wbp" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run dev" WorkingDirectory="NpmJS" />
   </Target>
-  -->
+  
 </Project>
