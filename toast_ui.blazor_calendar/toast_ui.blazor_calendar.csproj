@@ -5,12 +5,17 @@
     <RootNamespace>toast_ui.blazor_calendar</RootNamespace>
     <AssemblyName>toast_ui_blazor_calendar</AssemblyName>
   </PropertyGroup>
+
+  <PropertyGroup Label="Versioning properties">
+    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+    <MinVerDefaultPreReleasePhase>beta</MinVerDefaultPreReleasePhase>
+    <MinVerVerbosity>detailed</MinVerVerbosity>
+  </PropertyGroup>
   
   <PropertyGroup Label="Packaging properties">
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>MIT</Copyright>
     <Description>Toast UI Calandar Wrapper For Blazor in Net6. A fully featured calendar component for blazor projects. Comes bundled with ToastUI Calendar JS and CSS files. visit github repo for examples on how to implement.</Description>
-    <Version>1.0.0-beta3.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>toast_ui.blazor_calendar</PackageId>
     <PackageIcon>icon.png</PackageIcon>
@@ -32,6 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
+    <PackageReference Include="MinVer" Version="4.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
