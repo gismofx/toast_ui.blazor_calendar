@@ -316,7 +316,7 @@ namespace toast_ui.blazor_calendar
                     {
                         await _OnParameterChangeEvents.Dequeue();
                     }
-                    catch (NullReferenceException ex)
+                    catch (NullReferenceException)
                     {
                         //do nothing
                     }
