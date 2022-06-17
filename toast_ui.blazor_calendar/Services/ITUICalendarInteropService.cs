@@ -21,7 +21,7 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask<DateTimeOffset?> GetDateRangeStart();
         ValueTask<DateTimeOffset?> GetDateRangeEnd();
         ValueTask SetCalendarOptionsAsync(TUICalendarOptions calendarOptions);
-        void ScrollToNow();
+        ValueTask ScrollToNow();
 
     }
 }

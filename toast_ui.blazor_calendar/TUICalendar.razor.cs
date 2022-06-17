@@ -33,7 +33,7 @@ namespace toast_ui.blazor_calendar
         /// <summary>
         /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
         /// </summary>
-        private Queue<Task> _OnParameterChangeEvents = new Queue<Task>();
+        private Queue<Task> _OnParameterChangeEvents = new();
 
         /// <summary>
         /// Direct access to some calendar functions via the Interop
@@ -316,7 +316,7 @@ namespace toast_ui.blazor_calendar
                     {
                         await _OnParameterChangeEvents.Dequeue();
                     }
-                    catch (NullReferenceException ex)
+                    catch (NullReferenceException)
                     {
                         //do nothing
                     }
