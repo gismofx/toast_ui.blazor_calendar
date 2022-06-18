@@ -4,12 +4,22 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>toast_ui.blazor_calendar</RootNamespace>
     <AssemblyName>toast_ui_blazor_calendar</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Versioning properties">
+    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+    <MinVerDefaultPreReleasePhase>beta</MinVerDefaultPreReleasePhase>
+    <MinVerVerbosity>detailed</MinVerVerbosity>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Packaging properties">
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>MIT</Copyright>
     <Description>Toast UI Calandar Wrapper For Blazor in Net6. A fully featured calendar component for blazor projects. Comes bundled with ToastUI Calendar JS and CSS files. visit github repo for examples on how to implement.</Description>
-    <Company></Company>
-    <Version>1.0.0-beta3.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>toast_ui.blazor_calendar</PackageId>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/gismofx/toast_ui.blazor_calendar</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gismofx/toast_ui.blazor_calendar</RepositoryUrl>
     <PackageTags>blazor calendar jsinterop toastui c#</PackageTags>
@@ -17,8 +27,8 @@
     <Product>toast_ui.blazor_calendar</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>gismofx</Authors>
-    <PackageIcon>Toast-Blazor-Calendar-600.png</PackageIcon>
     <RepositoryType>GitHub</RepositoryType>
+    <PackageOutputPath>$(SolutionDir)\NuGet-package</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,44 +37,31 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
+    <PackageReference Include="MinVer" Version="4.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <None Include="..\..\..\..\Documents\Toast-Blazor-Calendar-600.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-
-  <ItemGroup>
+    <None Include="$(SolutionDir)\icon.png" Pack="True" PackagePath="\" />
+    <None Include="$(SolutionDir)\README.md" Pack="True" PackagePath="\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <Content Update="NpmJS\package-lock.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="NpmJS\package.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <Content Update="NpmJS\package-lock.json" CopyToOutputDirectory="Never" />
+    <Content Update="NpmJS\package.json" CopyToOutputDirectory="Never" />
   </ItemGroup>
-<!--
-  <Target Name="PreBuildB" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
-    <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run dev" WorkingDirectory="NpmJS" />
-  </Target>
--->
-  <Target Name="PreBuildA" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run prod" WorkingDirectory="NpmJS" />
-  </Target>
 
-  <Target Name="PreBuild1" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup Condition="'$(NpmConfiuration)' == 'Debug'">
+    <NpmConfiuration>dev</NpmConfiuration>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <NpmConfiuration>prod</NpmConfiuration>
+  </PropertyGroup>
+  
+  <Target Name="InstallAndRunNpm" BeforeTargets="PreBuildEvent">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run dev" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run $(NpmConfiuration)" WorkingDirectory="NpmJS" />
   </Target>
   
 </Project>

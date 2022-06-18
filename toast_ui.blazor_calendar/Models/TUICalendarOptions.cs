@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using toast_ui.blazor_calendar.Services;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
@@ -111,87 +108,104 @@ namespace toast_ui.blazor_calendar.Models
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (null == obj)
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
-            if (object.ReferenceEquals(this, obj))
+
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
-            if (this.GetType() != obj.GetType())
+
+            if (obj.GetType() != this.GetType())
             {
                 return false;
             }
-            //# private method to compare members.
-            return CompareMembers(obj as TUICalendarOptions);
-
+            
+            return CompareMembers((TUICalendarOptions)obj);
         }
 
-        private bool CompareMembers(TUICalendarOptions options)
+        private bool CompareMembers(TUICalendarOptions other)
         {
-            if (!defaultView.Value.Equals(options.defaultView.Value))
+            if (!defaultView.Value.Equals(other.defaultView.Value))
             {
                 return false;
             }
-            if (!taskView.Equals(options.taskView))
+            if (!taskView.Equals(other.taskView))
             {
                 return false;
             }
-            if (!scheduleView.Equals(options.scheduleView))
+            if (!scheduleView.Equals(other.scheduleView))
             {
                 return false;
             }
-            if (!theme.Equals(options.theme))
+            if (!theme.Equals(other.theme))
             {
                 return false;
             }
-            if (!TUItemplate.Equals(options.TUItemplate))
+            if (!TUItemplate.Equals(other.TUItemplate))
             {
                 return false;
             }
-            if (!week.Equals(options.week))
+            if (!week.Equals(other.week))
             {
                 return false;
             }
-            if (!month.Equals(options.month))
+            if (!month.Equals(other.month))
             {
                 return false;
             }
-            if (!calendars.Equals(options.calendars))
+            if (!calendars.Equals(other.calendars))
             {
                 return false;
             }
-            if (!useCreationPopup.Equals(options.useCreationPopup))
+            if (!useCreationPopup.Equals(other.useCreationPopup))
             {
                 return false;
             }
-            if (!useDetailPopup.Equals(options.useDetailPopup))
+            if (!useDetailPopup.Equals(other.useDetailPopup))
             {
                 return false;
             }
-            if (!timezone.Equals(options.timezone))
+            if (!timezone.Equals(other.timezone))
             {
                 return false;
             }
-            if (!disableDblClick.Equals(options.disableDblClick))
+            if (!disableDblClick.Equals(other.disableDblClick))
             {
                 return false;
             }
-            if (!disableClick.Equals(options.disableClick))
+            if (!disableClick.Equals(other.disableClick))
             {
                 return false;
             }
-            if (!isReadOnly.Equals(options.isReadOnly))
+            if (!isReadOnly.Equals(other.isReadOnly))
             {
                 return false;
             }
-            if (!usageStatistics.Equals(options.usageStatistics))
+            if (!usageStatistics.Equals(other.usageStatistics))
             {
                 return false;
             }
             return true;
         }
 
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            hashCode.Add(defaultView);
+            hashCode.Add(taskView);
+            hashCode.Add(scheduleView);
+            hashCode.Add(theme);
+            hashCode.Add(week);
+            hashCode.Add(month);
+            hashCode.Add(calendars);
+            hashCode.Add(useCreationPopup);
+            hashCode.Add(useDetailPopup);
+            hashCode.Add(timezone);
+            hashCode.Add(isReadOnly);
+            return hashCode.ToHashCode();
+        }
     }
 }

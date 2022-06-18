@@ -1,6 +1,6 @@
 ## toast_ui.blazor_calendar
 A Toast UI Calendar Wrapper For Blazor  
-For Events, Task, and Scheduling  
+Drag-And-Drop Events, Tasks, and Scheduling  
 
 ![NuGet](https://img.shields.io/nuget/vpre/toast_ui.blazor_calendar?color=blue)
 ![NuGetPre](https://img.shields.io/nuget/v/toast_ui.blazor_calendar?label=Pre-Release&color=yellow)
@@ -20,11 +20,13 @@ https://ui.toast.com/tui-calendar
 
 ### Pre-Release BETA now available on Nuget.
 
+## Please visit Disucssions for any questions or comments or open an issue for any bugs found.
+
 ## How to start:
 
 ####
 Nuget Pre-release:  
-`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta2.0`
+`Install-Package toast_ui.blazor_calendar -Version 1.0.0-beta3.1`
 
 ### Edit your project files:
 #### In `_Imports.razor` 
@@ -36,7 +38,7 @@ add:
 #### In `_Host.cshtml` 
 add this inside the `<head>` 
 ```html
-<link href="_content/toast_ui.blazor_Calendar/TUI.blazorCalendar.css" rel="stylesheet">
+<link href="_content/toast_ui.blazor_calendar/TUI.blazorCalendar.css" rel="stylesheet">
 ```
 
 add this inside the `<body>` near the bottom 
@@ -52,6 +54,10 @@ add this inside the `<body>` near the bottom
              CalendarViewName="ViewModel.CalendarViewName"
              @bind-VisibleStartDateRange="ViewModel.StartDate"
              @bind-VisibleEndDateRange="ViewModel.EndDate"
+             OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+             OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+             OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+             OnDeleteCalendarEventOrTask="@(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
              @ref=_calendarRef></TUICalendar>
 ```
 
