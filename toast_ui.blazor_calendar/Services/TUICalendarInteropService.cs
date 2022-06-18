@@ -56,6 +56,7 @@ namespace toast_ui.blazor_calendar.Services
 
         public ValueTask DisposeAsync()
         {
+            GC.SuppressFinalize(this);
             return new ValueTask();
             //throw new NotImplementedException();
         }
@@ -133,9 +134,9 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Scroll to current time on today in daily or weekly view
         /// </summary>
-        public void ScrollToNow()
+        public async ValueTask ScrollToNow()
         {
-            _JSRuntime.InvokeVoidAsync("TUICalendar.scrollToNowInView");
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.scrollToNowInView");
         }
 
         /// <summary>
@@ -186,7 +187,7 @@ namespace toast_ui.blazor_calendar.Services
             return CombineTuiSchedule(scheduleToModify, changedSchedule);
         }
         
-        private TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
+        private static TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
         {
             var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
             CopyValues(schedule, c);
@@ -194,7 +195,7 @@ namespace toast_ui.blazor_calendar.Services
         }
 
         //@Todo: Refactor
-        private void CopyValues<T>(T target, T source)
+        private static void CopyValues<T>(T target, T source)
         {
             Type t = typeof(T);
 

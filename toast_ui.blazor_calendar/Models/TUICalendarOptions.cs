@@ -101,6 +101,11 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         public bool usageStatistics { get; set; } = true;
 
+        /// <summary>
+        /// This method is override. Ultimately, compares each property
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -163,12 +168,10 @@ namespace toast_ui.blazor_calendar.Models
             {
                 return false;
             }
-            /*
-            if (!timezome.Equals(options.timezone))
+            if (!timezone.Equals(other.timezone))
             {
                 return false;
             }
-            */
             if (!disableDblClick.Equals(other.disableDblClick))
             {
                 return false;

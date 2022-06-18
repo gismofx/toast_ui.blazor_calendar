@@ -11,10 +11,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
     public class CalendarViewModel : BaseViewModel
     {
-        // private readonly TUICalendarInteropService CalendarService;
+        private readonly ITUICalendarInteropService _CalendarService;
 
-        public CalendarViewModel()
+        public CalendarViewModel(ITUICalendarInteropService calendarService)
         {
+            _CalendarService = calendarService;
         }
 
         private List<TUISchedule> _Schedules;
