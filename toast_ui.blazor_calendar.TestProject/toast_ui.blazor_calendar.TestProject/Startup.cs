@@ -34,6 +34,8 @@ namespace toast_ui.blazor_calendar.TestProject
 
             services.AddTransient<CalendarViewModel>();
             
+            //If you want to interact with the calendar from code
+            services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
 
         }
 

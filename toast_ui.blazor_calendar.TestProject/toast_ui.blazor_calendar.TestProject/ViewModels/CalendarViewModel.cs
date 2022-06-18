@@ -11,10 +11,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
     public class CalendarViewModel : BaseViewModel
     {
-        private readonly TUICalendarInteropService CalendarService;
+        private readonly ITUICalendarInteropService _CalendarService;
 
-        public CalendarViewModel()
+        public CalendarViewModel(ITUICalendarInteropService calendarService)
         {
+            _CalendarService = calendarService;
         }
 
         private List<TUISchedule> _Schedules;
@@ -184,6 +185,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             //do something when an event is clicked
             //Show a custom pop up if some conditions are met?
             Debug.WriteLine($"Event or Task Changed: {schedule.title}");
+            //Simulate long running task
+            await Task.Delay(10);
         }
 
         public async Task OnClickCalendarEventOrTask(string eventId)
@@ -191,18 +194,24 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             //do something when an event is clicked
             //You can find Event in Database by Id
             Debug.WriteLine($"Event or Task Clicked: {eventId}");
+            //Simulate long running task
+            await Task.Delay(10);
         }
 
         public async Task OnCreateCalendarEventOrTask(TUISchedule newSchedule)
         {
             //Save event to database
             Debug.WriteLine($"Event or Task Created: {newSchedule.title}");
+            //Simulate long running task
+            await Task.Delay(10);
         }
 
         public async Task OnDeleteCalendarEventOrTask(string EventId)
         {
             //Delete the event from database
             Debug.WriteLine($"Delete this Event: {EventId}");
+            //Simulate long running task
+            await Task.Delay(10);
         }
 
     }

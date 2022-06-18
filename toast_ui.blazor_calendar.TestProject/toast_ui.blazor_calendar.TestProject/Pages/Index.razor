@@ -20,7 +20,7 @@ Welcome to your new app. <br />
     <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
 </div>
 <div>
-    <button type="button" @onclick=@(()=> ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+    <button type="button" @onclick=@(async ()=> await ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
 </div>
 
 <div class="d-flex flex-row align-items-center m-2">
@@ -84,9 +84,9 @@ Welcome to your new app. <br />
         await _calendarRef.CalendarInterop.Clear();
     }
 
-    private void ScrollToNow()
+    private async ValueTask ScrollToNow()
     {
-        _calendarRef.CalendarInterop.ScrollToNow();
+        await _calendarRef.CalendarInterop.ScrollToNow();
     }
 
     public void Dispose()
