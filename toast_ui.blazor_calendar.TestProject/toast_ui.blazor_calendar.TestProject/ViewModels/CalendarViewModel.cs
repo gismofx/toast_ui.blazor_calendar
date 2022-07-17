@@ -95,12 +95,19 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             calendarTemplate.AddMonthGridHeaderExceed(@"return '<span class=""weekday-grid-more-schedules"">+' + hiddenSchedules + ' says gismofx' + '</span>';");
             
 
-            var month = new TUIMonthOptions()
+            var monthOptions = new TUIMonthOptions()
             {
                 //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
                 //startDayOfWeek = 0,
                 visibleWeeksCount = 6,
                 //visibleScheduleCount = 0,
+            };
+
+            var weekOptions = new TUIWeekOptions()
+            {
+                //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
+                narrowWeekend=true,
+                //startDayOfWeek = 0,
             };
 
             //optionally setup timezones for display
@@ -116,7 +123,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 defaultView = TUICalendarViewName.Month,
                 taskView = false,
                 scheduleView = true,
-                month = month,
+                month = monthOptions,
+                week = weekOptions,
                 TUItemplate = calendarTemplate,
                 timezone = timeZones
             };

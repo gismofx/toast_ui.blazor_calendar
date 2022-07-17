@@ -1,4 +1,6 @@
-﻿namespace toast_ui.blazor_calendar.Models
+﻿using System.Text.Json.Serialization;
+
+namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/WeekOptions
@@ -12,9 +14,10 @@
 
         /// <summary>
         /// The day names in weekly and daily.
-        /// Default values are 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+        /// Default value is null. Then, default day names are 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
         /// </summary>
-        public string[] daynames { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string[] daynames { get; set; } = null;
 
         /// <summary>
         /// Make weekend column narrow(1/2 width)
