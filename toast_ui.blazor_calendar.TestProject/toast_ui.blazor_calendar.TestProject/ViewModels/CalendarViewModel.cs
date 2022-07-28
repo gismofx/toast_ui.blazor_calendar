@@ -106,7 +106,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             var weekOptions = new TUIWeekOptions()
             {
                 //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
-                narrowWeekend=true,
+                narrowWeekend = true,
                 //startDayOfWeek = 0,
             };
 
@@ -121,8 +121,8 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 useCreationPopup = true,
                 useDetailPopup = true,
                 defaultView = TUICalendarViewName.Month,
-                taskView = false,
-                scheduleView = true,
+                scheduleView = TUIScheduleView.AlldayAndTime,
+                taskView = TUITaskView.MilestoneAndTask,
                 month = monthOptions,
                 week = weekOptions,
                 TUItemplate = calendarTemplate,
