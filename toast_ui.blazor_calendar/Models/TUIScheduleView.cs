@@ -11,12 +11,30 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// Enum Class/Helper For TUI Schedule View Modes
     /// </summary>
-    public static class TUIScheduleView
+    public class TUIScheduleView
     {
-        public static string[] AlldayAndTime = new[] { "allday", "time" }; 
-        public static string[] Allday = new[] { "allday" };
-        public static string[] Time = new[] { "time" };
-        public static string[] None = new[] { "" };
+        public static TUIScheduleView AlldayAndTime { get { return new TUIScheduleView(new[] { "allday", "time" }); } } 
+        public static TUIScheduleView Allday { get { return new TUIScheduleView(new[] { "allday" }); } }
+        public static TUIScheduleView Time { get { return new TUIScheduleView(new[] { "time" }); } }
+        public static TUIScheduleView None { get { return new TUIScheduleView(new[] { "" }); } }
 
+        private TUIScheduleView(string[] value)
+        {
+            Value = value;
+        }
+
+        public static implicit operator TUIScheduleView(string[] value)
+        {
+            return new TUIScheduleView(value);
+        }
+
+        public static implicit operator TUIScheduleView(bool value)
+        {
+            if(value) return AlldayAndTime;
+            return None;
+        }
+        public string[] Value { get; set; }
+
+        
     }
 }

@@ -9,11 +9,29 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// Enum Class/Helper For TUI Task View Modes
     /// </summary>
-    public static class TUITaskView
+    public class TUITaskView
     {
-        public static string[] MilestoneAndTask = new[] { "milestone", "task" };
-        public static string[] Milestone = new[] { "milestone" };
-        public static string[] Task = new[] { "task" };
-        public static string[] None = new[] { "" };
+        public static TUITaskView MilestoneAndTask { get { return new TUITaskView(new[] { "milestone", "task" }); } }
+        public static TUITaskView Milestone { get { return new TUITaskView(new[] { "milestone" }); } }
+        public static TUITaskView Task { get { return new TUITaskView(new[] { "task" }); } }
+        public static TUITaskView None { get { return new TUITaskView(new[] { "" }); } }
+
+        private TUITaskView(string[] value)
+        {
+            Value = value;
+        }
+
+        public static implicit operator TUITaskView(string[] value)
+        {
+            return new TUITaskView(value);
+        }
+
+        public static implicit operator TUITaskView(bool value)
+        {
+            if (value) return MilestoneAndTask;
+            return None;
+        }
+
+        public string[] Value { get; set; }
     }
 }

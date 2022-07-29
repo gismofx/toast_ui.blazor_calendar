@@ -21,8 +21,8 @@ namespace toast_ui.blazor_calendar.Models
         /// Show the milestone and task in weekly, daily view.
         /// The default value is true. If the value is array, it can be ['milestone', 'task'].
         /// </summary>
-        //[JsonConverter(typeof(TUITaskViewJsonConverter))]
-        public string[] taskView { get; set; } = TUITaskView.MilestoneAndTask;
+        [JsonConverter(typeof(TUITaskViewJsonConverter))]
+        public TUITaskView taskView { get; set; } = true;
 
         /// <summary>
         /// Show the all day and time grid in weekly, daily view.
@@ -30,8 +30,8 @@ namespace toast_ui.blazor_calendar.Models
         /// If the value is array, it can be ['allday', 'time'].
         /// </summary>
 
-
-        public string[] scheduleView { get; set; } = TUIScheduleView.AlldayAndTime;
+        [JsonConverter(typeof(TUIScheduleViewJsonConverter))]
+        public TUIScheduleView scheduleView { get; set; } = false;
 
         /// <summary>
         /// themeConfig for custom style.

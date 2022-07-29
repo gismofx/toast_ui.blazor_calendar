@@ -121,7 +121,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 useCreationPopup = true,
                 useDetailPopup = true,
                 defaultView = TUICalendarViewName.Month,
-                scheduleView = TUIScheduleView.AlldayAndTime,
+                scheduleView = new string[] { "time" },
                 taskView = TUITaskView.MilestoneAndTask,
                 month = monthOptions,
                 week = weekOptions,
