@@ -11,7 +11,6 @@ namespace toast_ui.blazor_calendar.Models
     /// </summary>
     public class TUITaskView
     {
-
         public static TUITaskView MilestoneAndTask { get { return new TUITaskView(new[] { "milestone", "task" }); } }
         public static TUITaskView Milestone { get { return new TUITaskView(new[] { "milestone" }); } }
         public static TUITaskView Task { get { return new TUITaskView(new[] { "task" }); } }
@@ -21,7 +20,18 @@ namespace toast_ui.blazor_calendar.Models
         {
             Value = value;
         }
-        public string[] Value { get; set; }
 
+        public static implicit operator TUITaskView(string[] value)
+        {
+            return new TUITaskView(value);
+        }
+
+        public static implicit operator TUITaskView(bool value)
+        {
+            if (value) return MilestoneAndTask;
+            return None;
+        }
+
+        public string[] Value { get; set; }
     }
 }
