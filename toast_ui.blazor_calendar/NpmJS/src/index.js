@@ -110,8 +110,7 @@ window.TUICalendar = {
     },
 
     updateSchedule: function (schedule) {
-        TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, schedule);
-        // TODO: (V2) TUICalendar.calendarRef.updateEvent(schedule.id, schedule.calendarId, schedule);
+        TUICalendar.calendarRef.updateEvent(schedule.id, schedule.calendarId, schedule);
         TUICalendar.calendarRef.render(true);
     },
 
