@@ -44,13 +44,13 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Put the events/task/etc on the calendar
         /// </summary>
-        /// <param name="schedules">Schedule/Events/Tasks To Display</param>
+        /// <param name="events">Events/Tasks To Display</param>
         /// <returns></returns>
-        public async ValueTask CreateSchedulesAsync(IEnumerable<TUIEvent> schedules)
+        public async ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events)
         {
-            if (schedules is not null)
+            if (events is not null)
             {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.createSchedules", schedules);
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.createEvents", events);
             }
         }
 
@@ -177,21 +177,21 @@ namespace toast_ui.blazor_calendar.Services
         }
 
         /// <summary>
-        /// Call when an updated schedule has been returned from the calendar
+        /// Call when an updated event has been returned from the calendar
         /// </summary>
-        /// <param name="scheduleToModify">Current Schedule Object</param>
-        /// <param name="changedSchedule">The changes made to the schedule</param>
-        /// <returns>The changed schedule ready to further processing and/or saving</returns>
-        public TUIEvent UpdateSchedule(TUIEvent scheduleToModify, JsonElement changedSchedule)
+        /// <param name="eventToModify">Current Event Object</param>
+        /// <param name="changedEvent">The changes made to the event</param>
+        /// <returns>The changed event ready to further processing and/or saving</returns>
+        public TUIEvent UpdateEvent(TUIEvent eventToModify, JsonElement changedEvent)
         {
-            return CombineTuiSchedule(scheduleToModify, changedSchedule);
+            return CombineTuiEvent(eventToModify, changedEvent);
         }
         
-        private static TUIEvent CombineTuiSchedule(TUIEvent schedule, JsonElement changes)
+        private static TUIEvent CombineTuiEvent(TUIEvent @event, JsonElement changes)
         {
             var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString());
-            CopyValues(schedule, c);
-            return schedule;
+            CopyValues(@event, c);
+            return @event;
         }
 
         //@Todo: Refactor

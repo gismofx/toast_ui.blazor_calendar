@@ -111,16 +111,16 @@ namespace toast_ui.blazor_calendar
         /// This is the initial set of schedules/events to be loaded
         /// </summary>
         [Parameter]
-        public ICollection<TUIEvent> Schedules { get; set; }
+        public ICollection<TUIEvent> Events { get; set; }
         
         /// <summary>
-        /// The End Date of the Range of days displated on the calendar
+        /// The End Date of the Range of days displayed on the calendar
         /// </summary>
         [Parameter]
         public DateTimeOffset? VisibleEndDateRange { get; set; }
 
         /// <summary>
-        /// The End Date of the Range of days displated on the calendar
+        /// The End Date of the Range of days displayed on the calendar
         /// </summary>
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleEndDateRangeChanged { get; set; }
@@ -142,12 +142,12 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name="newSchedule"></param>
         /// <returns></returns>
-        [JSInvokable("CreateSchedule")]
+        [JSInvokable("CreateEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task CreateSchedule(JsonElement newSchedule)
+        public async Task CreateEvent(JsonElement newSchedule)
         {
             var schedule = JsonSerializer.Deserialize<TUIEvent>(newSchedule.ToString());
-            Schedules.Add(schedule);
+            Events.Add(schedule);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Schedule Created");
         }
@@ -188,12 +188,12 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name="scheduleId"></param>
         /// <returns></returns>
-        [JSInvokable("DeleteSchedule")]
+        [JSInvokable("DeleteEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnDeleteSchedule(string scheduleId)
         {
             await OnDeleteCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Schedule {scheduleId} Deleted!");
+            Debug.WriteLine($"Event {scheduleId} Deleted!");
         }
 
         /// <summary>
@@ -201,12 +201,12 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name="scheduleId"></param>
         /// <returns></returns>
-        [JSInvokable("OnClickSchedule")]
+        [JSInvokable("OnClickEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnScheduleClick(string scheduleId)
         {
             await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Schedule {scheduleId} Clicked!");
+            Debug.WriteLine($"Event {scheduleId} Clicked!");
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace toast_ui.blazor_calendar
                 }
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
-            Schedules = parameters.GetValueOrDefault<ICollection<TUIEvent>>("Schedules");
+            Events = parameters.GetValueOrDefault<ICollection<TUIEvent>>("Events");
 
             //Visible Date Range
             VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
@@ -265,17 +265,17 @@ namespace toast_ui.blazor_calendar
         /// <summary>
         /// When an schedule is updated from the UI, this is invoked.
         /// </summary>
-        /// <param name="scheduleBeingModified"></param>
-        /// <param name="updatedScheduleFields"></param>
+        /// <param name="eventBeingModified"></param>
+        /// <param name="updatedEventFields"></param>
         /// <returns></returns>
         [JSInvokable("UpdateSchedule")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task UpdateSchedule(dynamic scheduleBeingModified, dynamic updatedScheduleFields)
+        public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
-            var currentSchedule = JsonSerializer.Deserialize<TUIEvent>(scheduleBeingModified.ToString());
-            var updatedSchedule = CalendarInterop.UpdateSchedule(currentSchedule, updatedScheduleFields); //Todo: Combine changes with actual schedule
+            var currentSchedule = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString());
+            var updatedSchedule = CalendarInterop.UpdateEvent(currentSchedule, updatedEventFields); //Todo: Combine changes with actual schedule
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Schedule {currentSchedule.id} Modified");
+            Debug.WriteLine($"Event {currentSchedule.id} Modified");
         }
         
         /*@Todo: Waiting for Double click in TUI API
@@ -293,7 +293,7 @@ namespace toast_ui.blazor_calendar
             {
                 await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
                 await CalendarInterop.SetCalendars(CalendarProperties);
-                await CalendarInterop.CreateSchedulesAsync(Schedules);
+                await CalendarInterop.CreateEventsAsync(Events);
                 await SetDateRange();
             }
         }
