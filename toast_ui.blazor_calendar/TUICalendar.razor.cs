@@ -320,10 +320,7 @@ namespace toast_ui.blazor_calendar
         /// Since there is no subsequent rendering required by blazor after the first render, this set to false
         /// </summary>
         /// <returns></returns>
-        protected override bool ShouldRender()
-        {
-            return false;
-        }
+        protected override bool ShouldRender() => false;
 
         /// <summary>
         /// Each time there is a view change or advance of the calendar, ask the calendar what date range is visible
