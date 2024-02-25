@@ -57,13 +57,13 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Put the event/task/etc on the calendar
         /// </summary>
-        /// <param name="schedule">Schedule/Event/Task To Display</param>
-        public async ValueTask CreateScheduleAsync(TUISchedule schedule)
+        /// <param name="tuiEvent">Schedule/Event/Task To Display</param>
+        public async ValueTask CreateEventAsync(TUIEvent tuiEvent)
         {
-            if (schedule is not null)
+            if (tuiEvent is not null)
             {
-                await CreateSchedulesAsync(new List<TUISchedule>() { 
-                    schedule
+                await CreateEventsAsync(new List<TUIEvent>() { 
+                    tuiEvent
                 });
             }
         }
