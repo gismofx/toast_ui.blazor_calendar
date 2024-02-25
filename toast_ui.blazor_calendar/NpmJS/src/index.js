@@ -54,11 +54,11 @@ window.TUICalendar = {
 
         //Events
         https://nhn.github.io/tui.calendar/latest/Calendar#event-beforeUpdateSchedule
-        TUICalendar.calendarRef.on('beforeUpdateEvent', function (event, changes) {
-            //var schedule = event.schedule;
-            //var changes = event.changes;
-            TUICalendar.dotNetRef.invokeMethodAsync('UpdateEvent', event, changes);
-            TUICalendar.calendarRef.updateEvent(event.id, event.calendarId, changes);
+        TUICalendar.calendarRef.on('beforeUpdateEvent', function (eventToChange) {
+            var myEvent = eventToChange.event;
+            var changes = eventToChange.changes;
+            TUICalendar.dotNetRef.invokeMethodAsync('UpdateEvent', myEvent, changes);
+            TUICalendar.calendarRef.updateEvent(myEvent.id, myEvent.calendarId, changes);
         });
 
         //beforeCreateSchedule
@@ -111,8 +111,8 @@ window.TUICalendar = {
         TUICalendar.calendarRef.createEvents(events);
     },
 
-    updateSchedule: function (schedule) {
-        TUICalendar.calendarRef.updateEvent(schedule.id, schedule.calendarId, schedule);
+    updateSchedule: function (event) {
+        TUICalendar.calendarRef.updateEvent(event.id, event.calendarId, event);
         TUICalendar.calendarRef.render(true);
     },
 

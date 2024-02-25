@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
+using System.Text.Json.Nodes;
 
 namespace toast_ui.blazor_calendar
 {
@@ -289,7 +290,7 @@ devV2
         /// <param name="eventBeingModified"></param>
         /// <param name="updatedEventFields"></param>
         /// <returns></returns>
-        [JSInvokable("UpdateSchedule")]
+        [JSInvokable("UpdateEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
