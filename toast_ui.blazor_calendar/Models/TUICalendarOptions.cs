@@ -80,7 +80,7 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         /// 
-        public TUIThemeConfig theme { get; set; } = null;
+        public TUITheme theme { get; set; } = null;
 
         /// <summary>
         /// https://nhn.github.io/tui.calendar/latest/Template
