@@ -46,7 +46,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="schedules">Schedule/Events/Tasks To Display</param>
         /// <returns></returns>
-        public async ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules)
+        public async ValueTask CreateSchedulesAsync(IEnumerable<TUIEvent> schedules)
         {
             if (schedules is not null)
             {
@@ -182,14 +182,14 @@ namespace toast_ui.blazor_calendar.Services
         /// <param name="scheduleToModify">Current Schedule Object</param>
         /// <param name="changedSchedule">The changes made to the schedule</param>
         /// <returns>The changed schedule ready to further processing and/or saving</returns>
-        public TUISchedule UpdateSchedule(TUISchedule scheduleToModify, JsonElement changedSchedule)
+        public TUIEvent UpdateSchedule(TUIEvent scheduleToModify, JsonElement changedSchedule)
         {
             return CombineTuiSchedule(scheduleToModify, changedSchedule);
         }
         
-        private static TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
+        private static TUIEvent CombineTuiSchedule(TUIEvent schedule, JsonElement changes)
         {
-            var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
+            var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString());
             CopyValues(schedule, c);
             return schedule;
         }
