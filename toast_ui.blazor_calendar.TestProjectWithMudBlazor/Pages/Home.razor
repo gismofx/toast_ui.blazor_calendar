@@ -1,0 +1,104 @@
+﻿@page "/"
+@inject CalendarViewModel ViewModel
+@using toast_ui.blazor_calendar.Models
+@implements IDisposable
+@using System.ComponentModel;
+@using toast_ui.blazor_calendar.TestProjectWithMudBlazor.ViewModels
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app. <br />
+
+<div class="btn-group m-2" role="group" aria-label="Basic example">
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Month)) class="btn btn-secondary">Month</button>
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Week)) class="btn btn-secondary">Week</button>
+  <button type="button" @onclick=@(()=> ChangeCalendarView(TUICalendarViewName.Day)) class="btn btn-secondary">Day</button>
+</div>
+<br />
+<div class="btn-group m-2" role="group" aria-label="Basic example">
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Previous)) class="btn btn-secondary">Previous</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Today)) class="btn btn-secondary">Today</button>
+    <button type="button" @onclick=@(async ()=> await MoveCalendarView(CalendarMove.Next)) class="btn btn-secondary">Next</button>
+</div>
+<div>
+    <button type="button" @onclick=@(async ()=> await ScrollToNow()) class="btn btn-secondary">Scroll To Now</button>
+</div>
+
+<div class="d-flex flex-row align-items-center m-2">
+    <div class="pr-2">Scroll To Date:</div>
+    <div class="text-sm-center">
+        <input type="date" value="@selectDate.ToString("yyyy-MM-dd")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
+    </div>
+</div>
+<div class="btn-group m-2" role="group" aria-label="Basic example">
+<button type="button" @onclick=@(()=> ClearCalendar()) class="btn btn-secondary">Clear Calendar</button>
+</div>
+
+<div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
+
+<div style="height:500px">
+
+
+<TUICalendar Events="ViewModel.Schedules" 
+             CalendarOptions="ViewModel.CalendarOptions" 
+             CalendarProperties="ViewModel.CalendarProps"
+             CalendarViewName="ViewModel.CalendarViewName"
+             @bind-VisibleStartDateRange="ViewModel.StartDate"
+             @bind-VisibleEndDateRange="ViewModel.EndDate"
+             OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+             OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+             OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+             OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
+             @ref=_calendarRef></TUICalendar>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+</div>
+@code{
+    private TUICalendar _calendarRef;
+    private DateTimeOffset selectDate = DateTimeOffset.Now;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.InitCalendarDataAsync();
+        ViewModel.PropertyChanged += OnPropertyChangedHandler;
+    }
+
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private void ChangeCalendarView(TUICalendarViewName viewName)
+    {
+        ViewModel.CalendarViewName = viewName;
+    }
+
+    private async Task MoveCalendarView(CalendarMove move)
+    {
+        await _calendarRef.MoveCalendar(move);
+
+    }
+
+    private async void ClearCalendar()
+    {
+        await _calendarRef.CalendarInterop.Clear();
+    }
+
+    private async ValueTask ScrollToNow()
+    {
+        await _calendarRef.CalendarInterop.ScrollToNow();
+    }
+
+    public void Dispose()
+    {
+        ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private async Task ScrollToDate(DateTimeOffset selectedDateTime)
+    {
+        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
+    }
+}
