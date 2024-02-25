@@ -73,7 +73,7 @@ window.TUICalendar = {
                 state: event.state,
                 isAllDay: event.isAllDay,
                 isVisible: true,
-                category: event.isAllDay ? 'allday' : 'time',                
+                category: event.isAllDay ? 'allday' : 'time',
             };
             TUICalendar.dotNetRef.invokeMethodAsync('CreateSchedule', schedule);
             TUICalendar.calendarRef.createSchedules([schedule]);
@@ -107,6 +107,12 @@ window.TUICalendar = {
 
     createSchedules: function (schedules) {
         TUICalendar.calendarRef.createSchedules(schedules);
+    },
+
+    updateSchedule: function (schedule) {
+        TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, schedule);
+        // TODO: (V2) TUICalendar.calendarRef.updateEvent(schedule.id, schedule.calendarId, schedule);
+        TUICalendar.calendarRef.render(true);
     },
 
     setCalendars: function (calendars) {

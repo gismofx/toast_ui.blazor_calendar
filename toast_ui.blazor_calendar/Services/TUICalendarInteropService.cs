@@ -45,12 +45,25 @@ namespace toast_ui.blazor_calendar.Services
         /// Put the events/task/etc on the calendar
         /// </summary>
         /// <param name="schedules">Schedule/Events/Tasks To Display</param>
-        /// <returns></returns>
         public async ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules)
         {
             if (schedules is not null)
             {
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.createSchedules", schedules);
+            }
+        }
+
+        /// <summary>
+        /// Put the event/task/etc on the calendar
+        /// </summary>
+        /// <param name="schedule">Schedule/Event/Task To Display</param>
+        public async ValueTask CreateScheduleAsync(TUISchedule schedule)
+        {
+            if (schedule is not null)
+            {
+                await CreateSchedulesAsync(new List<TUISchedule>() { 
+                    schedule
+                });
             }
         }
 
@@ -148,7 +161,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarOptions", calendarOptions);
         }
-        
+
         /// <summary>
         /// Set the calendars' properties via TUICalendarProps
         /// </summary>
@@ -161,7 +174,7 @@ namespace toast_ui.blazor_calendar.Services
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
             }
         }
-        
+
         /// <summary>
         /// Sett/Go To a Date on the Calendar
         /// </summary>
@@ -179,34 +192,11 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Call when an updated schedule has been returned from the calendar
         /// </summary>
-        /// <param name="scheduleToModify">Current Schedule Object</param>
         /// <param name="changedSchedule">The changes made to the schedule</param>
         /// <returns>The changed schedule ready to further processing and/or saving</returns>
-        public TUISchedule UpdateSchedule(TUISchedule scheduleToModify, JsonElement changedSchedule)
+        public async ValueTask UpdateSchedule(TUISchedule changedSchedule)
         {
-            return CombineTuiSchedule(scheduleToModify, changedSchedule);
-        }
-        
-        private static TUISchedule CombineTuiSchedule(TUISchedule schedule, JsonElement changes)
-        {
-            var c = JsonSerializer.Deserialize<TUISchedule>(changes.ToString());
-            CopyValues(schedule, c);
-            return schedule;
-        }
-
-        //@Todo: Refactor
-        private static void CopyValues<T>(T target, T source)
-        {
-            Type t = typeof(T);
-
-            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
-
-            foreach (var prop in properties)
-            {
-                var value = prop.GetValue(source, null);
-                if (value != null)
-                    prop.SetValue(target, value, null);
-            }
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.updateSchedule", changedSchedule);
         }
     }
 }
