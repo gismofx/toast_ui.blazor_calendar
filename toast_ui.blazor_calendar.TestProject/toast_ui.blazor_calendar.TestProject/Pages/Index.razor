@@ -26,7 +26,7 @@ Welcome to your new app. <br />
 <div class="d-flex flex-row align-items-center m-2">
     <div class="pr-2">Scroll To Date:</div>
     <div class="text-sm-center">
-        <input type="date" value="@selectDate.ToString("MM/dd/yyyy")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
+        <input type="date" value="@selectDate.ToString("yyyy-MM-dd")" @onchange="@(async (e) => await ScrollToDate(DateTimeOffset.Parse(e.Value.ToString())))" />
     </div>
 </div>
 <div class="btn-group m-2" role="group" aria-label="Basic example">
@@ -34,6 +34,8 @@ Welcome to your new app. <br />
 </div>
 
 <div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
+
+<div style="height:500px">
 
 
 <TUICalendar Events="ViewModel.Schedules" 
@@ -49,7 +51,7 @@ Welcome to your new app. <br />
              @ref=_calendarRef></TUICalendar>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
-
+</div>
 @code{
     private TUICalendar _calendarRef;
     private DateTimeOffset selectDate = DateTimeOffset.Now;

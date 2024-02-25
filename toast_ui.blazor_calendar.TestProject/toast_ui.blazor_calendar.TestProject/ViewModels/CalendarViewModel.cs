@@ -93,7 +93,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             //TUITemplate calendarTemplate = null;
             var calendarTemplate = new TUITemplate();
             calendarTemplate.AddMonthGridHeaderExceed(@"return '<span class=""weekday-grid-more-schedules"">+' + hiddenSchedules + ' says gismofx' + '</span>';");
-            
+            //calendarTemplate = null;
 
             var monthOptions = new TUIMonthOptions()
             {
@@ -101,6 +101,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 //startDayOfWeek = 0,
                 visibleWeeksCount = 6,
                 //visibleScheduleCount = 0,
+                
             };
 
             var weekOptions = new TUIWeekOptions()
