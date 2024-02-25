@@ -54,6 +54,20 @@ namespace toast_ui.blazor_calendar.Services
             }
         }
 
+        /// <summary>
+        /// Put the event/task/etc on the calendar
+        /// </summary>
+        /// <param name="schedule">Schedule/Event/Task To Display</param>
+        public async ValueTask CreateScheduleAsync(TUISchedule schedule)
+        {
+            if (schedule is not null)
+            {
+                await CreateSchedulesAsync(new List<TUISchedule>() { 
+                    schedule
+                });
+            }
+        }
+
         public ValueTask DisposeAsync()
         {
             GC.SuppressFinalize(this);
@@ -148,7 +162,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarOptions", calendarOptions);
         }
-        
+
         /// <summary>
         /// Set the calendars' properties via TUICalendarProps
         /// </summary>
@@ -161,7 +175,7 @@ namespace toast_ui.blazor_calendar.Services
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
             }
         }
-        
+
         /// <summary>
         /// Sett/Go To a Date on the Calendar
         /// </summary>

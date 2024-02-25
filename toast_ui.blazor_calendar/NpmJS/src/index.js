@@ -63,7 +63,6 @@ window.TUICalendar = {
 
         //beforeCreateSchedule
         TUICalendar.calendarRef.on("beforeCreateEvent", function (event) {
-            var id = uuidv4();
             //var event =
             //{
             //    id: uuidv4(),
@@ -110,6 +109,11 @@ window.TUICalendar = {
 
     createEvents: function (events) {
         TUICalendar.calendarRef.createEvents(events);
+    },
+
+    updateSchedule: function (schedule) {
+        TUICalendar.calendarRef.updateEvent(schedule.id, schedule.calendarId, schedule);
+        TUICalendar.calendarRef.render(true);
     },
 
     setCalendars: function (calendars) {
