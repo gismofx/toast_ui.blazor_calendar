@@ -1,6 +1,8 @@
-﻿import Calendar from 'tui-calendar'; /* ES6 */
+﻿import Calendar from '@toast-ui/calendar';
+import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 
-import "tui-calendar/dist/tui-calendar.css";
+//import Calendar from 'tui-calendar'; /* ES6 */
+//import "tui-calendar/dist/tui-calendar.css";
 
 // If you use the default popups, use this.
 import 'tui-date-picker/dist/tui-date-picker.css';
@@ -106,7 +108,7 @@ window.TUICalendar = {
     },
 
     createSchedules: function (schedules) {
-        TUICalendar.calendarRef.createSchedules(schedules);
+        TUICalendar.calendarRef.createEvents(schedules);
     },
 
     setCalendars: function (calendars) {
@@ -130,7 +132,7 @@ window.TUICalendar = {
     },
 
     deleteSchedule: function (calendarId, scheduleId) {
-        TUICalendar.calendarRef.deleteSchedule(scheduleId, calendarId);
+        TUICalendar.calendarRef.deleteEvent(scheduleId, calendarId);
     },
 
     setCalendarOptions: function (options) {

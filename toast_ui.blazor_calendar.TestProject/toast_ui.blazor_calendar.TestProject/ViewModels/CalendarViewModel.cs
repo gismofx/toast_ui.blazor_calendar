@@ -118,14 +118,15 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
             {
-                useCreationPopup = true,
+                useFormPopup = true,
                 useDetailPopup = true,
                 defaultView = TUICalendarViewName.Month,
-                taskView = false,
-                scheduleView = true,
+                gridSelection = new() { enableClick = true , enableDbClick = true},
+                //taskView = false,
+                //scheduleView = true,
                 month = monthOptions,
                 week = weekOptions,
-                TUItemplate = calendarTemplate,
+                TUITemplate = calendarTemplate,
                 timezone = timeZones
             };
 
@@ -153,7 +154,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             calendarProps.Add(calendar2);
             CalendarProps = calendarProps;
 
-            
+            //.calendars = calendarProps;
 
             await Task.Run(() =>
             {
