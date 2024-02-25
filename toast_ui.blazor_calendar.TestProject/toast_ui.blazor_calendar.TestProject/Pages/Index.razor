@@ -36,7 +36,7 @@ Welcome to your new app. <br />
 <div>@ViewModel.StartDate.GetValueOrDefault().LocalDateTime.ToShortDateString() - @ViewModel.EndDate.GetValueOrDefault().LocalDateTime.ToShortDateString()</div>
 
 
-<TUICalendar Schedules="ViewModel.Schedules" 
+<TUICalendar Events="ViewModel.Schedules" 
              CalendarOptions="ViewModel.CalendarOptions" 
              CalendarProperties="ViewModel.CalendarProps"
              CalendarViewName="ViewModel.CalendarViewName"

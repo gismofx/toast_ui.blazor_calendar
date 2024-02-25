@@ -6,9 +6,9 @@ using toast_ui.blazor_calendar.Services.JsonConverters;
 namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
-    /// https://nhn.github.io/tui.calendar/latest/Schedule
+    /// https://nhn.github.io/tui.calendar/latest/EventObject
     /// </summary>
-    public class TUISchedule
+    public class TUIEvent
     {
         public string id { get; set; }
 
@@ -26,6 +26,12 @@ namespace toast_ui.blazor_calendar.Models
         /// The schedule body text which is text/plain
         /// </summary>
         public string body { get; set; }
+
+        /// <summary>
+        /// The all day schedule
+        /// </summary>
+        public bool? isAllDay { get; set; }
+
 
         /// <summary>
         /// The start time. It's 'string' for input. It's 'TZDate' for output like event handler.
@@ -51,22 +57,6 @@ namespace toast_ui.blazor_calendar.Models
         public int? comingDuration { get; set; }
 
         /// <summary>
-        /// The all day schedule
-        /// </summary>
-        public bool? isAllDay { get; set; }
-
-        /// <summary>
-        /// The schedule type('milestone', 'task', allday', 'time')
-        /// </summary>
-        public string category { get; set; }
-
-        /// <summary>
-        /// The task schedule type string
-        ///(any string value is ok and mandatory if category is 'task')
-        /// </summary>
-        public string dueDateClass { get; set; }
-
-        /// <summary>
         /// The location
         /// </summary>
         public string location { get; set; }
@@ -75,11 +65,34 @@ namespace toast_ui.blazor_calendar.Models
         /// The attendees
         /// </summary>
         public string[] attendees { get; set; }
+        
+        /// <summary>
+        /// The schedule type('milestone', 'task', allday', 'time')
+        /// </summary>
+        public string category { get; set; }
+
+
+
+        /// <summary>
+        /// The task schedule type string
+        ///(any string value is ok and mandatory if category is 'task')
+        /// </summary>
+        public string dueDateClass { get; set; }
 
         /// <summary>
         /// ICS RRule RFC Standard?
         /// </summary>
         public string recurrenceRule { get; set; }
+
+        /// <summary>
+        /// The schedule's state ('busy', 'free')
+        /// </summary>
+        public string state { get; set; }
+
+        /// <summary>
+        /// The schedule visibility flag
+        /// </summary>
+        public bool? isVisible { get; set; } = true;
 
         /// <summary>
         /// The in progress flag to do something like network job(The schedule will be transparent.)
@@ -90,11 +103,6 @@ namespace toast_ui.blazor_calendar.Models
         /// The focused schedule flag
         /// </summary>
         public bool? isFocused { get; set; }
-
-        /// <summary>
-        /// The schedule visibility flag
-        /// </summary>
-        public bool? isVisible { get; set; } = true;
 
         /// <summary>
         /// The schedule read-only flag
@@ -114,12 +122,12 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// The schedule background color
         /// </summary>
-        public string bgColor { get; set; }
+        public string backgroundColor { get; set; }
 
         /// <summary>
         /// The schedule background color when dragging it
         /// </summary>
-        public string dragBgColor { get; set; }
+        public string dragBackgroundColor { get; set; }
 
         /// <summary>
         /// The schedule left border color
@@ -136,10 +144,5 @@ namespace toast_ui.blazor_calendar.Models
         /// any type of data
         /// </summary>
         public string raw { get; set; }
-
-        /// <summary>
-        /// The schedule's state ('busy', 'free')
-        /// </summary>
-        public string state { get; set; }
     }
 }

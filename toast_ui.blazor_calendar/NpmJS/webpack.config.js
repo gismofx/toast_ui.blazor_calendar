@@ -24,6 +24,9 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
         ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
     }
 
 };

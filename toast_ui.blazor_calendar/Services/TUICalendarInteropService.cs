@@ -44,12 +44,13 @@ namespace toast_ui.blazor_calendar.Services
         /// <summary>
         /// Put the events/task/etc on the calendar
         /// </summary>
-        /// <param name="schedules">Schedule/Events/Tasks To Display</param>
-        public async ValueTask CreateSchedulesAsync(IEnumerable<TUISchedule> schedules)
+        /// <param name="events">Events/Tasks To Display</param>
+        /// <returns></returns>
+        public async ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events)
         {
-            if (schedules is not null)
+            if (events is not null)
             {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.createSchedules", schedules);
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.createEvents", events);
             }
         }
 
@@ -190,13 +191,36 @@ namespace toast_ui.blazor_calendar.Services
         }
 
         /// <summary>
-        /// Call when an updated schedule has been returned from the calendar
+        /// Call when an updated event has been returned from the calendar
         /// </summary>
-        /// <param name="changedSchedule">The changes made to the schedule</param>
-        /// <returns>The changed schedule ready to further processing and/or saving</returns>
-        public async ValueTask UpdateSchedule(TUISchedule changedSchedule)
+        /// <param name="eventToModify">Current Event Object</param>
+        /// <param name="changedEvent">The changes made to the event</param>
+        /// <returns>The changed event ready to further processing and/or saving</returns>
+        public TUIEvent UpdateEvent(TUIEvent eventToModify, JsonElement changedEvent)
         {
-            await _JSRuntime.InvokeVoidAsync("TUICalendar.updateSchedule", changedSchedule);
+            return CombineTuiEvent(eventToModify, changedEvent);
+        }
+        
+        private static TUIEvent CombineTuiEvent(TUIEvent @event, JsonElement changes)
+        {
+            var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString());
+            CopyValues(@event, c);
+            return @event;
+        }
+
+        //@Todo: Refactor
+        private static void CopyValues<T>(T target, T source)
+        {
+            Type t = typeof(T);
+
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(source, null);
+                if (value != null)
+                    prop.SetValue(target, value, null);
+            }
         }
     }
 }

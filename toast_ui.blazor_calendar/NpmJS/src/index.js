@@ -1,6 +1,8 @@
-﻿import Calendar from 'tui-calendar'; /* ES6 */
+﻿import Calendar from '@toast-ui/calendar';
+import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 
-import "tui-calendar/dist/tui-calendar.css";
+//import Calendar from 'tui-calendar'; /* ES6 */
+//import "tui-calendar/dist/tui-calendar.css";
 
 // If you use the default popups, use this.
 import 'tui-date-picker/dist/tui-date-picker.css';
@@ -22,8 +24,8 @@ window.TUICalendar = {
         var tTemplate;
 
         var templates = {
-            milestone: function (schedule) {
-                return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>';
+            milestone: function (event) {
+                return '<span style="color:red;"><i class="fa fa-flag"></i> ' + event.title + '</span>';
             }
         };
 
@@ -52,43 +54,43 @@ window.TUICalendar = {
 
         //Events
         https://nhn.github.io/tui.calendar/latest/Calendar#event-beforeUpdateSchedule
-        TUICalendar.calendarRef.on('beforeUpdateSchedule', function (event) {
-            var schedule = event.schedule;
-            var changes = event.changes;
-            TUICalendar.dotNetRef.invokeMethodAsync('UpdateSchedule', schedule, changes);
-            TUICalendar.calendarRef.updateSchedule(schedule.id, schedule.calendarId, changes);
+        TUICalendar.calendarRef.on('beforeUpdateEvent', function (event, changes) {
+            //var schedule = event.schedule;
+            //var changes = event.changes;
+            TUICalendar.dotNetRef.invokeMethodAsync('UpdateEvent', event, changes);
+            TUICalendar.calendarRef.updateEvent(event.id, event.calendarId, changes);
         });
 
         //beforeCreateSchedule
-        TUICalendar.calendarRef.on("beforeCreateSchedule", function (event) {
-            var id = uuidv4();
-            var schedule =
-            {
-                id: uuidv4(),
-                calendarId: event.calendarId,
-                title: event.title,
-                location: event.location,
-                start: event.start,
-                end: event.end,
-                state: event.state,
-                isAllDay: event.isAllDay,
-                isVisible: true,
-                category: event.isAllDay ? 'allday' : 'time',
-            };
-            TUICalendar.dotNetRef.invokeMethodAsync('CreateSchedule', schedule);
-            TUICalendar.calendarRef.createSchedules([schedule]);
+        TUICalendar.calendarRef.on("beforeCreateEvent", function (event) {
+            //var event =
+            //{
+            //    id: uuidv4(),
+            //    calendarId: event.calendarId,
+            //    title: event.title,
+            //    location: event.location,
+            //    start: event.start,
+            //    end: event.end,
+            //    state: event.state,
+            //    isAllDay: event.isAllDay,
+            //    isVisible: true,
+            //    category: event.isAllDay ? 'allday' : 'time',
+            //};
+            event.id = uuidv4();
+            TUICalendar.dotNetRef.invokeMethodAsync('CreateEvent', event);
+            TUICalendar.calendarRef.createEvents([event]);
             TUICalendar.calendarRef.render(true);
         });
 
-        //beforeDeleteSchedule
-        TUICalendar.calendarRef.on('beforeDeleteSchedule', function (event) {
-            TUICalendar.dotNetRef.invokeMethodAsync('DeleteSchedule', event.schedule.id);
-            TUICalendar.calendarRef.deleteSchedule(event.schedule.id, event.schedule.calendarId);
+        //beforeDeleteEvent
+        TUICalendar.calendarRef.on('beforeDeleteEvent', function (event) {
+            TUICalendar.dotNetRef.invokeMethodAsync('DeleteEvent', event.id);
+            TUICalendar.calendarRef.deleteEvent(event.id, event.calendarId);
         });
 
-        //clickSchedule
-        TUICalendar.calendarRef.on('clickSchedule', function (event) {
-            TUICalendar.dotNetRef.invokeMethodAsync('OnClickSchedule', event.schedule.id);
+        //clickEvent
+        TUICalendar.calendarRef.on('clickEvent', function (event) {
+            TUICalendar.dotNetRef.invokeMethodAsync('OnClickEvent', event.id);
             /*
             var triggerEventName = event.triggerEventName;
             if (triggerEventName === 'click') {
@@ -105,8 +107,8 @@ window.TUICalendar = {
         TUICalendar.calendarRef.clear();
     },
 
-    createSchedules: function (schedules) {
-        TUICalendar.calendarRef.createSchedules(schedules);
+    createEvents: function (events) {
+        TUICalendar.calendarRef.createEvents(events);
     },
 
     updateSchedule: function (schedule) {
@@ -135,7 +137,7 @@ window.TUICalendar = {
     },
 
     deleteSchedule: function (calendarId, scheduleId) {
-        TUICalendar.calendarRef.deleteSchedule(scheduleId, calendarId);
+        TUICalendar.calendarRef.deleteEvent(scheduleId, calendarId);
     },
 
     setCalendarOptions: function (options) {

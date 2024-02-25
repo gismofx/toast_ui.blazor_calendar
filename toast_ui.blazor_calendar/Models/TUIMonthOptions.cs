@@ -15,63 +15,36 @@ namespace toast_ui.blazor_calendar.Models
     public class TUIMonthOptions
     {
         /// <summary>
+        /// Start day of the week. 
+        /// Available values are 0 (Sunday) to 6 (Saturday).
+        /// </summary>
+        public int startDayOfWeek { get; set; } = 0;
+
+
+        /// <summary>
         /// The day names in monthly. Default values are 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string[] daynames { get; set; } = null;
+        public string[] dayNames { get; set; } = null;
 
         /// <summary>
-        /// The start day of week
+        /// Whether to exclude Saturday and Sunday.
         /// </summary>
-        public int startDayOfWeek { get; set; } = 0;
+        public bool workweek { get; set; } = false;
+
 
         /// <summary>
         /// Make weekend column narrow(1/2 width)
         /// </summary>
         public bool narrowWeekend { get; set; } = false;
 
-        /// <summary>
-        /// The visible week count in monthly
-        /// (0 or null are same with 6)
-        /// </summary>
-        public int visibleWeeksCount { get; set; } = 6;
 
         /// <summary>
-        /// Always show 6 weeks.
-        /// If false, show 5 weeks or 6 weeks based on the month.
+        /// Number of weeks to display. 
+        /// 0 means display all weeks.
         /// </summary>
-        public bool isAlways6Week { get; set; } = true;
+        public int visibleWeeksCount { get; set; } = 0;
 
-        /// <summary>
-        /// Show only 5 days except for weekend
-        /// </summary>
-        public bool workweek { get; set; } = false;
-
-        /// <summary>
-        /// The visible schedule count in monthly grid
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public int? visibleScheduleCount { get; set; } = null;
-
-        /// <summary>
-        /// The 
-        /// layer size
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public object moreLayerSize { get; set; } = null; //@Todo: What is this?
-
-        /// <summary>
-        /// The grid's header and footer information
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public object grid { get; set; } = null; //@Todo: What is this?
-
-        /// <summary>
-        /// The filter schedules on month view.
-        /// A parameter is {Schedule} object.
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string scheduleFilter { get; set; } = null; //@Todo: What is this?
 
         /*
         public override bool Equals(object obj)
