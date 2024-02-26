@@ -9,6 +9,9 @@ namespace toast_ui.blazor_calendar.Models.Theme
 {
 
     //public class TuiDayName : 
+    /// <summary>
+    /// Day of the week
+    /// </summary>
     public interface IDayName : 
         IBorderLeftProperty, 
         IBorderTopProperty, 

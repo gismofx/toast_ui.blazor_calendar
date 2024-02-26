@@ -7,9 +7,30 @@ using System.Threading.Tasks;
 
 namespace toast_ui.blazor_calendar.Models.Theme
 {
-    public interface IMonthTheme : IDayExceptThisMonth, IDayNameMonth, IHolidayExceptThisMonth,
-        IMoreView, IMoreViewTitle, IWeekendMonth, IGridCell
-    { }
+    public interface IMonthTheme 
+    {
+        [JsonPropertyName("dayExceptThisMonth")]
+        public IDayExceptThisMonth DayExceptThisMonth { get; set; }
+
+        [JsonPropertyName("dayName")]
+        public IDayNameMonth DayName { get; set; }
+
+        [JsonPropertyName("holidayExceptThisMonth")]
+        public IHolidayExceptThisMonth HolidayExceptThisMonth { get; set; }
+
+        [JsonPropertyName("moreView")]
+        public IMoreView MoreView { get; set; }
+
+        [JsonPropertyName("moreViewTitle")]
+        public IMoreViewTitle MoreViewTitle { get; set; }
+
+        [JsonPropertyName("weekend")]
+        public IWeekendMonth Weekend { get; set; }
+
+        [JsonPropertyName("gridCell")]
+        public IGridCell GridCell { get; set; }
+
+    }
 
     public interface IDayExceptThisMonth : IColorProperty { }
 
