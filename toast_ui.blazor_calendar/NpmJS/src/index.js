@@ -120,6 +120,10 @@ window.TUICalendar = {
         TUICalendar.calendarRef.setCalendars(calendars, true);
     },
 
+    setTheme: function (theme) {
+        TUICalendar.calendarRef.setTheme(theme);
+    },
+
     changeView: function (viewName) {
         TUICalendar.calendarRef.changeView(viewName);
     },

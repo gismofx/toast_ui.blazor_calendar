@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -170,10 +171,16 @@ namespace toast_ui.blazor_calendar.Services
         /// <returns></returns>
         public async ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars)
         {
-            if (calendars is not null)
-            {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
-            }
+            if (calendars is null) return;
+            
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendars", calendars);
+        }
+
+        public async ValueTask SetTheme(TUITheme theme)
+        {
+            if (theme is null) return;
+            
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.setTheme", theme);
         }
 
         /// <summary>

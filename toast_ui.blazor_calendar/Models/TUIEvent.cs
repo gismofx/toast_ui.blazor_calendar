@@ -8,7 +8,7 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/EventObject
     /// </summary>
-    public class TUIEvent
+    public class TUIEvent //Todo: Extract Interface of EventObject
     {
         public string id { get; set; }
 
@@ -65,13 +65,16 @@ namespace toast_ui.blazor_calendar.Models
         /// The attendees
         /// </summary>
         public string[] attendees { get; set; }
-        
+
         /// <summary>
         /// The schedule type('milestone', 'task', allday', 'time')
         /// </summary>
         public string category { get; set; }
 
-
+        /// <summary>
+        /// ICS RRule RFC Standard?
+        /// </summary>
+        public string recurrenceRule { get; set; }
 
         /// <summary>
         /// The task schedule type string
@@ -79,10 +82,7 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         public string dueDateClass { get; set; }
 
-        /// <summary>
-        /// ICS RRule RFC Standard?
-        /// </summary>
-        public string recurrenceRule { get; set; }
+
 
         /// <summary>
         /// The schedule's state ('busy', 'free')

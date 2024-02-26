@@ -161,7 +161,7 @@ namespace toast_ui.blazor_calendar
             var schedule = JsonSerializer.Deserialize<TUIEvent>(newSchedule.ToString());
             Events.Add(schedule);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
-            Debug.WriteLine("New Schedule Created");
+            Debug.WriteLine("New Event Created");
         }
 
         public void Dispose()
@@ -198,27 +198,27 @@ namespace toast_ui.blazor_calendar
         /// <summary>
         /// When a schedule is deleted from calendar UI, this is invoked        
         /// </summary>
-        /// <param name="scheduleId"></param>
+        /// <param name="eventID"></param>
         /// <returns></returns>
         [JSInvokable("DeleteEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnDeleteSchedule(string scheduleId)
+        public async Task OnDeleteSchedule(string eventID)
         {
-            await OnDeleteCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Event {scheduleId} Deleted!");
+            await OnDeleteCalendarEventOrTask.InvokeAsync(eventID);
+            Debug.WriteLine($"Event {eventID} Deleted!");
         }
 
         /// <summary>
         /// When a schedule is clicked from the calendar UI, this is invoked
         /// </summary>
-        /// <param name="scheduleId"></param>
+        /// <param name="eventId"></param>
         /// <returns></returns>
         [JSInvokable("OnClickEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnScheduleClick(string scheduleId)
+        public async Task OnScheduleClick(string eventId)
         {
-            await OnClickCalendarEventOrTask.InvokeAsync(scheduleId);
-            Debug.WriteLine($"Event {scheduleId} Clicked!");
+            await OnClickCalendarEventOrTask.InvokeAsync(eventId);
+            Debug.WriteLine($"Event {eventId} Clicked!");
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ devV2
 
 */
         /// <summary>
-        /// Uupdates the schedule on the calendar
+        /// Updates the schedule on the calendar
         /// </summary>
         /// <param name="eventBeingModified"></param>
         /// <param name="updatedEventFields"></param>
@@ -294,10 +294,10 @@ devV2
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
-            var currentSchedule = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString());
-            var updatedSchedule = CalendarInterop.UpdateEvent(currentSchedule, updatedEventFields); //Todo: Combine changes with actual schedule
-            await OnChangeCalendarEventOrTask.InvokeAsync(updatedSchedule); //Todo: Test This callback!
-            Debug.WriteLine($"Event {currentSchedule.id} Modified");
+            var currentEvent = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString());
+            var updatedEvent = CalendarInterop.UpdateEvent(currentEvent, updatedEventFields); //Todo: Combine changes with actual schedule
+            await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
+            Debug.WriteLine($"Event {currentEvent.id} Modified");
         }
 
         /*@Todo: Waiting for Double click in TUI API
