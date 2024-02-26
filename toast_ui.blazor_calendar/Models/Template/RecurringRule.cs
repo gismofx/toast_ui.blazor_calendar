@@ -20,7 +20,14 @@ namespace toast_ui.blazor_calendar.Models.Template
 
     public interface IRecurringRule
     {
+        /// <summary>
+        /// Defines the Frequency of the Recurrence
+        /// </summary>
         public RecurrenceTypes Frequency { get; set; }
+
+        /// <summary>
+        /// Defines the End of the Recurrence
+        /// </summary>
         public DateTime? Until { get; set; }
     }
 

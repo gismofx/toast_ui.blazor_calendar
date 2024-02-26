@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types may only be used in code within a #nullable annotation context.
+
 namespace toast_ui.blazor_calendar.Models.Template
 {
     public class CalendarInfo
