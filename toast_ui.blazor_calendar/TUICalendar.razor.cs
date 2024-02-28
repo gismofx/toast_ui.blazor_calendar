@@ -79,7 +79,7 @@ namespace toast_ui.blazor_calendar
         /// Invoked when a calendar Event or Task is changed
         /// </summary>
         [Parameter]
-        public EventCallback<TUIEvent> OnChangeCalendarEventOrTask { get; set; }
+        public EventCallback<IEventObject> OnChangeCalendarEventOrTask { get; set; }
 
         /// <summary>
         /// Invoked when a calendar Event or Task is Clicked
@@ -91,7 +91,7 @@ namespace toast_ui.blazor_calendar
         /// Raised when a calendar Event or Task is Created
         /// </summary>
         [Parameter]
-        public EventCallback<TUIEvent> OnCreateCalendarEventOrTask { get; set; }
+        public EventCallback<IEventObject> OnCreateCalendarEventOrTask { get; set; }
         
         /// <summary>
         /// Raised when a calendar Event or Task is Deleted
@@ -112,7 +112,7 @@ namespace toast_ui.blazor_calendar
         /// This is the initial set of schedules/events to be loaded
         /// </summary>
         [Parameter]
-        public ICollection<TUIEvent> Events { get; set; }
+        public ICollection<IEventObject> Events { get; set; }
         
         /// <summary>
         /// The End Date of the Range of days displayed on the calendar
@@ -256,7 +256,7 @@ namespace toast_ui.blazor_calendar
                 }
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
-            Events = parameters.GetValueOrDefault<ICollection<TUIEvent>>("Events");
+            Events = parameters.GetValueOrDefault<ICollection<IEventObject>>("Events");
 
             //Visible Date Range
             VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
@@ -265,8 +265,8 @@ namespace toast_ui.blazor_calendar
             VisibleEndDateRangeChanged = parameters.GetValueOrDefault<EventCallback<DateTimeOffset?>>("VisibleEndDateRangeChanged");
 
             //Events
-            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnChangeCalendarEventOrTask");
-            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnCreateCalendarEventOrTask");
+            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<IEventObject>>("OnChangeCalendarEventOrTask");
+            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<IEventObject>>("OnCreateCalendarEventOrTask");
             OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnClickCalendarEventOrTask");
             OnDeleteCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEventOrTask");
 
@@ -294,13 +294,14 @@ devV2
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
-            var currentEvent = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString());
+
+            var currentEvent = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive=true});
             var updatedEvent = CalendarInterop.UpdateEvent(currentEvent, updatedEventFields); //Todo: Combine changes with actual schedule
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
             Debug.WriteLine($"Event {currentEvent.id} Modified");
         }
-
         /*@Todo: Waiting for Double click in TUI API
+
         [JSInvokable("OnDoubleClickSchedule")]
         public async Task OnScheduleDoubleClick(string scheduleId)
         {

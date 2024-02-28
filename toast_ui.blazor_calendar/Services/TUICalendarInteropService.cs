@@ -47,7 +47,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="events">Events/Tasks To Display</param>
         /// <returns></returns>
-        public async ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events)
+        public async ValueTask CreateEventsAsync(IEnumerable<IEventObject> events)
         {
             if (events is not null)
             {
@@ -59,11 +59,11 @@ namespace toast_ui.blazor_calendar.Services
         /// Put the event/task/etc on the calendar
         /// </summary>
         /// <param name="tuiEvent">Schedule/Event/Task To Display</param>
-        public async ValueTask CreateEventAsync(TUIEvent tuiEvent)
+        public async ValueTask CreateEventAsync(IEventObject tuiEvent)
         {
             if (tuiEvent is not null)
             {
-                await CreateEventsAsync(new List<TUIEvent>() { 
+                await CreateEventsAsync(new List<IEventObject>() { 
                     tuiEvent
                 });
             }
@@ -203,14 +203,14 @@ namespace toast_ui.blazor_calendar.Services
         /// <param name="eventToModify">Current Event Object</param>
         /// <param name="changedEvent">The changes made to the event</param>
         /// <returns>The changed event ready to further processing and/or saving</returns>
-        public TUIEvent UpdateEvent(TUIEvent eventToModify, JsonElement changedEvent)
+        public IEventObject UpdateEvent(IEventObject eventToModify, JsonElement changedEvent)
         {
             return CombineTuiEvent(eventToModify, changedEvent);
         }
         
-        private static TUIEvent CombineTuiEvent(TUIEvent @event, JsonElement changes)
+        private static IEventObject CombineTuiEvent(IEventObject @event, JsonElement changes)
         {
-            var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString());
+            var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }); ;
             CopyValues(@event, c);
             return @event;
         }

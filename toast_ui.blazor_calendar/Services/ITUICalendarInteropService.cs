@@ -11,11 +11,11 @@ namespace toast_ui.blazor_calendar.Services
     {
         ValueTask Clear();
         ValueTask ChangeView(TUICalendarViewName viewName);
-        ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events);
+        ValueTask CreateEventsAsync(IEnumerable<IEventObject> events);
         ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
         ValueTask MoveCalendar(CalendarMove moveTo);
         ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars);
-        TUIEvent UpdateEvent(TUIEvent eventToModify, JsonElement changedEvent);
+        IEventObject UpdateEvent(IEventObject eventToModify, JsonElement changedEvent);
         ValueTask HideShowCalendar(string calendarId, bool hide);
         ValueTask SetDate(DateTimeOffset? dateToDisplay);
         ValueTask<DateTimeOffset?> GetDateRangeStart();

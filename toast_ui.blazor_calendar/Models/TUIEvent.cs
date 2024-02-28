@@ -3,146 +3,59 @@ using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Services;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
+
 namespace toast_ui.blazor_calendar.Models
 {
+    public enum EventState
+    {
+        [JsonPropertyName("busy")] Busy,
+        [JsonPropertyName("free")] Free
+    }
+
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    public enum EventCategory
+    {
+        [JsonPropertyName("milestone")] Milestone,
+        [JsonPropertyName("task")] Task,
+        [JsonPropertyName("allday")] Allday,
+        [JsonPropertyName("time")] Time
+    }
+
+
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/EventObject
     /// </summary>
-    public class TUIEvent //Todo: Extract Interface of EventObject
+    public class TUIEvent : IEventObject
     {
         public string id { get; set; }
-
-        /// <summary>
-        /// The unique calendar id
-        /// </summary>
-        public string calendarId { get; set; }
-
-        /// <summary>
-        /// The schedule title
-        /// </summary>
-        public string title { get; set; }
-
-        /// <summary>
-        /// The schedule body text which is text/plain
-        /// </summary>
-        public string body { get; set; }
-
-        /// <summary>
-        /// The all day schedule
-        /// </summary>
-        public bool? isAllDay { get; set; }
-
-
-        /// <summary>
-        /// The start time. It's 'string' for input. It's 'TZDate' for output like event handler.
-        /// </summary>
+        public string CalendarId { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+        public bool IsAllDay { get; set; }
+        
         [JsonConverter(typeof(TZDateJsonConverter))]
-        public DateTimeOffset? start { get; set; }
-
-        /// <summary>
-        /// The end time. It's 'string' for input. It's 'TZDate' for output like event handler.
-        /// </summary>
-
+        public DateTimeOffset? Start { get; set; }
+        
         [JsonConverter(typeof(TZDateJsonConverter))]
-        public DateTimeOffset? end { get; set; }
+        public DateTimeOffset? End { get; set; }
+        public int? GoingDuration { get; set; }
+        public int? ComingDuration { get; set; }
+        public string Location { get; set; }
+        public string[] Attendees { get; set; }
 
-        /// <summary>
-        /// The travel time: Going duration minutes
-        /// </summary>
-        public int? goingDuration { get; set; }
-
-        /// <summary>
-        /// The travel time: Coming duration minutes
-        /// </summary>
-        public int? comingDuration { get; set; }
-
-        /// <summary>
-        /// The location
-        /// </summary>
-        public string location { get; set; }
-
-        /// <summary>
-        /// The attendees
-        /// </summary>
-        public string[] attendees { get; set; }
-
-        /// <summary>
-        /// The schedule type('milestone', 'task', allday', 'time')
-        /// </summary>
-        public string category { get; set; }
-
-        /// <summary>
-        /// ICS RRule RFC Standard?
-        /// </summary>
-        public string recurrenceRule { get; set; }
-
-        /// <summary>
-        /// The task schedule type string
-        ///(any string value is ok and mandatory if category is 'task')
-        /// </summary>
-        public string dueDateClass { get; set; }
-
-
-
-        /// <summary>
-        /// The schedule's state ('busy', 'free')
-        /// </summary>
-        public string state { get; set; }
-
-        /// <summary>
-        /// The schedule visibility flag
-        /// </summary>
-        public bool? isVisible { get; set; } = true;
-
-        /// <summary>
-        /// The in progress flag to do something like network job(The schedule will be transparent.)
-        /// </summary>
-        public bool? isPending { get; set; }
-
-        /// <summary>
-        /// The focused schedule flag
-        /// </summary>
-        public bool? isFocused { get; set; }
-
-        /// <summary>
-        /// The schedule read-only flag
-        /// </summary>
-        public bool? isReadOnly { get; set; }
-
-        /// <summary>
-        /// The private schedule
-        /// </summary>
-        public bool? isPrivate { get; set; }
-
-        /// <summary>
-        /// The schedule text color
-        /// </summary>
-        public string color { get; set; }
-
-        /// <summary>
-        /// The schedule background color
-        /// </summary>
-        public string backgroundColor { get; set; }
-
-        /// <summary>
-        /// The schedule background color when dragging it
-        /// </summary>
-        public string dragBackgroundColor { get; set; }
-
-        /// <summary>
-        /// The schedule left border color
-        /// </summary>
-        public string borderColor { get; set; }
-
-        /// <summary>
-        /// The schedule's custom css class
-        /// </summary>
-        public string customStyle { get; set; }
-
-        /// <summary>
-        /// The user data
-        /// any type of data
-        /// </summary>
-        public string raw { get; set; }
+        public EventCategory Category { get; set; }
+        public string RecurrenceRule { get; set; }
+        public EventState State { get; set; }
+        public bool IsVisible { get; set; }
+        public bool IsPending { get; set; }
+        public bool IsFocused { get; set; }
+        public bool IsReadOnly { get; set; }
+        public bool IsPrivate { get; set; }
+        public string Color { get; set; }
+        public string BackgroundColor { get; set; }
+        public string DragBackgroundColor { get; set; }
+        public string BorderColor { get; set; }
+        public string CustomStyle { get; set; }
+        public string Raw { get; set; }
     }
 }

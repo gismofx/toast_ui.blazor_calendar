@@ -18,9 +18,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             _CalendarService = calendarService;
         }
 
-        private List<TUIEvent> _Schedules;
+        private List<IEventObject> _Schedules;
 
-        public List<TUIEvent> Schedules
+        public List<IEventObject> Schedules
         {
             get => _Schedules;
             set
@@ -159,7 +159,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             await Task.Run(() =>
             {
-                _Schedules = new List<TUIEvent>();
+                _Schedules = new List<IEventObject>();
                 for (int i = 0; i < 50; i++)
                 {
                     _Schedules.Add(GetFakeSchedule());
@@ -176,25 +176,25 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             var sched = new TUIEvent()
             {
                 id = Guid.NewGuid().ToString(),
-                calendarId = faker.Random.Int(1, 2).ToString(),
-                start = startDate,
-                end = endDate,
-                title = faker.Lorem.Sentence(faker.Random.Int(3, 7)),
-                body = faker.Lorem.Paragraph(3),
-                category = "time",
-                isVisible = true,
-                isAllDay = false,
-                state = "busy"
+                CalendarId = faker.Random.Int(1, 2).ToString(),
+                Start = startDate,
+                End = endDate,
+                Title = faker.Lorem.Sentence(faker.Random.Int(3, 7)),
+                Body = faker.Lorem.Paragraph(3),
+                Category = EventCategory.Time,
+                IsVisible = true,
+                IsAllDay = false,
+                State = EventState.Busy
             };
 
             return sched;
         }
 
-        public async Task OnChangeCalendarEventOrTask(TUIEvent schedule)
+        public async Task OnChangeCalendarEventOrTask(IEventObject schedule)
         {
             //do something when an event is clicked
             //Show a custom pop up if some conditions are met?
-            Debug.WriteLine($"Event or Task Changed: {schedule.title}");
+            Debug.WriteLine($"Event or Task Changed: {schedule.Title}");
             //Simulate long running task
             await Task.Delay(10);
         }
@@ -208,10 +208,10 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             await Task.Delay(10);
         }
 
-        public async Task OnCreateCalendarEventOrTask(TUIEvent newSchedule)
+        public async Task OnCreateCalendarEventOrTask(IEventObject newSchedule)
         {
             //Save event to database
-            Debug.WriteLine($"Event or Task Created: {newSchedule.title}");
+            Debug.WriteLine($"Event or Task Created: {newSchedule.Title}");
             //Simulate long running task
             await Task.Delay(10);
         }

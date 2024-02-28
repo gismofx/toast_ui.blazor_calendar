@@ -36,8 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
     <PackageReference Include="MinVer" Version="4.0.0" PrivateAssets="All" />
+    <PackageReference Include="System.Text.Json" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
