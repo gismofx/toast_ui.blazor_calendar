@@ -10,11 +10,19 @@ namespace toast_ui.blazor_calendar.Models.Template
     /// <summary>
     /// recurrenceRule: 'FREQ=WEEKLY;UNTIL=20241231'
     /// </summary>
-    public class RecurringRule
+    public class RecurringRule : IRecurringRule
     {
         public RecurringRule()
         {
-            
+
+        }
+
+        public RecurrenceTypes Frequency { get; set; }
+        public DateTime? Until { get; set; }
+
+        public string BuildRule()
+        {
+            return $"FREQ={Frequency};UNTIL={Until.Value.ToString("yyyyMMdd")}";
         }
     }
 
@@ -29,17 +37,30 @@ namespace toast_ui.blazor_calendar.Models.Template
         /// Defines the End of the Recurrence
         /// </summary>
         public DateTime? Until { get; set; }
+
+        string BuildRule();
     }
 
+    /// <summary>
+    /// Defines the Frequency of the Recurrence
+    /// </summary>
     public enum RecurrenceTypes
     {
-        [JsonPropertyName("daily")]
-        Daily,
-        [JsonPropertyName("weekly")]
-        Weekly,
-        [JsonPropertyName("monthly")]
-        Monthly,
-        [JsonPropertyName("yearly")]
-        Yearly
+        /// <summary>
+        /// Fequency is Daily
+        /// </summary>
+        [JsonPropertyName("daily")] Daily,
+        /// <summary>
+        /// Fequency is Weekly
+        /// </summary>
+        [JsonPropertyName("weekly")] Weekly,
+        /// <summary>
+        /// Fequency is Monthly
+        /// </summary>
+        [JsonPropertyName("monthly")] Monthly,
+        /// <summary>
+        /// Fequency is Yearly
+        /// </summary>
+        [JsonPropertyName("yearly")] Yearly
     }
 }
