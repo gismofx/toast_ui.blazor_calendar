@@ -158,7 +158,7 @@ namespace toast_ui.blazor_calendar
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task CreateEvent(JsonElement newSchedule)
         {
-            var schedule = JsonSerializer.Deserialize<TUIEvent>(newSchedule.ToString());
+            var schedule = JsonSerializer.Deserialize<TUIEventObject>(newSchedule.ToString());
             Events.Add(schedule);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Event Created");
@@ -295,7 +295,9 @@ devV2
         public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
 
-            var currentEvent = JsonSerializer.Deserialize<TUIEvent>(eventBeingModified.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive=true});
+            var jobjet = JsonDocument.Parse(eventBeingModified.ToString());
+            var currentEvent = JsonSerializer.Deserialize<TUIEventObject>(eventBeingModified.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive=true});
+            var ser = JsonSerializer.Serialize(currentEvent, new JsonSerializerOptions() { WriteIndented = true });
             var updatedEvent = CalendarInterop.UpdateEvent(currentEvent, updatedEventFields); //Todo: Combine changes with actual schedule
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
             Debug.WriteLine($"Event {currentEvent.id} Modified");

@@ -41,7 +41,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                             switch (reader.TokenType)
                             {
                                 case JsonTokenType.EndObject:
-                                    return value.GetValueOrDefault();
+                                   return value.GetValueOrDefault();
                                 case JsonTokenType.PropertyName:
                                     var match = reader.ValueTextEquals(_date);
 
@@ -52,7 +52,6 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                                         reader.Read();
                                         var propValue = reader.GetString();
                                         value = DateTimeOffset.ParseExact(propValue, TZDateFormat, CultureInfo.InvariantCulture);
-                                        return value.Value;
                                     }
                                     else
                                         reader.Skip();

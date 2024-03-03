@@ -170,11 +170,11 @@ namespace toast_ui.blazor_calendar.TestProjectWithMudBlazor.ViewModels
         {
             var faker = new Faker();
 
-            var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10));
+            var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0,15,0));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
-            var sched = new TUIEvent()
+            var sched = new TUIEventObject()
             {
-                id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 CalendarId = faker.Random.Int(1, 2).ToString(),
                 Start = startDate,
                 End = endDate,

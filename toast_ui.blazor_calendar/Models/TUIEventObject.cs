@@ -6,6 +6,7 @@ using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     public enum EventState
     {
         [JsonPropertyName("busy")] Busy,
@@ -18,6 +19,9 @@ namespace toast_ui.blazor_calendar.Models
         [JsonPropertyName("milestone")] Milestone,
         [JsonPropertyName("task")] Task,
         [JsonPropertyName("allday")] Allday,
+        /// <summary>
+        /// 
+        /// </summary>
         [JsonPropertyName("time")] Time
     }
 
@@ -25,9 +29,9 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/EventObject
     /// </summary>
-    public class TUIEvent : IEventObject
+    public class TUIEventObject : IEventObject
     {
-        public string id { get; set; }
+        public string Id { get; set; }
         public string CalendarId { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
@@ -38,13 +42,19 @@ namespace toast_ui.blazor_calendar.Models
         
         [JsonConverter(typeof(TZDateJsonConverter))]
         public DateTimeOffset? End { get; set; }
+        
         public int? GoingDuration { get; set; }
+        
         public int? ComingDuration { get; set; }
+        
         public string Location { get; set; }
+        
         public string[] Attendees { get; set; }
 
         public EventCategory Category { get; set; }
+        
         public string RecurrenceRule { get; set; }
+        
         public EventState State { get; set; }
         public bool IsVisible { get; set; }
         public bool IsPending { get; set; }

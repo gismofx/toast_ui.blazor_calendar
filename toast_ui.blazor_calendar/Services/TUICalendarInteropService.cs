@@ -208,11 +208,11 @@ namespace toast_ui.blazor_calendar.Services
             return CombineTuiEvent(eventToModify, changedEvent);
         }
         
-        private static IEventObject CombineTuiEvent(IEventObject @event, JsonElement changes)
+        private static IEventObject CombineTuiEvent(IEventObject eventToModify, JsonElement changes)
         {
-            var c = JsonSerializer.Deserialize<TUIEvent>(changes.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }); ;
-            CopyValues(@event, c);
-            return @event;
+            var c = JsonSerializer.Deserialize<TUIEventObject>(changes.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }); ;
+            CopyValues(eventToModify, c);
+            return eventToModify;
         }
 
         //@Todo: Refactor

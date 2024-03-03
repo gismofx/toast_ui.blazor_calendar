@@ -14,6 +14,145 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event Id
         /// </summary>
+        [JsonRequired]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Calendar Id
+        /// </summary>
+        [JsonRequired]
+        public string CalendarId { get; set; }
+
+
+        /// <summary>
+        /// Event Title
+        /// </summary>
+        public string? Title { get; set; }
+
+        /// <summary>
+        /// Event Body
+        /// </summary>
+        public string? Body { get; set; }
+
+        /// <summary>
+        /// Event is All day
+        /// </summary>
+        public bool IsAllDay { get; set; }
+
+        /// <summary>
+        /// Event Start UTC Time
+        /// </summary>
+        [JsonConverter(typeof(TZDateJsonConverter))]
+        public DateTimeOffset? Start { get; set; }
+
+        /// <summary>
+        /// Event End UTC Time
+        /// </summary>
+        [JsonConverter(typeof(TZDateJsonConverter))]
+        public DateTimeOffset? End { get; set; }
+
+        /// <summary>
+        /// Event Going Duration
+        /// </summary>
+        public int? GoingDuration { get; set; }
+
+        /// <summary>
+        /// Event Coming Duration
+        /// </summary>
+        public int? ComingDuration { get; set; }
+
+        /// <summary>
+        /// Event Location
+        /// </summary>
+        public string Location { get; set; }
+
+        /// <summary>
+        /// Event Attendees
+        /// </summary>
+        public string[] Attendees { get; set; }
+
+        /// <summary>
+        /// Category of the event. Available categories are 'milestone', 'task', 'time' and 'allday'.
+        /// Category will affect where it's displayed
+        /// </summary>
+        public EventCategory Category { get; set; }
+
+        // TODO: Create Structure for RecurrenceRule
+
+        /// <summary>
+        /// Event Recurrence Rule
+        /// </summary>
+        public string RecurrenceRule { get; set; }
+
+        /// <summary>
+        /// Show as Busy or Free
+        /// </summary>
+        public EventState State { get; set; }
+
+        /// <summary>
+        /// Event is Visible
+        /// </summary>
+        public bool IsVisible { get; set; }
+
+        /// <summary>
+        /// Event is Pending
+        /// </summary>
+        public bool IsPending { get; set; }
+
+        /// <summary>
+        /// Event is Focused
+        /// </summary>
+        public bool IsFocused { get; set; }
+
+        /// <summary>
+        /// Event is Read Only
+        /// </summary>
+        public bool IsReadOnly { get; set; }
+
+        /// <summary>
+        /// Event is Private
+        /// </summary>
+        public bool IsPrivate { get; set; }
+
+
+        /// <summary>
+        /// Event Color
+        /// </summary>
+        public string Color { get; set; }
+
+        /// <summary>
+        /// Event Background Color
+        /// </summary>
+        public string BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Event Drag Background Color
+        /// </summary>
+        public string DragBackgroundColor { get; set; }
+
+        /// <summary>
+        /// Event Border Color
+        /// </summary>
+        public string BorderColor { get; set; }
+
+        // TODO: Create Structure for CustomStyle
+        /// <summary>
+        /// Event Custom Style
+        /// </summary>
+        public string CustomStyle { get; set; }
+
+        /// <summary>
+        /// Event Raw
+        /// </summary>
+        public string Raw { get; set; }
+    }
+}
+
+
+/*
+ *         /// <summary>
+        /// Event Id
+        /// </summary>
         [JsonPropertyName("id")]
         public string id { get; set; }
 
@@ -43,18 +182,18 @@ namespace toast_ui.blazor_calendar.Models
         public bool IsAllDay { get; set; }
 
         /// <summary>
-        /// Event Start
+        /// Event Start UTC Time
         /// </summary>
-        [JsonConverter(typeof(TZDateJsonConverter))]
-        [JsonPropertyName("start")]
+        //[JsonConverter(typeof(TZDateJsonConverter))]
+        //[JsonPropertyName("start")]
         public DateTimeOffset? Start { get; set; }
 
         /// <summary>
-        /// Event End
+        /// Event End UTC Time
         /// </summary>
-        [JsonConverter(typeof(TZDateJsonConverter))]
-        [JsonPropertyName("end")]
-        public DateTimeOffset? End { get; set; }
+        //[JsonConverter(typeof(TZDateJsonConverter))]
+        //[JsonPropertyName("end")]
+        public DateTimeOffset? end { get; set; }
 
         /// <summary>
         /// Event Going Duration
@@ -168,4 +307,4 @@ namespace toast_ui.blazor_calendar.Models
         [JsonPropertyName("raw")]
         public string Raw { get; set; }
     }
-}
+*/

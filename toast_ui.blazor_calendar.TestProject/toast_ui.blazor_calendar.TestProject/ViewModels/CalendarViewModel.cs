@@ -113,8 +113,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             //optionally setup timezones for display
             var timeZones = new TUICalendarTimeZoneOption();
+            //timeZones.AddTimeZone(TimeZoneInfo.Utc);
             timeZones.AddTimeZone(TimeZoneInfo.Local);
-            timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
+            //timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
@@ -167,15 +168,15 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             });
         }
 
-        private TUIEvent GetFakeSchedule()
+        private TUIEventObject GetFakeSchedule()
         {
             var faker = new Faker();
 
-            var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10));
+            var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0,15,0));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
-            var sched = new TUIEvent()
+            var sched = new TUIEventObject()
             {
-                id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 CalendarId = faker.Random.Int(1, 2).ToString(),
                 Start = startDate,
                 End = endDate,
@@ -184,6 +185,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
                 Category = EventCategory.Time,
                 IsVisible = true,
                 IsAllDay = false,
+                IsReadOnly = false,
                 State = EventState.Busy
             };
 
