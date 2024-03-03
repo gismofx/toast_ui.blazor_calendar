@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
 using System.Text.Json.Nodes;
+using toast_ui.blazor_calendar.Models.Template;
 
 namespace toast_ui.blazor_calendar
 {
@@ -53,7 +54,7 @@ namespace toast_ui.blazor_calendar
         /// Calendar Properties for each calendar, i.e. colors, name, etc
         /// </summary>
         [Parameter]
-        public IEnumerable<TUICalendarProps> CalendarProperties { get; set; } = null;
+        public IEnumerable<CalendarInfo> CalendarProperties { get; set; } = null;
 
         /// <summary>
         /// Change the Calendar View Mode to Day, Week, or Month View
@@ -255,7 +256,7 @@ namespace toast_ui.blazor_calendar
                     _OnParameterChangeEvents.Enqueue(SetDateRange());
                 }
             }
-            CalendarProperties = parameters.GetValueOrDefault<IEnumerable<TUICalendarProps>>("CalendarProperties");
+            CalendarProperties = parameters.GetValueOrDefault<IEnumerable<CalendarInfo>>("CalendarProperties");
             Events = parameters.GetValueOrDefault<ICollection<IEventObject>>("Events");
 
             //Visible Date Range

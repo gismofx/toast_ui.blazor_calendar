@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Models.Template;
 
 namespace toast_ui.blazor_calendar.Services
 {
@@ -14,7 +15,7 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask CreateEventsAsync(IEnumerable<IEventObject> events);
         ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
         ValueTask MoveCalendar(CalendarMove moveTo);
-        ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars);
+        ValueTask SetCalendars(IEnumerable<CalendarInfo> calendars);
         IEventObject UpdateEvent(IEventObject eventToModify, JsonElement changedEvent);
         ValueTask HideShowCalendar(string calendarId, bool hide);
         ValueTask SetDate(DateTimeOffset? dateToDisplay);

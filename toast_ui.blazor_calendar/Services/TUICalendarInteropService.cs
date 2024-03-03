@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Models.Template;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Services
@@ -169,7 +170,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="calendars"></param>
         /// <returns></returns>
-        public async ValueTask SetCalendars(IEnumerable<TUICalendarProps> calendars)
+        public async ValueTask SetCalendars(IEnumerable<CalendarInfo> calendars)
         {
             if (calendars is null) return;
             

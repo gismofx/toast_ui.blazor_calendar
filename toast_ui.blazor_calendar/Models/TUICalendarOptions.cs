@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using toast_ui.blazor_calendar.Models.Template;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
@@ -58,7 +59,7 @@ namespace toast_ui.blazor_calendar.Models
         /// CalendarProps List that can be used to add new schedule. The default value is [].
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TUICalendarProps[] calendars { get; set; } = null;
+        public CalendarInfo[] calendars { get; set; } = null;
 
         /// <summary>
         /// Whether to enable grid selection. or it's option. 

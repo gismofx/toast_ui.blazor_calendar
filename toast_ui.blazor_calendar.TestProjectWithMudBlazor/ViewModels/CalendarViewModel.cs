@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using toast_ui.blazor_calendar.Models;
 using toast_ui.blazor_calendar.Services;
 using System.Diagnostics;
+using toast_ui.blazor_calendar.Models.Template;
+using System.Drawing;
 
 namespace toast_ui.blazor_calendar.TestProjectWithMudBlazor.ViewModels
 {
@@ -40,9 +42,9 @@ namespace toast_ui.blazor_calendar.TestProjectWithMudBlazor.ViewModels
             }
         }
 
-        private IEnumerable<TUICalendarProps> _CalendarProps;
+        private IEnumerable<CalendarInfo> _CalendarProps;
 
-        public IEnumerable<TUICalendarProps> CalendarProps
+        public IEnumerable<CalendarInfo> CalendarProps
         {
             get => _CalendarProps;
             set
@@ -130,26 +132,26 @@ namespace toast_ui.blazor_calendar.TestProjectWithMudBlazor.ViewModels
                 timezone = timeZones
             };
 
-            var calendarProps = new List<TUICalendarProps>();
-            var calendar1 = new TUICalendarProps()
+            var calendarProps = new List<CalendarInfo>();
+            var calendar1 = new CalendarInfo()
             {
-                id = "1",
-                name = "My Test Calendar",
-                color = "#ffffff",
-                bgColor = "#9e5fff",
-                dragBgColor = "#9e5fff",
-                borderColor = "#9e5fff"
+                Id = "1",
+                Name = "My Test Calendar",
+                Color = Color.Red,
+                BackgroundColor = Color.Aqua,
+                DragBackgroundColor = Color.DarkBlue,
+                BorderColor = Color.Black,
             };
             calendarProps.Add(calendar1);
 
-            var calendar2 = new TUICalendarProps()
+            var calendar2 = new CalendarInfo()
             {
-                id = "2",
-                name = "My Test Calendar2",
-                color = "#ffffff",
-                bgColor = "#00a9ff",
-                dragBgColor = "#00a9ff",
-                borderColor = "#00a9ff"
+                Id = "2",
+                Name = "My Test Calendar",
+                Color = Color.Red,
+                BackgroundColor = Color.Aqua,
+                DragBackgroundColor = Color.DarkBlue,
+                BorderColor = Color.Black,
             };
             calendarProps.Add(calendar2);
             CalendarProps = calendarProps;
