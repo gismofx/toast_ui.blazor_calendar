@@ -14,13 +14,11 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event Id
         /// </summary>
-        [JsonRequired]
         public string Id { get; set; }
 
         /// <summary>
         /// Calendar Id
         /// </summary>
-        [JsonRequired]
         public string CalendarId { get; set; }
 
 
@@ -37,7 +35,7 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event is All day
         /// </summary>
-        public bool IsAllDay { get; set; }
+        public bool? IsAllDay { get; set; }
 
         /// <summary>
         /// Event Start UTC Time
@@ -69,13 +67,13 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event Attendees
         /// </summary>
-        public string[] Attendees { get; set; }
+        public string[]? Attendees { get; set; }
 
         /// <summary>
         /// Category of the event. Available categories are 'milestone', 'task', 'time' and 'allday'.
         /// Category will affect where it's displayed
         /// </summary>
-        public EventCategory Category { get; set; }
+        public EventCategory? Category { get; set; }
 
         // TODO: Create Structure for RecurrenceRule
 
@@ -87,32 +85,32 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Show as Busy or Free
         /// </summary>
-        public EventState State { get; set; }
+        public EventState? State { get; set; }
 
         /// <summary>
         /// Event is Visible
         /// </summary>
-        public bool IsVisible { get; set; }
+        public bool? IsVisible { get; set; }
 
         /// <summary>
         /// Event is Pending
         /// </summary>
-        public bool IsPending { get; set; }
+        public bool? IsPending { get; set; }
 
         /// <summary>
         /// Event is Focused
         /// </summary>
-        public bool IsFocused { get; set; }
+        public bool? IsFocused { get; set; }
 
         /// <summary>
         /// Event is Read Only
         /// </summary>
-        public bool IsReadOnly { get; set; }
+        public bool? IsReadOnly { get; set; }
 
         /// <summary>
         /// Event is Private
         /// </summary>
-        public bool IsPrivate { get; set; }
+        public bool? IsPrivate { get; set; }
 
 
         /// <summary>

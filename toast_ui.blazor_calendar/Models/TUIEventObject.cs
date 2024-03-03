@@ -31,11 +31,11 @@ namespace toast_ui.blazor_calendar.Models
     /// </summary>
     public class TUIEventObject : IEventObject
     {
-        public string Id { get; set; }
-        public string CalendarId { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public bool IsAllDay { get; set; }
+        public string? Id { get; set; }
+        public string? CalendarId { get; set; }
+        public string? Title { get; set; }
+        public string? Body { get; set; }
+        public bool? IsAllDay { get; set; }
         
         [JsonConverter(typeof(TZDateJsonConverter))]
         public DateTimeOffset? Start { get; set; }
@@ -47,25 +47,25 @@ namespace toast_ui.blazor_calendar.Models
         
         public int? ComingDuration { get; set; }
         
-        public string Location { get; set; }
+        public string? Location { get; set; }
         
-        public string[] Attendees { get; set; }
+        public string[]? Attendees { get; set; }
 
-        public EventCategory Category { get; set; }
+        public EventCategory? Category { get; set; }
         
-        public string RecurrenceRule { get; set; }
+        public string? RecurrenceRule { get; set; }
         
-        public EventState State { get; set; }
-        public bool IsVisible { get; set; }
-        public bool IsPending { get; set; }
-        public bool IsFocused { get; set; }
-        public bool IsReadOnly { get; set; }
-        public bool IsPrivate { get; set; }
-        public string Color { get; set; }
-        public string BackgroundColor { get; set; }
-        public string DragBackgroundColor { get; set; }
-        public string BorderColor { get; set; }
-        public string CustomStyle { get; set; }
-        public string Raw { get; set; }
+        public EventState? State { get; set; }
+        public bool? IsVisible { get; set; }
+        public bool? IsPending { get; set; }
+        public bool? IsFocused { get; set; }
+        public bool? IsReadOnly { get; set; }
+        public bool? IsPrivate { get; set; }
+        public string? Color { get; set; }
+        public string? BackgroundColor { get; set; }
+        public string? DragBackgroundColor { get; set; }
+        public string? BorderColor { get; set; }
+        public string? CustomStyle { get; set; }
+        public string? Raw { get; set; }
     }
 }
