@@ -295,11 +295,9 @@ devV2
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
         {
-            var currentEvent = JsonSerializer.Deserialize<TUIEventObject>(eventBeingModified.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive=true});
-            //var ser = JsonSerializer.Serialize(currentEvent, new JsonSerializerOptions() { WriteIndented = true });
-            var updatedEvent = CalendarInterop.UpdateEvent(currentEvent, updatedEventFields); //Todo: Combine changes with actual schedule
+            var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified.ToString(), updatedEventFields.ToString()); 
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
-            Debug.WriteLine($"Event {currentEvent.id} Modified");
+            Debug.WriteLine($"Event {updatedEvent.Id} Modified");
         }
         /*@Todo: Waiting for Double click in TUI API
 

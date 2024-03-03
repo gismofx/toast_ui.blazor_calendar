@@ -16,7 +16,7 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
         ValueTask MoveCalendar(CalendarMove moveTo);
         ValueTask SetCalendars(IEnumerable<CalendarInfo> calendars);
-        IEventObject UpdateEvent(IEventObject eventToModify, JsonElement changedEvent);
+        IEventObject UpdateEvent(IEventObject eventToModify, string changedEvent);
         ValueTask HideShowCalendar(string calendarId, bool hide);
         ValueTask SetDate(DateTimeOffset? dateToDisplay);
         ValueTask<DateTimeOffset?> GetDateRangeStart();

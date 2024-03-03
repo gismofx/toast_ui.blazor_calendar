@@ -204,14 +204,22 @@ namespace toast_ui.blazor_calendar.Services
         /// <param name="eventToModify">Current Event Object</param>
         /// <param name="changedEvent">The changes made to the event</param>
         /// <returns>The changed event ready to further processing and/or saving</returns>
-        public IEventObject UpdateEvent(IEventObject eventToModify, JsonElement changedEvent)
+        public IEventObject UpdateEvent(IEventObject eventToModify, string changedEvent)
         {
             return CombineTuiEvent(eventToModify, changedEvent);
         }
-        
-        private static IEventObject CombineTuiEvent(IEventObject eventToModify, JsonElement changes)
+
+        public IEventObject UpdateEvent(string eventToModifyAsJson, string changedPropertiesAsJson)
         {
-            var c = JsonSerializer.Deserialize<TUIEventObject>(changes.ToString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }); ;
+            var currentEvent = DeserializeEventObject(eventToModifyAsJson);
+            //var ser = JsonSerializer.Serialize(currentEvent, new JsonSerializerOptions() { WriteIndented = true });
+            var updatedEvent = UpdateEvent(currentEvent, changedPropertiesAsJson); //Todo: Combine changes with actual schedule
+            return updatedEvent;
+        }
+        
+        private static IEventObject CombineTuiEvent(IEventObject eventToModify, string changesAsJson)//JsonElement changes)
+        {
+            var c = DeserializeEventObject(changesAsJson);//  JsonSerializer.Deserialize<TUIEventObject>(changes.ToString(), new JsonSerializerOptions() {PropertyNameCaseInsensitive = true }); ;
             CopyValues(eventToModify, c);
             return eventToModify;
         }
@@ -229,6 +237,11 @@ namespace toast_ui.blazor_calendar.Services
                 if (value != null)
                     prop.SetValue(target, value, null);
             }
+        }
+
+        internal static IEventObject DeserializeEventObject(string eventAsJson)
+        {
+            return JsonSerializer.Deserialize<TUIEventObject>(eventAsJson, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true, UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip });
         }
     }
 }

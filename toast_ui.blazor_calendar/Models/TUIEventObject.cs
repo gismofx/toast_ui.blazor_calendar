@@ -31,7 +31,8 @@ namespace toast_ui.blazor_calendar.Models
     /// </summary>
     public class TUIEventObject : IEventObject
     {
-        public string? Id { get; set; }
+        
+        public string? Id { get; set; } = null;
         public string? CalendarId { get; set; }
         public string? Title { get; set; }
         public string? Body { get; set; }
