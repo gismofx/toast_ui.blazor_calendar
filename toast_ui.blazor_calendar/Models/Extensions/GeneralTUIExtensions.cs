@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace toast_ui.blazor_calendar.Models.Extensions
 {
+    /// <summary>
+    /// A static class that allows the user to write simple code.
+    /// </summary>
     public static class GeneralTUIExtensions
     {
         /// <summary>
