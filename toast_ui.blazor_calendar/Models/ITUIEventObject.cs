@@ -8,7 +8,7 @@ using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
-    public interface IEventObject
+    public interface ITUIEventObject
     {
 
         /// <summary>

@@ -8,14 +8,14 @@
         /// <summary>
         /// Time Zone Name
         /// </summary>
-        public string timezoneName { get; set; }
+        public string TimezoneName { get; set; }
         /// <summary>
         /// Time Zone Display Label
         /// </summary>
-        public string displayLabel { get; set; }
+        public string DisplayLabel { get; set; }
         /// <summary>
         /// Time Zone Tool Tip
         /// </summary>
-        public string tooltip { get; set; }
+        public string Tooltip { get; set; }
     }
 }

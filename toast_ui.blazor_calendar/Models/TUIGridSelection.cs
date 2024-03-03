@@ -5,11 +5,11 @@
         /// <summary>
         /// Whether to enable double click to select area.
         /// </summary>
-        public bool enableDbClick { get; set; }
+        public bool EnableDbClick { get; set; }
 
         /// <summary>
         /// Whether to enable click to select area.
         /// </summary>
-        public bool enableClick { get; set; }
+        public bool EnableClick { get; set; }
     }
 }

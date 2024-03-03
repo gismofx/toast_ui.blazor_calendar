@@ -29,7 +29,7 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/EventObject
     /// </summary>
-    public class TUIEventObject : IEventObject
+    public class TUIEventObject : ITUIEventObject
     {
         
         public string? Id { get; set; } = null;

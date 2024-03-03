@@ -80,7 +80,7 @@ namespace toast_ui.blazor_calendar
         /// Invoked when a calendar Event or Task is changed
         /// </summary>
         [Parameter]
-        public EventCallback<IEventObject> OnChangeCalendarEventOrTask { get; set; }
+        public EventCallback<ITUIEventObject> OnChangeCalendarEventOrTask { get; set; }
 
         /// <summary>
         /// Invoked when a calendar Event or Task is Clicked
@@ -92,7 +92,7 @@ namespace toast_ui.blazor_calendar
         /// Raised when a calendar Event or Task is Created
         /// </summary>
         [Parameter]
-        public EventCallback<IEventObject> OnCreateCalendarEventOrTask { get; set; }
+        public EventCallback<ITUIEventObject> OnCreateCalendarEventOrTask { get; set; }
         
         /// <summary>
         /// Raised when a calendar Event or Task is Deleted
@@ -113,7 +113,7 @@ namespace toast_ui.blazor_calendar
         /// This is the initial set of schedules/events to be loaded
         /// </summary>
         [Parameter]
-        public ICollection<IEventObject> Events { get; set; }
+        public ICollection<ITUIEventObject> Events { get; set; }
         
         /// <summary>
         /// The End Date of the Range of days displayed on the calendar
@@ -257,7 +257,7 @@ namespace toast_ui.blazor_calendar
                 }
             }
             CalendarProperties = parameters.GetValueOrDefault<IEnumerable<CalendarInfo>>("CalendarProperties");
-            Events = parameters.GetValueOrDefault<ICollection<IEventObject>>("Events");
+            Events = parameters.GetValueOrDefault<ICollection<ITUIEventObject>>("Events");
 
             //Visible Date Range
             VisibleEndDateRange = parameters.GetValueOrDefault<DateTimeOffset?>("VisibleEndDateRange");
@@ -266,8 +266,8 @@ namespace toast_ui.blazor_calendar
             VisibleEndDateRangeChanged = parameters.GetValueOrDefault<EventCallback<DateTimeOffset?>>("VisibleEndDateRangeChanged");
 
             //Events
-            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<IEventObject>>("OnChangeCalendarEventOrTask");
-            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<IEventObject>>("OnCreateCalendarEventOrTask");
+            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<ITUIEventObject>>("OnChangeCalendarEventOrTask");
+            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<ITUIEventObject>>("OnCreateCalendarEventOrTask");
             OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnClickCalendarEventOrTask");
             OnDeleteCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEventOrTask");
 

@@ -12,7 +12,7 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// List of TUITimeZone calendar time zones
         /// </summary>
-        public List<TUITimeZone> zones { get; set; }
+        public List<TUITimeZone> Zones { get; set; }
 
         /// <summary>
         /// Function Expression to return the Display Label
@@ -31,7 +31,7 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         public TUICalendarTimeZoneOption()
         {
-            zones = new List<TUITimeZone>();
+            Zones = new List<TUITimeZone>();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace toast_ui.blazor_calendar.Models
             if (TUItz is null)
                 return false;
             
-            zones.Add(TUItz);
+            Zones.Add(TUItz);
             return true;
         }
 
@@ -109,9 +109,9 @@ namespace toast_ui.blazor_calendar.Models
 
             return new TUITimeZone
             {
-                timezoneName = timezoneName,
-                displayLabel = displayLabel,
-                tooltip = tooltip
+                TimezoneName = timezoneName,
+                DisplayLabel = displayLabel,
+                Tooltip = tooltip
             };
         }
     }

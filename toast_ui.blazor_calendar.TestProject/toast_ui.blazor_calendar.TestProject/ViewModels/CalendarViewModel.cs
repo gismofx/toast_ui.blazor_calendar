@@ -20,9 +20,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             _CalendarService = calendarService;
         }
 
-        private List<IEventObject> _Schedules;
+        private List<ITUIEventObject> _Schedules;
 
-        public List<IEventObject> Schedules
+        public List<ITUIEventObject> Schedules
         {
             get => _Schedules;
             set
@@ -101,7 +101,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             {
                 //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
                 //startDayOfWeek = 0,
-                visibleWeeksCount = 6,
+                VisibleWeeksCount = 6,
                 //visibleScheduleCount = 0,
                 
             };
@@ -122,16 +122,16 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             //Set the Calendar Options
             CalendarOptions = new TUICalendarOptions()
             {
-                useFormPopup = true,
-                useDetailPopup = true,
-                defaultView = TUICalendarViewName.Month,
-                gridSelection = new() { enableClick = true , enableDbClick = true},
+                UseFormPopup = true,
+                UseDetailPopup = true,
+                DefaultView = TUICalendarViewName.Month,
+                GridSelection = new() { EnableClick = true , EnableDbClick = true},
                 //taskView = false,
                 //scheduleView = true,
-                month = monthOptions,
-                week = weekOptions,
+                Month = monthOptions,
+                Week = weekOptions,
                 TUITemplate = calendarTemplate,
-                timezone = timeZones
+                Timezone = timeZones
             };
 
             var calendarProps = new List<CalendarInfo>();
@@ -162,7 +162,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             await Task.Run(() =>
             {
-                _Schedules = new List<IEventObject>();
+                _Schedules = new List<ITUIEventObject>();
                 for (int i = 0; i < 50; i++)
                 {
                     _Schedules.Add(GetFakeSchedule());
@@ -194,7 +194,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             return sched;
         }
 
-        public async Task OnChangeCalendarEventOrTask(IEventObject schedule)
+        public async Task OnChangeCalendarEventOrTask(ITUIEventObject schedule)
         {
             //do something when an event is clicked
             //Show a custom pop up if some conditions are met?
@@ -212,7 +212,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             await Task.Delay(10);
         }
 
-        public async Task OnCreateCalendarEventOrTask(IEventObject newSchedule)
+        public async Task OnCreateCalendarEventOrTask(ITUIEventObject newSchedule)
         {
             //Save event to database
             Debug.WriteLine($"Event or Task Created: {newSchedule.Title}");

@@ -5,6 +5,14 @@ using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    public enum TUICalendarViewName
+    {
+        [JsonPropertyName("day")] Day,
+        [JsonPropertyName("week")] Week,
+        [JsonPropertyName("month")] Month
+    }
+
     /// <summary>
     /// Used when instantiating a calendar.
     /// This is the main options class for a TUI calendar display and functions
@@ -16,30 +24,29 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Default view of calendar. The default value is 'week'.
         /// </summary>
-        [JsonConverter(typeof(TUICalendarViewNameJsonConverter))]
-        public TUICalendarViewName defaultView { get; set; }
+        public TUICalendarViewName DefaultView { get; set; }
 
         /// <summary>
         /// Whether use default creation popup or not. The default value is false.
         /// </summary>
-        public bool useFormPopup { get; set; } = false;
+        public bool UseFormPopup { get; set; } = false;
 
         /// <summary>
         /// Whether use default detail popup or not. The default value is false.
         /// </summary>
-        public bool useDetailPopup { get; set; } = false;
+        public bool UseDetailPopup { get; set; } = false;
 
         /// <summary>
         /// Calendar is read-only mode and a user can't create and modify any schedule.
         /// The default value is false.
         /// </summary>
-        public bool isReadOnly { get; set; } = false;
+        public bool IsReadOnly { get; set; } = false;
 
         /// <summary>
         /// Let us know the hostname.
         /// If you don't want to send the hostname, please set to false.
         /// </summary>
-        public bool usageStatistics { get; set; } = true;
+        public bool UsageStatistics { get; set; } = true;
 
         /*
         //eventFilter = some js function. maybe can be a string that can be evaluated as a function
@@ -48,25 +55,25 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Week options for view
         /// </summary>
-        public TUIWeekOptions week { get; set; } = null;
+        public TUIWeekOptions Week { get; set; } = null;
 
         /// <summary>
         /// Month options for view
         /// </summary>
-        public TUIMonthOptions month { get; set; } = null;
+        public TUIMonthOptions Month { get; set; } = null;
 
         /// <summary>
         /// CalendarProps List that can be used to add new schedule. The default value is [].
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public CalendarInfo[] calendars { get; set; } = null;
+        public CalendarInfo[] Calendars { get; set; } = null;
 
         /// <summary>
         /// Whether to enable grid selection. or it's option. 
         /// it's enabled when the value is an object and will be disabled when is true.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TUIGridSelection gridSelection { get; set; } = null;
+        public TUIGridSelection GridSelection { get; set; } = null;
 
         /// <summary>
         /// Timezone - Set a custom time zone.
@@ -74,14 +81,14 @@ namespace toast_ui.blazor_calendar.Models
         /// https://nhn.github.io/tui.calendar/latest/Timezone
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TUICalendarTimeZoneOption timezone { get; set; } = null;
+        public TUICalendarTimeZoneOption Timezone { get; set; } = null;
 
         /// <summary>
         /// themeConfig for custom style.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         /// 
-        public TUITheme theme { get; set; } = null;
+        public TUITheme Theme { get; set; } = null;
 
         /// <summary>
         /// https://nhn.github.io/tui.calendar/latest/Template
@@ -119,7 +126,7 @@ namespace toast_ui.blazor_calendar.Models
 
         private bool CompareMembers(TUICalendarOptions other)
         {
-            if (!defaultView.Value.Equals(other.defaultView.Value))
+            if (!DefaultView.Equals(other.DefaultView))
             {
                 return false;
             }
@@ -131,7 +138,7 @@ namespace toast_ui.blazor_calendar.Models
             //{
             //    return false;
             //}
-            if (!theme.Equals(other.theme))
+            if (!Theme.Equals(other.Theme))
             {
                 return false;
             }
@@ -139,27 +146,27 @@ namespace toast_ui.blazor_calendar.Models
             {
                 return false;
             }
-            if (!week.Equals(other.week))
+            if (!Week.Equals(other.Week))
             {
                 return false;
             }
-            if (!month.Equals(other.month))
+            if (!Month.Equals(other.Month))
             {
                 return false;
             }
-            if (!calendars.Equals(other.calendars))
+            if (!Calendars.Equals(other.Calendars))
             {
                 return false;
             }
-            if (!useFormPopup.Equals(other.useFormPopup))
+            if (!UseFormPopup.Equals(other.UseFormPopup))
             {
                 return false;
             }
-            if (!useDetailPopup.Equals(other.useDetailPopup))
+            if (!UseDetailPopup.Equals(other.UseDetailPopup))
             {
                 return false;
             }
-            if (!timezone.Equals(other.timezone))
+            if (!Timezone.Equals(other.Timezone))
             {
                 return false;
             }
@@ -171,11 +178,11 @@ namespace toast_ui.blazor_calendar.Models
             //{
             //    return false;
             //}
-            if (!isReadOnly.Equals(other.isReadOnly))
+            if (!IsReadOnly.Equals(other.IsReadOnly))
             {
                 return false;
             }
-            if (!usageStatistics.Equals(other.usageStatistics))
+            if (!UsageStatistics.Equals(other.UsageStatistics))
             {
                 return false;
             }
@@ -185,15 +192,15 @@ namespace toast_ui.blazor_calendar.Models
         public override int GetHashCode()
         {
             var hashCode = new HashCode();
-            hashCode.Add(defaultView);
-            hashCode.Add(theme);
-            hashCode.Add(week);
-            hashCode.Add(month);
-            hashCode.Add(calendars);
-            hashCode.Add(useFormPopup);
-            hashCode.Add(useDetailPopup);
-            hashCode.Add(timezone);
-            hashCode.Add(isReadOnly);
+            hashCode.Add(DefaultView);
+            hashCode.Add(Theme);
+            hashCode.Add(Week);
+            hashCode.Add(Month);
+            hashCode.Add(Calendars);
+            hashCode.Add(UseFormPopup);
+            hashCode.Add(UseDetailPopup);
+            hashCode.Add(Timezone);
+            hashCode.Add(IsReadOnly);
             return hashCode.ToHashCode();
         }
     }
