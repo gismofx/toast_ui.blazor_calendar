@@ -58,7 +58,6 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                                 }
                             }
                         }
-                        
                     }
                     break;
             }
@@ -67,46 +66,21 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
 
 
 
-        /*
-* // A DateTimeOffset string embedded in an object { "d" : "value" }
-               DateTimeOffset? value = null;
-               while (reader.Read())
-               {
-                   switch (reader.TokenType)
-                   {
-                       case JsonTokenType.EndObject:
-                          //reader.Skip();
-                          break;
-                       case JsonTokenType.PropertyName:
-                           var match = reader.ValueTextEquals(_date);
-
-                           if (match)
-                           { 
-                               reader.Read();
-                               while (reader.TokenType != JsonTokenType.PropertyName) { reader.Read(); }
-                               reader.Read();
-                               var propValue = reader.GetString();
-                               value = DateTimeOffset.ParseExact(propValue, TZDateFormat, CultureInfo.InvariantCulture);
-                           }
-                           else
-                               reader.Skip();
-                           break;
-                       default:
-                           throw new JsonException();
-                   }
-                   return value.GetValueOrDefault();
-               }
-*/
+     
         public override void Write(
             Utf8JsonWriter writer,
             DateTimeOffset dateTimeValue,
             JsonSerializerOptions options) =>
                 writer.WriteStringValue(dateTimeValue);// JsonSerializer.Serialize(dateTimeValue));
 
+        /// <summary>
+        /// Read the nested date property
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns>DateTimeOffset</returns>
+        /// <exception cref="JsonException"></exception>
         private DateTimeOffset? ReadDateProperty(ref Utf8JsonReader reader)
         {
-            
-            //var x = reader.GetString();
             DateTimeOffset? parsedDt = null;
             reader.Read();//Read into the "d" property
             if (reader.TokenType != JsonTokenType.StartObject)
@@ -138,30 +112,29 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                 throw new JsonException($"End Object expected for 'd' property. Received: {reader.TokenType}");
             }
             return parsedDt;
-            //var token = reader.TokenType;
-            //return null;
         }
 
+        /// <summary>
+        /// Read the Tz Offset. It's the current time zone offset in minutes
+        /// Not useful since returned date is UTC
+        /// We parse anyway
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
         private int ReadTzOffset(ref Utf8JsonReader reader)
         {
             var token = reader.TokenType;
             reader.Read();
             if (reader.TokenType != JsonTokenType.Number)
             {
-                //return reader.GetInt32();
                 return 0;
-                //throw new JsonException();
             }
-
-            return reader.GetInt32();
-
-            //Console.WriteLine(reader.GetString());
-            //reader.Read();
-            //Console.WriteLine(reader.GetString());
-            //if (token == JsonTokenType.Number)
-            //    return reader.GetInt32();
+            if (reader.TryGetInt32(out int offset))
+            {
+                return offset;
+            }
             throw new JsonException();
-            //return 0;
         }
 
 
