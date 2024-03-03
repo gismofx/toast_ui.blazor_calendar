@@ -18,24 +18,6 @@ namespace toast_ui.blazor_calendar.Models.Template
         }
     }
 
-    // TODO: Can we use Color instead of string?
-    // (Would be better for the user and is more logial)    
-    public interface ICalendarInfo
-    {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-        [JsonPropertyName("color")]
-        public string? Color { get; set; }
-        [JsonPropertyName("backgroundColor")]
-        public string? BackgroundColor { get; set; }
-
-        [JsonPropertyName("dragBackgroundColor")]
-        public string? DragBackgroundColor { get; set; }
-
-        [JsonPropertyName("borderColor")]
-        public string? BorderColor { get; set; }
 
         /*
 
@@ -48,5 +30,4 @@ namespace toast_ui.blazor_calendar.Models.Template
 
 
          */
-    }
 }
