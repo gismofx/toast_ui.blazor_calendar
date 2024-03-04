@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace toast_ui.blazor_calendar.Services.JsonConverters
+namespace toast_ui.blazor_calendar.JsonConverters
 {
     /// <summary>
     /// Creates a JsonConverter for the Color class.
@@ -16,7 +16,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
     {
         public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string hexValue = reader.GetString();
+            var hexValue = reader.GetString();
 
             // Remove the hash sign, if present
             if (hexValue != null && hexValue.StartsWith("#"))
@@ -27,7 +27,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
 
         public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
         {
-            string hexValue = ColorTranslator.ToHtml(value);
+            var hexValue = ColorTranslator.ToHtml(value);
             writer.WriteStringValue(hexValue);
         }
     }

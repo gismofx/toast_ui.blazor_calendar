@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Models;
 
-namespace toast_ui.blazor_calendar.Services.JsonConverters
+namespace toast_ui.blazor_calendar.JsonConverters
 {
     internal class TUITemplateConverter : JsonConverter<TUITemplate>
     {
@@ -35,31 +35,31 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
         }
     }
 }
-                /*class MyConverter : JsonConverter
-        {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                List<KeyValuePair<string, object>> list = value as List<KeyValuePair<string, object>>;
-                writer.WriteStartArray();
-                foreach (var item in list)
-                {
-                    writer.WriteStartObject();
-                    writer.WritePropertyName(item.Key);
-                    writer.WriteValue(item.Value);
-                    writer.WriteEndObject();
-                }
-                writer.WriteEndArray();
-            }
+/*class MyConverter : JsonConverter
+{
+public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+{
+List<KeyValuePair<string, object>> list = value as List<KeyValuePair<string, object>>;
+writer.WriteStartArray();
+foreach (var item in list)
+{
+    writer.WriteStartObject();
+    writer.WritePropertyName(item.Key);
+    writer.WriteValue(item.Value);
+    writer.WriteEndObject();
+}
+writer.WriteEndArray();
+}
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                // TODO...
-            }
+public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+{
+// TODO...
+}
 
-            public override bool CanConvert(Type objectType)
-            {
-                return objectType == typeof(List<KeyValuePair<string, object>>);
-            }
-        }*/
+public override bool CanConvert(Type objectType)
+{
+return objectType == typeof(List<KeyValuePair<string, object>>);
+}
+}*/
 
 

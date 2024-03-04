@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using toast_ui.blazor_calendar.Services.JsonConverters;
+using toast_ui.blazor_calendar.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {

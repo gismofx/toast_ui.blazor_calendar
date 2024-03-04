@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models
 {
@@ -96,7 +95,6 @@ namespace toast_ui.blazor_calendar.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("template")]
         public TUITemplate TUITemplate { get; set; } = null;
-
 
         /// <summary>
         /// This method is override. Ultimately, compares each property

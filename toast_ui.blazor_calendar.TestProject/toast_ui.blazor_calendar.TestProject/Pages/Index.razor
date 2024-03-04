@@ -84,12 +84,12 @@ Welcome to your new app. <br />
 
     private async void ClearCalendar()
     {
-        await _calendarRef.CalendarInterop.Clear();
+        await _calendarRef.Clear();
     }
 
     private async ValueTask ScrollToNow()
     {
-        await _calendarRef.CalendarInterop.ScrollToNow();
+        await _calendarRef.ScrollToNow();
     }
 
     public void Dispose()
@@ -99,6 +99,6 @@ Welcome to your new app. <br />
 
     private async Task ScrollToDate(DateTimeOffset selectedDateTime)
     {
-        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
+        await _calendarRef.SetDate(selectedDateTime);
     }
 }

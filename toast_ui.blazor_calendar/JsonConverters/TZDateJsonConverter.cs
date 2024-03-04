@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace toast_ui.blazor_calendar.Services.JsonConverters
+namespace toast_ui.blazor_calendar.JsonConverters
 {
     class TZDateJsonConverter : JsonConverter<DateTimeOffset>
     {
@@ -24,8 +24,8 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
 
         static byte[] _date = Encoding.UTF8.GetBytes("d"); //"_date"
 
-        public override DateTimeOffset Read(ref Utf8JsonReader reader, 
-                                            Type typeToConvert, 
+        public override DateTimeOffset Read(ref Utf8JsonReader reader,
+                                            Type typeToConvert,
                                             JsonSerializerOptions options)
         {
             DateTimeOffset? value = null;
@@ -36,7 +36,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                     return DateTimeOffset.ParseExact(reader.GetString(), TZDateFormat, CultureInfo.InvariantCulture);
                 case JsonTokenType.StartObject:
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             if (reader.TokenType == JsonTokenType.EndObject)
                             {
@@ -66,7 +66,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
 
 
 
-     
+
         public override void Write(
             Utf8JsonWriter writer,
             DateTimeOffset dateTimeValue,
@@ -98,7 +98,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
             {
                 throw new JsonException($"Sub property of date 'd' expected name is d. Value is {reader.GetString()}");
             }
-            
+
             reader.Read();
             if (reader.TokenType == JsonTokenType.String)
             {
@@ -106,7 +106,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
                 parsedDt = DateTimeOffset.ParseExact(propValue, TZDateFormat, CultureInfo.InvariantCulture);
                 reader.Read();
             }
-            
+
             if (reader.TokenType != JsonTokenType.EndObject)
             {
                 throw new JsonException($"End Object expected for 'd' property. Received: {reader.TokenType}");
@@ -130,7 +130,7 @@ namespace toast_ui.blazor_calendar.Services.JsonConverters
             {
                 return 0;
             }
-            if (reader.TryGetInt32(out int offset))
+            if (reader.TryGetInt32(out var offset))
             {
                 return offset;
             }

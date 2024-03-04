@@ -4,19 +4,17 @@ using System.Threading.Tasks;
 using Bogus;
 using Microsoft.Extensions.Logging;
 using toast_ui.blazor_calendar.Models;
-using toast_ui.blazor_calendar.Services;
 using System.Diagnostics;
 using System.Drawing;
+using toast_ui.blazor_calendar.Helpers;
 
 namespace toast_ui.blazor_calendar.TestProject.ViewModels
 {
     public class CalendarViewModel : BaseViewModel
     {
-        private readonly ITUICalendarInteropService _CalendarService;
 
-        public CalendarViewModel(ITUICalendarInteropService calendarService)
+        public CalendarViewModel()
         {
-            _CalendarService = calendarService;
         }
 
         private List<TUIEvent> _Schedules;

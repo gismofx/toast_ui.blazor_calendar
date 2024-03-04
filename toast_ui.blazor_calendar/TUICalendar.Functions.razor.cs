@@ -36,7 +36,7 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public async ValueTask ClearCalendar()
+        public async Task ClearCalendar()
         {
             await CalendarInterop.Clear();
         }
@@ -46,7 +46,7 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         /// <param name="moveTo">Previous, Next, or Today</param>
         /// <returns></returns>
-        public async ValueTask MoveCalendar(CalendarMove moveTo)
+        public async Task MoveCalendar(CalendarMove moveTo)
         {
             await CalendarInterop.MoveCalendar(moveTo);
             await SetDateRange();
@@ -78,6 +78,21 @@ namespace toast_ui.blazor_calendar
                 await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
                 await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
             }
+        }
+
+
+        public async Task Clear()
+        {
+            await CalendarInterop.Clear();
+        }
+        public async Task ScrollToNow()
+        {
+            await CalendarInterop.ScrollToNow();
+        }
+
+        public async Task SetDate(DateTimeOffset date)
+        {
+            await CalendarInterop.SetDate(date);
         }
     }
 }

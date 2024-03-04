@@ -40,7 +40,7 @@ namespace toast_ui.blazor_calendar
         /// Direct access to some calendar functions via the Interop
         /// </summary>
         [Inject]
-        public ITUICalendarInteropService CalendarInterop { get; private set; } = null;
+        internal ITUICalendarInteropService CalendarInterop { get; private set; } = null;
 
         [Inject]
         public IJSRuntime jsRuntime { get; set; }
@@ -164,31 +164,6 @@ namespace toast_ui.blazor_calendar
             }
         }
 
-        /// <summary>
-        /// When a schedule is deleted from calendar UI, this is invoked        
-        /// </summary>
-        /// <param name="eventID"></param>
-        /// <returns></returns>
-        [JSInvokable("DeleteEvent")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnDeleteSchedule(string eventID)
-        {
-            await OnDeleteCalendarEventOrTask.InvokeAsync(eventID);
-            Debug.WriteLine($"Event {eventID} Deleted!");
-        }
-
-        /// <summary>
-        /// When a schedule is clicked from the calendar UI, this is invoked
-        /// </summary>
-        /// <param name="eventId"></param>
-        /// <returns></returns>
-        [JSInvokable("OnClickEvent")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnScheduleClick(string eventId)
-        {
-            await OnClickCalendarEventOrTask.InvokeAsync(eventId);
-            Debug.WriteLine($"Event {eventId} Clicked!");
-        }
 
         /// <summary>
         /// Any time a new parameter is added, it must be MANUALLY set here

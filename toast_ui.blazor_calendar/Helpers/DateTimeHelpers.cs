@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace toast_ui.blazor_calendar.Services
+namespace toast_ui.blazor_calendar.Helpers
 {
     /// <summary>
     /// Helpers for rounding a DateTimeOffset
@@ -15,7 +15,7 @@ namespace toast_ui.blazor_calendar.Services
         public static DateTimeOffset RoundToNearest(this DateTimeOffset dt, TimeSpan d)
         {
             var delta = dt.Ticks % d.Ticks;
-            bool roundUp = delta > d.Ticks / 2;
+            var roundUp = delta > d.Ticks / 2;
             var offset = roundUp ? d.Ticks : 0;
 
             return new DateTimeOffset(dt.Ticks + offset - delta, dt.Offset);

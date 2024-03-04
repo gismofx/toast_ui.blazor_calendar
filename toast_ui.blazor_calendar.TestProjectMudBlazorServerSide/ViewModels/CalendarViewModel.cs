@@ -2,24 +2,20 @@
 using Bogus;
 using System.Diagnostics;
 using toast_ui.blazor_calendar.Models;
-using toast_ui.blazor_calendar.Services;
-using toast_ui.blazor_calendar.Models.Template;
 using System.Drawing;
+using toast_ui.blazor_calendar.Helpers;
 
 namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.ViewModels;
 
 public class CalendarViewModel : BaseViewModel
 {
-    private readonly ITUICalendarInteropService _CalendarService;
-
-    public CalendarViewModel(ITUICalendarInteropService calendarService)
+    public CalendarViewModel()
     {
-        _CalendarService = calendarService;
     }
 
-    private List<ITUIEventObject> _Schedules;
+    private List<TUIEvent> _Schedules;
 
-    public List<ITUIEventObject> Schedules
+    public List<TUIEvent> Schedules
     {
         get => _Schedules;
         set
@@ -159,7 +155,7 @@ public class CalendarViewModel : BaseViewModel
 
         await Task.Run(() =>
         {
-            _Schedules = new List<ITUIEventObject>();
+            _Schedules = new List<TUIEvent>();
             for (int i = 0; i < 50; i++)
             {
                 _Schedules.Add(GetFakeSchedule());
@@ -167,13 +163,13 @@ public class CalendarViewModel : BaseViewModel
         });
     }
 
-    private TUIEventObject GetFakeSchedule()
+    private TUIEvent GetFakeSchedule()
     {
         var faker = new Faker();
 
         var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0,15,0));
         var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
-        var sched = new TUIEventObject()
+        var sched = new TUIEvent()
         {
             Id = Guid.NewGuid().ToString(),
             CalendarId = faker.Random.Int(1, 2).ToString(),
@@ -191,7 +187,7 @@ public class CalendarViewModel : BaseViewModel
         return sched;
     }
 
-    public async Task OnChangeCalendarEventOrTask(ITUIEventObject schedule)
+    public async Task OnChangeCalendarEventOrTask(TUIEvent schedule)
     {
         //do something when an event is clicked
         //Show a custom pop up if some conditions are met?
@@ -209,7 +205,7 @@ public class CalendarViewModel : BaseViewModel
         await Task.Delay(10);
     }
 
-    public async Task OnCreateCalendarEventOrTask(ITUIEventObject newSchedule)
+    public async Task OnCreateCalendarEventOrTask(TUIEvent newSchedule)
     {
         //Save event to database
         Debug.WriteLine($"Event or Task Created: {newSchedule.Title}");
