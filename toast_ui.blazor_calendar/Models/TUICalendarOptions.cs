@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using toast_ui.blazor_calendar.Models.Template;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Models

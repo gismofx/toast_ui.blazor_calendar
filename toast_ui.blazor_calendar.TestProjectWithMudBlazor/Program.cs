@@ -14,5 +14,5 @@ builder.Services.AddMudServices();
 builder.Services.AddTransient<CalendarViewModel>();
 
 //If you want to interact with the calendar from code
-builder.Services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
+builder.Services.AddTUIBlazorCalendar();
 await builder.Build().RunAsync();

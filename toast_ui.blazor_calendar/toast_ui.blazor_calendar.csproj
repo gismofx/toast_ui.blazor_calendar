@@ -45,6 +45,7 @@
   <ItemGroup>
     <None Include="$(SolutionDir)\icon.png" Pack="True" PackagePath="\" />
     <None Include="$(SolutionDir)\README.md" Pack="True" PackagePath="\" />
+    <Folder Include="Models\Template\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

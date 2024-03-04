@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using toast_ui.blazor_calendar.Models;
 using toast_ui.blazor_calendar.Services;
 using System.Diagnostics;
-using toast_ui.blazor_calendar.Models.Template;
 using System.Drawing;
 
 namespace toast_ui.blazor_calendar.TestProject.ViewModels
@@ -20,9 +19,9 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             _CalendarService = calendarService;
         }
 
-        private List<ITUIEventObject> _Schedules;
+        private List<TUIEvent> _Schedules;
 
-        public List<ITUIEventObject> Schedules
+        public List<TUIEvent> Schedules
         {
             get => _Schedules;
             set
@@ -162,7 +161,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
 
             await Task.Run(() =>
             {
-                _Schedules = new List<ITUIEventObject>();
+                _Schedules = new List<TUIEvent>();
                 for (int i = 0; i < 50; i++)
                 {
                     _Schedules.Add(GetFakeSchedule());
@@ -170,13 +169,13 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             });
         }
 
-        private TUIEventObject GetFakeSchedule()
+        private TUIEvent GetFakeSchedule()
         {
             var faker = new Faker();
 
             var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0,15,0));
             var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
-            var sched = new TUIEventObject()
+            var sched = new TUIEvent()
             {
                 Id = Guid.NewGuid().ToString(),
                 CalendarId = faker.Random.Int(1, 2).ToString(),
@@ -194,7 +193,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             return sched;
         }
 
-        public async Task OnChangeCalendarEventOrTask(ITUIEventObject schedule)
+        public async Task OnChangeCalendarEventOrTask(TUIEvent schedule)
         {
             //do something when an event is clicked
             //Show a custom pop up if some conditions are met?
@@ -212,7 +211,7 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             await Task.Delay(10);
         }
 
-        public async Task OnCreateCalendarEventOrTask(ITUIEventObject newSchedule)
+        public async Task OnCreateCalendarEventOrTask(TUIEvent newSchedule)
         {
             //Save event to database
             Debug.WriteLine($"Event or Task Created: {newSchedule.Title}");

@@ -7,7 +7,6 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
-using toast_ui.blazor_calendar.Models.Template;
 using toast_ui.blazor_calendar.Services.JsonConverters;
 
 namespace toast_ui.blazor_calendar.Services
@@ -55,7 +54,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="events">Events/Tasks To Display</param>
         /// <returns></returns>
-        public async ValueTask CreateEvents(IEnumerable<ITUIEventObject> events)
+        public async ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events)
         {
             if (events is not null)
             {
@@ -67,11 +66,11 @@ namespace toast_ui.blazor_calendar.Services
         /// Put the event/task/etc on the calendar
         /// </summary>
         /// <param name="tuiEvent">Schedule/Event/Task To Display</param>
-        public async ValueTask CreateEventAsync(ITUIEventObject tuiEvent)
+        public async ValueTask CreateEventAsync(TUIEvent tuiEvent)
         {
             if (tuiEvent is not null)
             {
-                await CreateEvents(new List<ITUIEventObject>() { 
+                await CreateEventsAsync(new List<TUIEvent>() { 
                     tuiEvent
                 });
             }
@@ -211,31 +210,29 @@ namespace toast_ui.blazor_calendar.Services
         /// <param name="eventToModify">Current Event Object</param>
         /// <param name="changedEvent">The changes made to the event</param>
         /// <returns>The changed event ready to further processing and/or saving</returns>
-        public ITUIEventObject UpdateEvent(ITUIEventObject eventToModify, JsonObject changedEvent)
+        // TODO: ??????
+        public TUIEvent UpdateEvent(TUIEvent eventToModify, string changedEvent)
         {
             var c = DeserializeEventObject(changedEvent);
-            return CombineTuiEvent(eventToModify, c);
+            //return CombineTuiEvent(eventToModify, c);
+            return c;
         }
 
-        /// <summary>
-        /// Update an Event From TUI Calendar
-        /// </summary>
-        /// <param name="eventToModifyAsJson"></param>
-        /// <param name="changedPropertiesAsJson"></param>
-        /// <returns></returns>
-        public ITUIEventObject UpdateEvent(JsonObject eventToModifyAsJson, JsonObject changedPropertiesAsJson)
+        public TUIEvent UpdateEvent(string eventToModifyAsJson, string changedPropertiesAsJson)
         {
             var currentEvent = DeserializeEventObject(eventToModifyAsJson);
             var updatedEvent = UpdateEvent(currentEvent, changedPropertiesAsJson); //Todo: Combine changes with actual schedule
             return updatedEvent;
         }
-        
-        private static ITUIEventObject CombineTuiEvent(ITUIEventObject eventToModify, ITUIEventObject eventWithChangedPropertiesOnly)//JsonElement changes)
+
+        // TODO: ??????        
+        private static TUIEvent CombineTuiEvent(TUIEvent eventToModify, string changesAsJson)//JsonElement changes)
         {
-            CopyValues(eventToModify, eventWithChangedPropertiesOnly);
+            //CopyValues(eventToModify, changesAsJson);
             return eventToModify;
         }
 
+        // TODO: ??????
         //@Todo: Refactor
         private static void CopyValues<T>(T target, T source)
         {
@@ -251,9 +248,14 @@ namespace toast_ui.blazor_calendar.Services
             }
         }
 
-        internal static ITUIEventObject DeserializeEventObject(JsonObject eventAsJson)
+        internal static TUIEvent DeserializeEventObject(string eventAsJson)
         {
-            return JsonSerializer.Deserialize<TUIEventObject>(eventAsJson, _JsonSerializerOptions);
+            return JsonSerializer.Deserialize<TUIEvent>(eventAsJson, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true, UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip });
+        }
+
+        public ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions)
+        {
+            throw new NotImplementedException();
         }
     }
 }

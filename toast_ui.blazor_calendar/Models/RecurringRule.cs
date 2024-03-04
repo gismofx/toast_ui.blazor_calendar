@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace toast_ui.blazor_calendar.Models.Template
+namespace toast_ui.blazor_calendar.Models
 {
     /// <summary>
     /// recurrenceRule: 'FREQ=WEEKLY;UNTIL=20241231'

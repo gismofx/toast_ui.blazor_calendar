@@ -70,7 +70,7 @@ namespace toast_ui.blazor_calendar.Models
         public string Border { get; set; }
     }
 
-    public class WeekTheme : IWeekTheme
+    public class WeekTheme
     {
         public class DayNameTheme
         {
@@ -141,7 +141,7 @@ namespace toast_ui.blazor_calendar.Models
         public IGridSelection GridSelection {get; set;}
     }
 
-    public class MonthTheme : IMonthTheme
+    public class MonthTheme
     {
 
         public class DayExceptThisMonthTheme

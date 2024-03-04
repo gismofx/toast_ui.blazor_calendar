@@ -11,7 +11,7 @@ namespace toast_ui.blazor_calendar.Models
 {
     // TODO: Can we use Color instead of string?
     // (Would be better for the user and is more logial)    
-    public interface ICalendarInfo
+    public class CalendarInfo
     {
         /// <summary>
         /// The calendar id
