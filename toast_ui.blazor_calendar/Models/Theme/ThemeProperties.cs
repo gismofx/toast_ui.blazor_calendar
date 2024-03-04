@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -66,23 +67,23 @@ namespace toast_ui.blazor_calendar.Models.Theme
     public interface IColorProperty
     {
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public class ColorProperty : IColorProperty
     {
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public interface IBackgroundColorProperty
     {
         [JsonPropertyName("backgroundColor")]
-        public string BackgroundColor { get; set; }
+        public Color BackgroundColor { get; set; }
     }
 
     public class BackgroundColorProperty : IBackgroundColorProperty
     {
-        public string BackgroundColor { get; set; }
+        public Color BackgroundColor { get; set; }
     }
 
     public interface IBorderProperty

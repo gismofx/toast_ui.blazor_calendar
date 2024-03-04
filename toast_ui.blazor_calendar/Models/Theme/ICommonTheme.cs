@@ -24,7 +24,7 @@ namespace toast_ui.blazor_calendar.Models.Theme
         public string Border { get; set; }
 
         [JsonPropertyName("gridSelection")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+
         public object GridSelection { get; set; }
         //gridSelection: {
         //  backgroundColor: string;

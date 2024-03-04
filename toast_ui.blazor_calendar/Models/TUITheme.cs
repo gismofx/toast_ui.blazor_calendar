@@ -1,6 +1,8 @@
-﻿using System.Dynamic;
+﻿using System.Drawing;
+using System.Dynamic;
 using System.Text.Json.Serialization;
 using toast_ui.blazor_calendar.Models.Theme;
+using toast_ui.blazor_calendar.Services.JsonConverters;
 
 
 namespace toast_ui.blazor_calendar.Models
@@ -12,32 +14,116 @@ namespace toast_ui.blazor_calendar.Models
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/themeConfig
     /// </summary>
-    public class TUITheme : ITheme
+    public class TUITheme
     {
-        public ICommonTheme CommonTheme { get; set; } = null;
-        public IWeekTheme WeekTheme { get; set; } = null;
-        public IMonthTheme MonthTheme { get; set; } = null;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public CommonTheme CommonTheme { get; set; } = null;
+        
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public WeekTheme WeekTheme { get; set; } = null;
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public MonthTheme MonthTheme { get; set; } = null;
 
     }
 
 
-    public class CommonTheme : ICommonTheme
+    public class CommonTheme
     {
-        public string BackgroundColor { get; set; } = "white";
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? BackgroundColor { get; set; } = Color.White;
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Border { get; set; } = "1px solid #e5e5e5";
-        public object GridSelection { get; set; } = null;
-        public IColorProperty DayName { get; set; }
-        public IColorProperty Holiday {get; set;} 
-        public IColorProperty Saturday {get; set;} 
-        public IColorProperty Today {get; set;} 
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public GridSelectionTheme GridSelection { get; set; } = null;
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? DayName { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Holiday {get; set;}
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Saturday {get; set;}
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Today {get; set;} 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <example>
+    ///   backgroundColor: 'rgba(81, 92, 230, 0.05)',
+    ///   border: '1px solid #515ce6'
+    /// </example>
+    public class GridSelectionTheme
+    {
+        public Color? BackgroundColor { get; set; }
+        public string Border { get; set; }
     }
 
     public class WeekTheme : IWeekTheme
     {
-        public IDayName DayName {get; set;}
-        public IDayGrid DayGrid {get; set;}
-        public IDayGridLeft DayGridLeft {get; set;}
-        public ITimeGrid TimeGrid {get; set;}
+        public class DayNameTheme
+        {
+            public string BorderLeft { get; set; }
+            public string BorderTop { get; set; }
+            public string BorderBottom { get; set; }
+
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? BackgroundColor { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DayNameTheme DayName { get; set; } = null;
+
+
+        public class DayGridTheme
+        {
+            public string BorderRight { get; set; }
+
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? BackgroundColor { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DayGridTheme DayGrid { get; set; } = null;
+
+        public class DayGridLeftTheme
+        {
+            public string BorderRight { get; set; }
+
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? BackgroundColor { get; set; }
+            public string Width { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DayGridTheme DayGridLeft {get; set;}
+
+        public class TimeGridTheme : ITimeGrid
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <example>
+            /// '1px solid #e5e5e5'
+            /// </example>
+            public string Border { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TimeGridTheme TimeGrid { get; set; } = null;
+        
+        
         public ITimeGridLeft TimeGridLeft {get; set;}
         public ITimeGridLeftAdditionalTimeZone TimeGridLeftAdditionalTimeZone {get; set;}
         public ITimeGridHalfHour TimeGridHalfHour {get; set;}
@@ -57,8 +143,28 @@ namespace toast_ui.blazor_calendar.Models
 
     public class MonthTheme : IMonthTheme
     {
-        public IDayExceptThisMonth DayExceptThisMonth {get; set;}
-        public IDayNameMonth DayName {get; set;}
+
+        public class DayExceptThisMonthTheme
+        {
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? Color { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DayExceptThisMonthTheme DayExceptThisMonth { get; set;}
+
+        public class DayNameMonthTheme : IDayNameMonth
+        {
+            public string BorderLeft { get; set; }
+
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color BackgroundColor { get; set; }
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DayNameMonthTheme DayName {get; set;}
+
+
         public IHolidayExceptThisMonth HolidayExceptThisMonth {get; set;}
         public IMoreView MoreView {get; set;}
         public IMoreViewTitle MoreViewTitle {get; set;}
