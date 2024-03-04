@@ -40,7 +40,11 @@ namespace toast_ui.blazor_calendar
         /// <summary>
         /// Direct access to some calendar functions via the Interop
         /// </summary>
-        public TUICalendarInteropService CalendarInterop { get; private set; } = null;
+        [Inject]
+        public ITUICalendarInteropService CalendarInterop { get; private set; } = null;
+
+        [Inject]
+        public IJSRuntime jsRuntime { get; set; }
 
         /// <summary>
         /// Calendar display options and defaults, can be null
@@ -61,8 +65,8 @@ namespace toast_ui.blazor_calendar
         /// The initial setting of this parameter has no affect.
         /// The calendar Options initial view will override this
         /// </summary>
-        [Parameter]
-        public TUICalendarViewName CalendarViewName { get; set; }
+        //[Parameter]
+        //public TUICalendarViewName CalendarViewName { get; set; } /delete this. Use Interop from calendar ref object!
 
         /// <summary>
         /// One-Way bind to this value to change/jump to any date
@@ -73,8 +77,7 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public DateTimeOffset? GoToDate { get; set; }
 
-        [Inject]
-        public IJSRuntime jsRuntime { get; set; }
+
 
         /// <summary>
         /// Invoked when a calendar Event or Task is changed
@@ -176,16 +179,6 @@ namespace toast_ui.blazor_calendar
         }
 
         /// <summary>
-        /// Clears all schedules from the calendar.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        public async ValueTask ClearCalendar()
-        {
-            await CalendarInterop.Clear();
-        }
-
-        /// <summary>
         /// Call this method and Advance the calendar, in any view, forward,backward, or to today.
         /// </summary>
         /// <param name="moveTo">Previous, Next, or Today</param>
@@ -230,13 +223,14 @@ namespace toast_ui.blazor_calendar
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override async Task SetParametersAsync(ParameterView parameters)
         {
-            var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
-            if (viewName != CalendarViewName)
-            {
-                CalendarViewName = viewName;
-                _OnParameterChangeEvents.Enqueue(CalendarInterop?.ChangeView(viewName).AsTask());
-                _OnParameterChangeEvents.Enqueue(SetDateRange());
-            }
+            //Use Interop from other code this function is out of scope
+            //var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
+            //if (viewName != CalendarViewName)
+            //{
+            //    CalendarViewName = viewName;
+            //    _OnParameterChangeEvents.Enqueue(CalendarInterop?.ChangeView(viewName).AsTask());
+            //    _OnParameterChangeEvents.Enqueue(SetDateRange());
+            //}
 
             var newDateDisplay = parameters.GetValueOrDefault<DateTimeOffset?>("GoToDate");
             if (newDateDisplay != GoToDate)
@@ -252,7 +246,7 @@ namespace toast_ui.blazor_calendar
                 if (!calendarOptions.Equals(CalendarOptions))
                 {
                     CalendarOptions = calendarOptions;
-                    _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetCalendarOptionsAsync(calendarOptions).AsTask());
+                    _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetCalendarOptions(calendarOptions).AsTask());
                     _OnParameterChangeEvents.Enqueue(SetDateRange());
                 }
             }
@@ -293,9 +287,10 @@ devV2
         /// <returns></returns>
         [JSInvokable("UpdateEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
+        public async Task UpdateSchedule(JsonObject eventBeingModified, JsonObject updatedEventFields)
         {
-            var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified.ToString(), updatedEventFields.ToString()); 
+            
+            var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified, updatedEventFields); 
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
             Debug.WriteLine($"Event {updatedEvent.Id} Modified");
         }
@@ -313,9 +308,9 @@ devV2
         {
             if (firstRender)
             {
-                await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
+                await CalendarInterop.InitCalendar(_ObjectReference, CalendarOptions);
                 await CalendarInterop.SetCalendars(CalendarProperties);
-                await CalendarInterop.CreateEventsAsync(Events);
+                await CalendarInterop.CreateEvents(Events);
                 await SetDateRange();
             }
         }
@@ -347,7 +342,7 @@ devV2
         }
 
         /// <summary>
-        /// Since there is no subsequent rendering required by blazor after the first render, this set to false
+        /// Since there is no subsequent rendering required by blazor after the first render, this must be set to false
         /// </summary>
         /// <returns></returns>
         protected override bool ShouldRender() => false;

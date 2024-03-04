@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
@@ -18,6 +19,12 @@ namespace toast_ui.blazor_calendar.Services
     public class TUICalendarInteropService : ITUICalendarInteropService, IAsyncDisposable
     {
         private readonly IJSRuntime _JSRuntime;
+
+        private static JsonSerializerOptions _JsonSerializerOptions = new JsonSerializerOptions() 
+        { 
+            PropertyNameCaseInsensitive = true, 
+            UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip 
+        };
 
         public TUICalendarInteropService(IJSRuntime jsRuntime)
         {
@@ -48,7 +55,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="events">Events/Tasks To Display</param>
         /// <returns></returns>
-        public async ValueTask CreateEventsAsync(IEnumerable<ITUIEventObject> events)
+        public async ValueTask CreateEvents(IEnumerable<ITUIEventObject> events)
         {
             if (events is not null)
             {
@@ -64,7 +71,7 @@ namespace toast_ui.blazor_calendar.Services
         {
             if (tuiEvent is not null)
             {
-                await CreateEventsAsync(new List<ITUIEventObject>() { 
+                await CreateEvents(new List<ITUIEventObject>() { 
                     tuiEvent
                 });
             }
@@ -117,7 +124,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="objectReference"></param>
         /// <returns></returns>
-        public async ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions)
+        public async ValueTask InitCalendar(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions)
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.initializeCalendar", objectReference, calendarOptions);
         }
@@ -160,7 +167,7 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         /// <param name="calendarOptions"></param>
         /// <returns></returns>
-        public async ValueTask SetCalendarOptionsAsync(TUICalendarOptions calendarOptions)
+        public async ValueTask SetCalendarOptions(TUICalendarOptions calendarOptions)
         {
             await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarOptions", calendarOptions);
         }
@@ -204,23 +211,28 @@ namespace toast_ui.blazor_calendar.Services
         /// <param name="eventToModify">Current Event Object</param>
         /// <param name="changedEvent">The changes made to the event</param>
         /// <returns>The changed event ready to further processing and/or saving</returns>
-        public ITUIEventObject UpdateEvent(ITUIEventObject eventToModify, string changedEvent)
+        public ITUIEventObject UpdateEvent(ITUIEventObject eventToModify, JsonObject changedEvent)
         {
-            return CombineTuiEvent(eventToModify, changedEvent);
+            var c = DeserializeEventObject(changedEvent);
+            return CombineTuiEvent(eventToModify, c);
         }
 
-        public ITUIEventObject UpdateEvent(string eventToModifyAsJson, string changedPropertiesAsJson)
+        /// <summary>
+        /// Update an Event From TUI Calendar
+        /// </summary>
+        /// <param name="eventToModifyAsJson"></param>
+        /// <param name="changedPropertiesAsJson"></param>
+        /// <returns></returns>
+        public ITUIEventObject UpdateEvent(JsonObject eventToModifyAsJson, JsonObject changedPropertiesAsJson)
         {
             var currentEvent = DeserializeEventObject(eventToModifyAsJson);
-            //var ser = JsonSerializer.Serialize(currentEvent, new JsonSerializerOptions() { WriteIndented = true });
             var updatedEvent = UpdateEvent(currentEvent, changedPropertiesAsJson); //Todo: Combine changes with actual schedule
             return updatedEvent;
         }
         
-        private static ITUIEventObject CombineTuiEvent(ITUIEventObject eventToModify, string changesAsJson)//JsonElement changes)
+        private static ITUIEventObject CombineTuiEvent(ITUIEventObject eventToModify, ITUIEventObject eventWithChangedPropertiesOnly)//JsonElement changes)
         {
-            var c = DeserializeEventObject(changesAsJson);//  JsonSerializer.Deserialize<TUIEventObject>(changes.ToString(), new JsonSerializerOptions() {PropertyNameCaseInsensitive = true }); ;
-            CopyValues(eventToModify, c);
+            CopyValues(eventToModify, eventWithChangedPropertiesOnly);
             return eventToModify;
         }
 
@@ -239,9 +251,9 @@ namespace toast_ui.blazor_calendar.Services
             }
         }
 
-        internal static ITUIEventObject DeserializeEventObject(string eventAsJson)
+        internal static ITUIEventObject DeserializeEventObject(JsonObject eventAsJson)
         {
-            return JsonSerializer.Deserialize<TUIEventObject>(eventAsJson, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true, UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip });
+            return JsonSerializer.Deserialize<TUIEventObject>(eventAsJson, _JsonSerializerOptions);
         }
     }
 }

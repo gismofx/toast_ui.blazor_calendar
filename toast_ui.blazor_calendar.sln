@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "toast_ui.blazor_calendar", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "toast_ui.blazor_calendar.TestProject", "toast_ui.blazor_calendar.TestProject\toast_ui.blazor_calendar.TestProject\toast_ui.blazor_calendar.TestProject.csproj", "{0A7C8956-2D9B-420E-8A3A-ADF8C42D9C73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "toast_ui.blazor_calendar.TestProjectWithMudBlazor", "toast_ui.blazor_calendar.TestProjectWithMudBlazor\toast_ui.blazor_calendar.TestProjectWithMudBlazor.csproj", "{36583F5D-5257-45F7-A9B5-AC5954A2A96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "toast_ui.blazor_calendar.TestProjectMudBlazorServerSide", "toast_ui.blazor_calendar.TestProjectMudBlazorServerSide\toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.csproj", "{FD9AF14F-AEDD-4EC5-AB0F-8C4911C6841C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{0A7C8956-2D9B-420E-8A3A-ADF8C42D9C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A7C8956-2D9B-420E-8A3A-ADF8C42D9C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A7C8956-2D9B-420E-8A3A-ADF8C42D9C73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36583F5D-5257-45F7-A9B5-AC5954A2A96D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36583F5D-5257-45F7-A9B5-AC5954A2A96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36583F5D-5257-45F7-A9B5-AC5954A2A96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36583F5D-5257-45F7-A9B5-AC5954A2A96D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9AF14F-AEDD-4EC5-AB0F-8C4911C6841C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9AF14F-AEDD-4EC5-AB0F-8C4911C6841C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9AF14F-AEDD-4EC5-AB0F-8C4911C6841C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9AF14F-AEDD-4EC5-AB0F-8C4911C6841C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

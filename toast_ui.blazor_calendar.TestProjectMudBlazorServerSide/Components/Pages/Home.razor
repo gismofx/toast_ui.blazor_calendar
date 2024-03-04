@@ -1,0 +1,110 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+@inject CalendarViewModel ViewModel
+@using toast_ui.blazor_calendar.Models
+@implements IDisposable
+@using System.ComponentModel
+
+
+<PageTitle>Home</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h4">
+        TUI Blazor Calendar Demo
+    </MudText>
+    <MudGrid Spacing="2">
+        <MudItem sm="2">
+            <MudPaper Elevation="2" Class="pa-2">
+
+                <MudStack>
+                    <MudSelect T="string" Label="View" HelperText="Change the View">
+                        <MudSelectItem Value="@("Month")" />
+                        <MudSelectItem Value="@("Week")" />
+                        <MudSelectItem Value="@("Day")" />
+                    </MudSelect>
+
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+        <MudItem sm="10">
+            <MudPaper Class="d-flex flex-column flex-grow-1 gap-2">
+                <MudPaper Class="flex-none" Height="75">
+                    <MudText>Test</MudText>
+                </MudPaper>
+                <MudPaper Class="flex-none">
+                    <div style="height:600px;">
+                    <TUICalendar Events="ViewModel.Schedules"
+                                 CalendarOptions="ViewModel.CalendarOptions"
+                                 CalendarProperties="ViewModel.CalendarProps"
+                                 @bind-VisibleStartDateRange="ViewModel.StartDate"
+                                 @bind-VisibleEndDateRange="ViewModel.EndDate"
+                                 OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+                                 OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+                                 OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+                                 OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
+                                 @ref=_calendarRef></TUICalendar>
+                    </div>
+@*                     CalendarViewName="ViewModel.CalendarViewName" *@
+                </MudPaper>
+                <MudPaper Class="flex-none" Height="75">
+                    <MudText>Test</MudText>
+                </MudPaper>
+            </MudPaper>
+        </MudItem>
+        
+    </MudGrid>
+
+
+
+</MudContainer>
+
+@code{
+    private TUICalendar _calendarRef;
+    private DateTimeOffset selectDate = DateTimeOffset.Now;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.InitCalendarDataAsync();
+        ViewModel.PropertyChanged += OnPropertyChangedHandler;
+    }
+
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private void ChangeCalendarView(TUICalendarViewName viewName)
+    {
+        ViewModel.CalendarViewName = viewName;
+    }
+
+    private async Task MoveCalendarView(CalendarMove move)
+    {
+        await _calendarRef.MoveCalendar(move);
+
+    }
+
+    private async void ClearCalendar()
+    {
+        await _calendarRef.CalendarInterop.Clear();
+    }
+
+    private async ValueTask ScrollToNow()
+    {
+        await _calendarRef.CalendarInterop.ScrollToNow();
+    }
+
+    public void Dispose()
+    {
+        ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private async Task ScrollToDate(DateTimeOffset selectedDateTime)
+    {
+        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
+    }
+}
