@@ -34,7 +34,7 @@
                 </MudPaper>
                 <MudPaper Class="flex-none">
                     <div style="height:600px;">
-                    <TUICalendar Events="ViewModel.Schedules"
+                    <TUICalendar Events="ViewModel.Events"
                                  CalendarOptions="ViewModel.CalendarOptions"
                                  CalendarProperties="ViewModel.CalendarProps"
                                  @bind-VisibleStartDateRange="ViewModel.StartDate"
@@ -90,12 +90,12 @@
 
     private async void ClearCalendar()
     {
-        await _calendarRef.CalendarInterop.Clear();
+        await _calendarRef.ClearCalendars();
     }
 
     private async ValueTask ScrollToNow()
     {
-        await _calendarRef.CalendarInterop.ScrollToNow();
+        await _calendarRef.ScrollToNow();
     }
 
     public void Dispose()
@@ -105,6 +105,6 @@
 
     private async Task ScrollToDate(DateTimeOffset selectedDateTime)
     {
-        await _calendarRef.CalendarInterop.SetDate(selectedDateTime);
+        await _calendarRef.SetDate(selectedDateTime);
     }
 }

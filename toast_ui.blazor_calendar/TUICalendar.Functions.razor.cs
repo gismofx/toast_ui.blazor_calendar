@@ -14,7 +14,7 @@ namespace toast_ui.blazor_calendar
     /// <summary>
     /// Functions for the Calendar
     /// </summary>
-    public partial class TUICalendar
+    public partial class TUICalendar 
     {
         /// <summary>
         /// Add a new schedule to the calendar
@@ -25,18 +25,17 @@ namespace toast_ui.blazor_calendar
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task CreateEvent(JsonElement newSchedule)
         {
-            var schedule = JsonSerializer.Deserialize<TUIEvent>(newSchedule.ToString());
-            Events.Add(schedule);
+            var schedule = CalendarInterop.Deserialize(newSchedule);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Event Created");
         }
 
         /// <summary>
-        /// Clears all schedules from the calendar.
+        /// Clears all events from the calendar.
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public async Task ClearCalendar()
+        public async Task ClearCalendars()
         {
             await CalendarInterop.Clear();
         }
@@ -60,11 +59,11 @@ namespace toast_ui.blazor_calendar
         /// <returns></returns>
         [JSInvokable("UpdateEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task UpdateSchedule(dynamic eventBeingModified, dynamic updatedEventFields)
+        public async Task UpdateSchedule(JsonElement eventBeingModified, JsonElement updatedEventFields)
         {
-            var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified.ToString(), updatedEventFields.ToString());
-            await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent); //Todo: Test This callback!
-            Debug.WriteLine($"Event {updatedEvent.Id} Modified");
+            var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified, updatedEventFields);
+            await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent.newEvent); //Todo: Test This callback!
+            Debug.WriteLine($"Event {updatedEvent.newEvent.Id} Modified");
         }
 
         /// <summary>
@@ -81,15 +80,20 @@ namespace toast_ui.blazor_calendar
         }
 
 
-        public async Task Clear()
-        {
-            await CalendarInterop.Clear();
-        }
+        /// <summary>
+        /// Scroll the calendar view to user's current time. i.e. now.
+        /// </summary>
+        /// <returns></returns>
         public async Task ScrollToNow()
         {
             await CalendarInterop.ScrollToNow();
         }
 
+        /// <summary>
+        /// Go To A Date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public async Task SetDate(DateTimeOffset date)
         {
             await CalendarInterop.SetDate(date);

@@ -261,20 +261,23 @@ devV2
         }
         protected override async Task OnParametersSetAsync()
         {
-            if (CalendarInterop is not null)
-            {
-                while (_OnParameterChangeEvents.Count > 0)
-                {
-                    try
-                    {
-                        _OnParameterChangeEvents.Clear();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        //do nothing
-                    }
-                }
-            }
+            _OnParameterChangeEvents.Clear();
+            //ToDo: What am I thinking here?
+            //if (CalendarInterop is not null)
+            //{
+            //    while (_OnParameterChangeEvents.Any())
+            //    {
+            //        try
+            //        {
+            //            Task ev = _OnParameterChangeEvents.Dequeue();
+            //            await ev;
+            //        }
+            //        catch (NullReferenceException)
+            //        {
+            //            //do nothing
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>

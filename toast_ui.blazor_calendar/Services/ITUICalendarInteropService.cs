@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
 namespace toast_ui.blazor_calendar.Services
 {
-    internal interface ITUICalendarInteropService
+    public interface ITUICalendarInteropService
     {
         ValueTask Clear();
         ValueTask ChangeView(TUICalendarViewName viewName);
@@ -15,7 +15,9 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask InitCalendarAsync(DotNetObjectReference<TUICalendar> objectReference, TUICalendarOptions calendarOptions);
         ValueTask MoveCalendar(CalendarMove moveTo);
         ValueTask SetCalendars(IEnumerable<CalendarInfo> calendars);
-        TUIEvent UpdateEvent(TUIEvent eventToModify, string changedEvent);
+        
+        (TUIEvent newEvent,TUIEvent eventChangesOnly) UpdateEvent(JsonElement eventToModify, JsonElement changedEvent); //TUIEvent eventToModify, string changedEvent);
+
         ValueTask HideShowCalendar(string calendarId, bool hide);
         ValueTask SetDate(DateTimeOffset? dateToDisplay);
         ValueTask<DateTimeOffset?> GetDateRangeStart();
@@ -23,6 +25,7 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask SetCalendarOptions(TUICalendarOptions calendarOptions);
         ValueTask ScrollToNow();
         ValueTask SetTheme(TUITheme theme);
+        TUIEvent Deserialize(JsonElement jsonEvent);
 
     }
 }

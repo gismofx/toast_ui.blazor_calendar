@@ -15,77 +15,65 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event Id
         /// </summary>
-        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Calendar Id
         /// </summary>
-        [JsonPropertyName("calendarId")]
         public string CalendarId { get; set; }
 
 
         /// <summary>
         /// Event Title
         /// </summary>
-        [JsonPropertyName("title")]
         public string? Title { get; set; }
 
         /// <summary>
         /// Event Body
         /// </summary>
-        [JsonPropertyName("body")]
         public string? Body { get; set; }
 
         /// <summary>
         /// Event is All day
         /// </summary>
-        [JsonPropertyName("isAllday")]
         public bool? IsAllDay { get; set; }
 
         /// <summary>
         /// Event Start UTC Time
         /// </summary>
         [JsonConverter(typeof(TZDateJsonConverter))]
-        [JsonPropertyName("start")]
         public DateTimeOffset? Start { get; set; }
 
         /// <summary>
         /// Event End UTC Time
         /// </summary>
         [JsonConverter(typeof(TZDateJsonConverter))]
-        [JsonPropertyName("end")]
         public DateTimeOffset? End { get; set; }
 
         /// <summary>
         /// Event Going Duration
         /// </summary>
-        [JsonPropertyName("goingDuration")]
         public int? GoingDuration { get; set; }
 
         /// <summary>
         /// Event Coming Duration
         /// </summary>
-        [JsonPropertyName("comingDuration")]
         public int? ComingDuration { get; set; }
 
         /// <summary>
         /// Event Location
         /// </summary>
-        [JsonPropertyName("location")]
         public string Location { get; set; }
 
         /// <summary>
         /// Event Attendees
         /// </summary>
-        [JsonPropertyName("attendees")]
         public List<string>? Attendees { get; set; }
 
         /// <summary>
         /// Category of the event. Available categories are 'milestone', 'task', 'time' and 'allday'.
         /// Category will affect where it's displayed
         /// </summary>
-        [JsonPropertyName("category")]
         public EventCategory? Category { get; set; }
 
         // TODO: Create Structure for RecurrenceRule
@@ -93,43 +81,36 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Event Recurrence Rule
         /// </summary>
-        [JsonPropertyName("recurrenceRule")]
         public RecurringRule RecurrenceRule { get; set; }
 
         /// <summary>
         /// Show as Busy or Free
         /// </summary>
-        [JsonPropertyName("state")]
         public EventState? State { get; set; }
 
         /// <summary>
         /// Event is Visible
         /// </summary>
-        [JsonPropertyName("isVisible")]
         public bool? IsVisible { get; set; }
 
         /// <summary>
         /// Event is Pending
         /// </summary>
-        [JsonPropertyName("isPending")]
         public bool? IsPending { get; set; }
 
         /// <summary>
         /// Event is Focused
         /// </summary>
-        [JsonPropertyName("isFocused")]
         public bool? IsFocused { get; set; }
 
         /// <summary>
         /// Event is Read Only
         /// </summary>
-        [JsonPropertyName("isReadOnly")]
         public bool? IsReadOnly { get; set; }
 
         /// <summary>
         /// Event is Private
         /// </summary>
-        [JsonPropertyName("isPrivate")]
         public bool? IsPrivate { get; set; }
 
 
@@ -137,28 +118,24 @@ namespace toast_ui.blazor_calendar.Models
         /// Event Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
-        [JsonPropertyName("color")]
         public Color? Color { get; set; }
 
         /// <summary>
         /// Event Background Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
-        [JsonPropertyName("backgroundColor")]
         public Color? BackgroundColor { get; set; }
 
         /// <summary>
         /// Event Drag Background Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
-        [JsonPropertyName("dragBackgroundColor")]
         public Color? DragBackgroundColor { get; set; }
 
         /// <summary>
         /// Event Border Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
-        [JsonPropertyName("borderColor")]
         public Color? BorderColor { get; set; }
 
         // TODO: Create Structure for CustomStyle
@@ -166,7 +143,6 @@ namespace toast_ui.blazor_calendar.Models
         /// Event Custom Style
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
-        [JsonPropertyName("customStyle")]
         public Color? CustomStyle { get; set; }
 
         /// <summary>

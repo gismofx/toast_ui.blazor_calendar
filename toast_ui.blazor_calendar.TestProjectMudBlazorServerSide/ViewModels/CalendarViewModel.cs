@@ -13,14 +13,14 @@ public class CalendarViewModel : BaseViewModel
     {
     }
 
-    private List<TUIEvent> _Schedules;
+    private List<TUIEvent> _Events;
 
-    public List<TUIEvent> Schedules
+    public List<TUIEvent> Events
     {
-        get => _Schedules;
+        get => _Events;
         set
         {
-            SetValue(ref _Schedules, value);
+            SetValue(ref _Events, value);
         }
     }
 
@@ -155,10 +155,10 @@ public class CalendarViewModel : BaseViewModel
 
         await Task.Run(() =>
         {
-            _Schedules = new List<TUIEvent>();
+            _Events = new List<TUIEvent>();
             for (int i = 0; i < 50; i++)
             {
-                _Schedules.Add(GetFakeSchedule());
+                _Events.Add(GetFakeSchedule());
             }
         });
     }
