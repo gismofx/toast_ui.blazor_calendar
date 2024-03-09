@@ -54,17 +54,18 @@
     <Content Update="NpmJS\package.json" CopyToOutputDirectory="Never" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Confiuration)' == 'Debug'">
+  <PropertyGroup Condition="'$(Confiuration)' == 'Debug|AnyCPU'">
     <NpmConfiguration>dev</NpmConfiguration>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release|AnyCPU'">
     <NpmConfiguration>prod</NpmConfiguration>
   </PropertyGroup>
-  
+  <!--$(NpmConfiguration)-->
+
   <Target Name="InstallAndRunNpm" BeforeTargets="PreBuildEvent">
     <Exec Command="npm install" WorkingDirectory="NpmJS" />
-    <Exec Command="npm run-script $(NpmConfiguration)" WorkingDirectory="NpmJS" />
+    <Exec Command="npm run-script prod" WorkingDirectory="NpmJS" />
   </Target>
   
 </Project>

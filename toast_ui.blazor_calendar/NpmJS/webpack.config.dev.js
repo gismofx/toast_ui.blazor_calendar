@@ -3,6 +3,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    cache: false,
     mode: 'development',
     devtool: 'inline-source-map',
     entry: './src/index.js',
@@ -23,6 +24,9 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
         ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
     }
 
 };

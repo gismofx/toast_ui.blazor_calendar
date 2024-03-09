@@ -98,5 +98,16 @@ namespace toast_ui.blazor_calendar
         {
             await CalendarInterop.SetDate(date);
         }
+
+        public async ValueTask SetCalendarVisibility(string calendarId, bool isVisible)
+        {
+            await CalendarInterop.SetCalendarVisibility(calendarId, isVisible);
+        }
+
+        public async ValueTask ChangeView(TUICalendarViewName viewName)
+        {
+            await CalendarInterop.ChangeView(viewName);
+        }
+
     }
 }

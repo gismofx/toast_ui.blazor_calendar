@@ -13,6 +13,10 @@ public class CalendarViewModel : BaseViewModel
     {
     }
 
+    public TUICalendar CalendarRef { get; set; }
+
+    public MudBlazor.MudChip[] SelectedCalendars = null;
+
     private List<TUIEvent> _Events;
 
     public List<TUIEvent> Events
@@ -67,6 +71,7 @@ public class CalendarViewModel : BaseViewModel
             SetValue(ref _StartDate, value);
         }
     }
+
 
     private DateTimeOffset? _EndDate;
 
@@ -149,9 +154,19 @@ public class CalendarViewModel : BaseViewModel
             BorderColor = Color.Black,
         };
         calendarProps.Add(calendar2);
-        CalendarProps = calendarProps;
 
-        //.calendars = calendarProps;
+        var calendar3 = new CalendarInfo()
+        {
+            Id = "3",
+            Name = "My Test Calendar3",
+            Color = Color.Black,
+            BackgroundColor = Color.MediumPurple,
+            DragBackgroundColor = Color.LightPink,
+            BorderColor = Color.Black
+        };
+        calendarProps.Add(calendar3);
+
+        CalendarProps = calendarProps;
 
         await Task.Run(() =>
         {
@@ -172,7 +187,7 @@ public class CalendarViewModel : BaseViewModel
         var sched = new TUIEvent()
         {
             Id = Guid.NewGuid().ToString(),
-            CalendarId = faker.Random.Int(1, 2).ToString(),
+            CalendarId = faker.Random.Int(1, 3).ToString(),
             Start = startDate,
             End = endDate,
             Title = faker.Lorem.Sentence(faker.Random.Int(3, 7)),
@@ -219,6 +234,21 @@ public class CalendarViewModel : BaseViewModel
         Debug.WriteLine($"Delete this Event: {EventId}");
         //Simulate long running task
         await Task.Delay(10);
+    }
+
+    public async ValueTask OnCaldendarChipClick(string calendarId)
+    {
+        bool visible = false;
+        if (SelectedCalendars.Any(x => ((CalendarInfo)(x.Tag)).Id == calendarId))
+            visible = true;
+            
+        CalendarRef.SetCalendarVisibility(calendarId, visible);
+    }
+
+    public async ValueTask ViewChanged(string viewName)
+    {
+        Enum.TryParse(viewName, out TUICalendarViewName viewAsEnum);
+        await CalendarRef.ChangeView(viewAsEnum);
     }
 
 

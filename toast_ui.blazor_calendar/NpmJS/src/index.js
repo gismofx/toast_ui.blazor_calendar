@@ -103,14 +103,17 @@ window.TUICalendar = {
 
     },
 
+    //Clear Whole Calendar
     clear: function () {
         TUICalendar.calendarRef.clear();
     },
 
+    //Create/Add Events from list of events
     createEvents: function (events) {
         TUICalendar.calendarRef.createEvents(events);
     },
 
+    //Update an event on the calendar
     updateSchedule: function (event) {
         TUICalendar.calendarRef.updateEvent(event.id, event.calendarId, event);
         TUICalendar.calendarRef.render(true);
@@ -140,7 +143,7 @@ window.TUICalendar = {
         }
     },
 
-    deleteSchedule: function (calendarId, scheduleId) {
+    deleteEvent: function (calendarId, scheduleId) {
         TUICalendar.calendarRef.deleteEvent(scheduleId, calendarId);
     },
 
@@ -148,8 +151,9 @@ window.TUICalendar = {
         TUICalendar.calendarRef.setOptions(options);
     },
 
-    hideShowCalendar: function (calendarId, hide) {
-        TUICalendar.calendarRef.toggleSchedules(calendarId, hide);
+    /*Make calendars' event visible or hidden*/
+    setCalendarVisibility: function (calendarIds, isVisible) {
+        TUICalendar.calendarRef.setCalendarVisibility(calendarIds, isVisible);
     },
 
     setDate: function (date) {

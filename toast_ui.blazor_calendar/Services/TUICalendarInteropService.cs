@@ -56,10 +56,9 @@ namespace toast_ui.blazor_calendar.Services
         /// <returns></returns>
         public async ValueTask CreateEventsAsync(IEnumerable<TUIEvent> events)
         {
-            if (events is not null)
-            {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.createEvents", events);
-            }
+            if (events is null) return;
+                
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.createEvents", events);
         }
 
         /// <summary>
@@ -105,17 +104,6 @@ namespace toast_ui.blazor_calendar.Services
             var deserializeOptions = new JsonSerializerOptions();
             deserializeOptions.Converters.Add(new TZDateJsonConverter());
             return JsonSerializer.Deserialize<DateTimeOffset?>(result.ToString(), deserializeOptions);
-        }
-
-        /// <summary>
-        /// Hide or Show a Specific Calendar of Events/Tasks By Calendar Id
-        /// </summary>
-        /// <param name="calendarId">Id of the calendar you want to hide or show</param>
-        /// <param name="hide">True will hide. False will show</param>
-        /// <returns></returns>
-        public async ValueTask HideShowCalendar(string calendarId, bool hide)
-        {
-            await _JSRuntime.InvokeVoidAsync("hideShowCalendar", calendarId, hide);
         }
 
         /// <summary>
@@ -181,17 +169,17 @@ namespace toast_ui.blazor_calendar.Services
         }
 
         /// <summary>
-        /// Sett/Go To a Date on the Calendar
+        /// Set/Go To a Date on the Calendar
         /// </summary>
         /// <param name="dateToDisplay"></param>
         /// <returns></returns>
         public async ValueTask SetDate(DateTimeOffset? dateToDisplay)
         {
-            if (dateToDisplay is not null)
-            {
-                var dateTimeInMilliseconds = dateToDisplay.Value.ToUnixTimeMilliseconds();
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.setDate", dateTimeInMilliseconds);
-            }
+            if (dateToDisplay is null) return;
+            
+            var dateTimeInMilliseconds = dateToDisplay.Value.ToUnixTimeMilliseconds();
+            await _JSRuntime.InvokeVoidAsync("TUICalendar.setDate", dateTimeInMilliseconds);
+            
         }
 
         /// <summary>
@@ -250,6 +238,39 @@ namespace toast_ui.blazor_calendar.Services
         public TUIEvent Deserialize(JsonElement jsonEvent)
         {
             return DeserializeEventObject(jsonEvent);
+        }
+
+        /// <summary>
+        /// Hide/Show all events that belong to a list of calendar Ids
+        /// </summary>
+        /// <param name="calendarIds">Calendar Ids that you want to set visibility for</param>
+        /// <param name="isVisible">True=visible, False=hidden</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async ValueTask SetCalendarVisibility(IEnumerable<string> calendarIds, bool isVisible)
+        {
+            try
+            {
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.setCalendarVisibility", calendarIds, isVisible);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            
+        }
+
+        /// <summary>
+        /// Hide/Show all events that belong to a given calendar id
+        /// </summary>
+        /// <param name="calendarId"></param>
+        /// <param name="isVisibile">True=visible, False=hidden</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async ValueTask SetCalendarVisibility(string calendarId, bool isVisible)
+        {
+            await SetCalendarVisibility(new[] {calendarId}, isVisible);
         }
     }
 }

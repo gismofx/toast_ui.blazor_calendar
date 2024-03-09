@@ -5,6 +5,7 @@
 @using toast_ui.blazor_calendar.Models
 @implements IDisposable
 @using System.ComponentModel
+@using toast_ui.blazor_calendar.Models
 
 
 <PageTitle>Home</PageTitle>
@@ -16,24 +17,34 @@
     <MudGrid Spacing="2">
         <MudItem sm="2">
             <MudPaper Elevation="2" Class="pa-2">
-
                 <MudStack>
-                    <MudSelect T="string" Label="View" HelperText="Change the View">
-                        <MudSelectItem Value="@("Month")" />
+                    <MudSelect Dense=true Variant=Variant.Outlined T="string" Label="Calendar View" HelperText="Change the View" ValueChanged="@(async (v) => await ViewModel.ViewChanged(v))">
+                        @foreach (var view in Enum.GetValues(typeof(TUICalendarViewName)))
+                        {
+                            <MudSelectItem Tag=@view Value="@(view.ToString())"/>
+                        }
+@*                         <MudSelectItem Value="@("Month")" />
                         <MudSelectItem Value="@("Week")" />
-                        <MudSelectItem Value="@("Day")" />
+                        <MudSelectItem Value="@("Day")" /> *@
                     </MudSelect>
+                    <MudDivider/>
+                    <MudText Typo="Typo.caption">Calendars</MudText>
+                    <MudChipSet MultiSelection="true" @bind-SelectedChips="@ViewModel.SelectedCalendars">
+                            @foreach (var cal in ViewModel.CalendarProps)
+                {
+                            <MudChip Tag="@cal" Text="@cal.Name" Variant="Variant.Filled" Style=@($"color:{System.Drawing.ColorTranslator.ToHtml(cal.Color.Value)} ; background-color:{System.Drawing.ColorTranslator.ToHtml(cal.BackgroundColor.Value)}") Default="true" SelectedColor="Color.Primary" Colo OnClick="@(async () => await ViewModel.OnCaldendarChipClick(cal.Id))" />
+                            }
 
+                    </MudChipSet>
                 </MudStack>
             </MudPaper>
         </MudItem>
-        <MudItem sm="10">
-            <MudPaper Class="d-flex flex-column flex-grow-1 gap-2">
+        <MudItem sm="10" Class="d-flex flex-column flex-grow-1 gap-2" Style="height:calc(100vh - 100px)">
                 <MudPaper Class="flex-none" Height="75">
                     <MudText>Test</MudText>
                 </MudPaper>
-                <MudPaper Class="flex-none">
-                    <div style="height:600px;">
+                <MudPaper Class="flex-grow-1">
+                    <div style="height:100%;">
                     <TUICalendar Events="ViewModel.Events"
                                  CalendarOptions="ViewModel.CalendarOptions"
                                  CalendarProperties="ViewModel.CalendarProps"
@@ -43,14 +54,13 @@
                                  OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
                                  OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
                                  OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
-                                 @ref=_calendarRef></TUICalendar>
+                                 @ref=ViewModel.CalendarRef/>
                     </div>
 @*                     CalendarViewName="ViewModel.CalendarViewName" *@
                 </MudPaper>
                 <MudPaper Class="flex-none" Height="75">
                     <MudText>Test</MudText>
                 </MudPaper>
-            </MudPaper>
         </MudItem>
         
     </MudGrid>
@@ -84,18 +94,18 @@
 
     private async Task MoveCalendarView(CalendarMove move)
     {
-        await _calendarRef.MoveCalendar(move);
+        //await _calendarRef.MoveCalendar(move);
 
     }
 
     private async void ClearCalendar()
     {
-        await _calendarRef.ClearCalendars();
+        //await _calendarRef.ClearCalendars();
     }
 
     private async ValueTask ScrollToNow()
     {
-        await _calendarRef.ScrollToNow();
+        //await _calendarRef.ScrollToNow();
     }
 
     public void Dispose()
@@ -105,6 +115,6 @@
 
     private async Task ScrollToDate(DateTimeOffset selectedDateTime)
     {
-        await _calendarRef.SetDate(selectedDateTime);
+        //await _calendarRef.SetDate(selectedDateTime);
     }
 }

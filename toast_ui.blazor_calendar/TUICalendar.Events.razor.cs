@@ -21,7 +21,7 @@ namespace toast_ui.blazor_calendar
         /// <returns></returns>
         [JSInvokable("DeleteEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnDeleteSchedule(string eventID)
+        public async Task OnDeleteEvent(string eventID)
         {
             await OnDeleteCalendarEventOrTask.InvokeAsync(eventID);
             Debug.WriteLine($"Event {eventID} Deleted!");

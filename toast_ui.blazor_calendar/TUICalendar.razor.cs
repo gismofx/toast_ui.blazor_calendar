@@ -60,21 +60,13 @@ namespace toast_ui.blazor_calendar
         public IEnumerable<CalendarInfo> CalendarProperties { get; set; } = null;
 
         /// <summary>
-        /// Change the Calendar View Mode to Day, Week, or Month View
-        /// The initial setting of this parameter has no affect.
-        /// The calendar Options initial view will override this
-        /// </summary>
-        //[Parameter]
-        //public TUICalendarViewName CalendarViewName { get; set; } /delete this. Use Interop from calendar ref object!
-
-        /// <summary>
         /// One-Way bind to this value to change/jump to any date
         /// which will be made visible for any given calendar view name
         /// Initial setting of this parameter will have no affect during 
         /// loading of this component
         /// </summary>
-        [Parameter]
-        public DateTimeOffset? GoToDate { get; set; }
+        //[Parameter]
+        //public DateTimeOffset? GoToDate { get; set; }
 
 
 
@@ -111,8 +103,8 @@ namespace toast_ui.blazor_calendar
         */
 
         /// <summary>
-        /// IEnumerable of all events/tasks etc of type TUISchedule.
-        /// This is the initial set of schedules/events to be loaded
+        /// IEnumerable of all events/tasks etc of type TUIEvents.
+        /// This is the initial set of events to be loaded
         /// </summary>
         [Parameter]
         public ICollection<TUIEvent> Events { get; set; }
@@ -140,18 +132,6 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         [Parameter]
         public EventCallback<DateTimeOffset?> VisibleStartDateRangeChanged { get; set; }
-
-/*
-
-        /// <param name="newSchedule">The new TUISchedule object</param>
-        public async Task CreateSchedule(TUISchedule newSchedule)
-        {
-            Schedules.Add(newSchedule);
-            await CalendarInterop.CreateScheduleAsync(newSchedule);
-            await OnCreateCalendarEventOrTask.InvokeAsync(newSchedule);
-
-*/
-
 
 
         public void Dispose()
@@ -182,13 +162,13 @@ namespace toast_ui.blazor_calendar
             //    _OnParameterChangeEvents.Enqueue(SetDateRange());
             //}
 
-            var newDateDisplay = parameters.GetValueOrDefault<DateTimeOffset?>("GoToDate");
-            if (newDateDisplay != GoToDate)
-            {
-                GoToDate = newDateDisplay;
-                _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetDate(newDateDisplay).AsTask());
-                _OnParameterChangeEvents.Enqueue(SetDateRange());
-            }
+            //var newDateDisplay = parameters.GetValueOrDefault<DateTimeOffset?>("GoToDate");
+            //if (newDateDisplay != GoToDate)
+            //{
+            //    GoToDate = newDateDisplay;
+            //    _OnParameterChangeEvents.Enqueue(CalendarInterop?.SetDate(newDateDisplay).AsTask());
+            //    _OnParameterChangeEvents.Enqueue(SetDateRange());
+            //}
 
             var calendarOptions = parameters.GetValueOrDefault<TUICalendarOptions>("CalendarOptions");
             if (calendarOptions is not null)
