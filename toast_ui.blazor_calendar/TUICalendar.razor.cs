@@ -43,7 +43,7 @@ namespace toast_ui.blazor_calendar
         internal ITUICalendarInteropService CalendarInterop { get; private set; } = null;
 
         [Inject]
-        public IJSRuntime jsRuntime { get; set; }
+        internal IJSRuntime jsRuntime { get; set; }
 
         /// <summary>
         /// Calendar display options and defaults, can be null
