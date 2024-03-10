@@ -13,45 +13,69 @@ namespace toast_ui.blazor_calendar.Models
 
     /// <summary>
     /// https://nhn.github.io/tui.calendar/latest/themeConfig
+    /// https://github.com/nhn/tui.calendar/blob/main/docs/en/apis/theme.md
     /// </summary>
     public class TUITheme
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("common")]
         public CommonTheme CommonTheme { get; set; } = null;
         
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("week")]
         public WeekTheme WeekTheme { get; set; } = null;
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("month")]
         public MonthTheme MonthTheme { get; set; } = null;
-
     }
 
 
     public class CommonTheme
     {
+        /// <summary>
+        /// Background Color of the Calendar
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color? BackgroundColor { get; set; } = Color.White;
 
+        /// <summary>
+        /// Border of calendar
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Border { get; set; } = "1px solid #e5e5e5";
 
+        /// <summary>
+        /// Selected date/time area
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public GridSelectionTheme GridSelection { get; set; } = null;
 
+        /// <summary>
+        /// Day of the week
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color? DayName { get; set; }
 
+        /// <summary>
+        /// Holiday
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color? Holiday {get; set;}
 
+        /// <summary>
+        /// Saturday
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color? Saturday {get; set;}
 
+        /// <summary>
+        /// Current Day
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color? Today {get; set;} 
@@ -141,35 +165,115 @@ namespace toast_ui.blazor_calendar.Models
         public IGridSelection GridSelection {get; set;}
     }
 
+    /// <summary>
+    /// Theme for Month-View
+    /// </summary>
     public class MonthTheme
     {
 
         public class DayExceptThisMonthTheme
         {
             [JsonConverter(typeof(ColorJsonConverter))]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
             public Color? Color { get; set; }
         }
 
+        /// <summary>
+        /// Color of Day Number for days not in current month
+        /// i.e. dimmed/muted grey
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DayExceptThisMonthTheme DayExceptThisMonth { get; set;}
 
-        public class DayNameMonthTheme : IDayNameMonth
+        public class HolidayExceptThisMonthTheme
         {
-            public string BorderLeft { get; set; }
-
             [JsonConverter(typeof(ColorJsonConverter))]
-            public Color BackgroundColor { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public Color? Color { get; set; }
         }
 
+        /// <summary>
+        /// Color of Day Number for holiday days not in current month
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public HolidayExceptThisMonthTheme HolidayExceptThisMonth { get; set; }
+
+        public class DayNameMonthTheme
+        {
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public string BorderLeft { get; set; }
+
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? BackgroundColor { get; set; }
+        }
+
+        /// <summary>
+        /// The Day Name Header for day names in month view
+        /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DayNameMonthTheme DayName {get; set;}
 
+        public class MoreViewTheme
+        {
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            [JsonConverter(typeof(ColorJsonConverter))]
+            public Color? BackgroundColor { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public string Border { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public string BoxShadow { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public int? Width { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public int? Height { get; set; }
+        }
 
-        public IHolidayExceptThisMonth HolidayExceptThisMonth {get; set;}
-        public IMoreView MoreView {get; set;}
-        public IMoreViewTitle MoreViewTitle {get; set;}
-        public IWeekendMonth Weekend {get; set;}
-        public IGridCell GridCell {get; set;}
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public MoreViewTheme MoreView { get; set; } = null;
+
+        public class MoreViewTitleTheme
+        {
+            [JsonConverter(typeof(ColorJsonConverter))]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public Color? BackgroundColor { get; set; }
+        }
+
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public MoreViewTitleTheme MoreViewTitle {get; set;}
+
+        /// <summary>
+        /// Weekend cell in monthly view
+        /// </summary>
+        public class WeekendTheme
+        {
+            [JsonConverter(typeof(ColorJsonConverter))]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public Color? BackgroundColor { get; set; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public WeekendTheme Weekend {get; set;}
+
+
+
+        public class GridCellTheme
+        {
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public int? HeaderHeight { get; set; } = null;
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public int? FooterHeight { get; set; } = null;
+        }
+
+        /// <summary>
+        /// Header and footer height of all cells in monthly view
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public GridCellTheme GridCell {get; set;}
     }
 
 }

@@ -18,30 +18,33 @@
         <MudItem sm="2">
             <MudPaper Elevation="2" Class="pa-2">
                 <MudStack>
-                    <MudSelect Dense=true Variant=Variant.Outlined T="string" Label="Calendar View" HelperText="Change the View" ValueChanged="@(async (v) => await ViewModel.ViewChanged(v))">
-                        @foreach (var view in Enum.GetValues(typeof(TUICalendarViewName)))
-                        {
-                            <MudSelectItem Tag=@view Value="@(view.ToString())"/>
-                        }
-@*                         <MudSelectItem Value="@("Month")" />
-                        <MudSelectItem Value="@("Week")" />
-                        <MudSelectItem Value="@("Day")" /> *@
-                    </MudSelect>
-                    <MudDivider/>
                     <MudText Typo="Typo.caption">Calendars</MudText>
                     <MudChipSet MultiSelection="true" @bind-SelectedChips="@ViewModel.SelectedCalendars">
-                            @foreach (var cal in ViewModel.CalendarProps)
-                {
-                            <MudChip Tag="@cal" Text="@cal.Name" Variant="Variant.Filled" Style=@($"color:{System.Drawing.ColorTranslator.ToHtml(cal.Color.Value)} ; background-color:{System.Drawing.ColorTranslator.ToHtml(cal.BackgroundColor.Value)}") Default="true" SelectedColor="Color.Primary" Colo OnClick="@(async () => await ViewModel.OnCaldendarChipClick(cal.Id))" />
-                            }
-
+                        @foreach (var cal in ViewModel.CalendarProps)
+                        {
+                        <MudChip Tag="@cal" Text="@cal.Name" Variant="Variant.Filled" Style=@($"color:{System.Drawing.ColorTranslator.ToHtml(cal.Color.Value)} ; background-color:{System.Drawing.ColorTranslator.ToHtml(cal.BackgroundColor.Value)}") Default="true" SelectedColor="Color.Primary" Colo OnClick="@(async () => await ViewModel.OnCaldendarChipClick(cal.Id))" />
+                        }
                     </MudChipSet>
                 </MudStack>
             </MudPaper>
         </MudItem>
         <MudItem sm="10" Class="d-flex flex-column flex-grow-1 gap-2" Style="height:calc(100vh - 100px)">
-                <MudPaper Class="flex-none" Height="75">
-                    <MudText>Test</MudText>
+                <MudPaper Class="flex-none pa-2">
+                    <MudStack Row=true Spacing="3" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+                        <div "width:75px">
+                        <MudSelect Dense=true Variant=Variant.Outlined T="string" Label="Calendar View" ValueChanged="@(async (v) => await ViewModel.ViewChanged(v))">
+                            @foreach (var view in Enum.GetValues(typeof(TUICalendarViewName)))
+                            {
+                                <MudSelectItem Tag=@view Value="@(view.ToString())" />
+                            }
+                        </MudSelect>
+                        </div>
+                        
+                        <MudFab StartIcon="@Icons.Material.Filled.ArrowLeft" />
+                        <MudFab Label="Today"/>
+                        <MudFab StartIcon="@Icons.Material.Filled.ArrowRight" />
+                        <MudButton Variant="Variant.Filled" OnClick="@(async () => await ViewModel.SetTheme())">Set Theme</MudButton>
+                    </MudStack>
                 </MudPaper>
                 <MudPaper Class="flex-grow-1">
                     <div style="height:100%;">
