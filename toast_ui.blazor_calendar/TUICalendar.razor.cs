@@ -39,10 +39,9 @@ namespace toast_ui.blazor_calendar
         private void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
-
             {
                 case nameof(CalendarOptions):
-                    if (CalendarOptions?.Theme != null && ThemeService != CalendarOptions.Theme)
+                    if (CalendarOptions?.Theme != null && ThemeService.CurrentTheme != CalendarOptions.Theme)
                         ThemeService.SetTheme(CalendarOptions.Theme);
                     break;
                 default:
