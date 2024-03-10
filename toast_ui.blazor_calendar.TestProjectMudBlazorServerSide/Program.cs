@@ -19,8 +19,7 @@ namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide
             builder.Services.AddTransient<CalendarViewModel>();
 
             //If you want to interact with the calendar from code
-            builder.Services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
-
+            builder.Services.AddTUIBlazorCalendar();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

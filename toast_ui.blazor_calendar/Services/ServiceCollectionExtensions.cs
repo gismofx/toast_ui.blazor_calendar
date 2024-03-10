@@ -14,7 +14,9 @@ namespace toast_ui.blazor_calendar.Services
         /// </summary>
         public static IServiceCollection AddTUIBlazorCalendar(this IServiceCollection services)
         {
-            return services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
+            services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
+            services.AddScoped<IThemeService, ThemeService>();
+            return services;
         }
     }
 }

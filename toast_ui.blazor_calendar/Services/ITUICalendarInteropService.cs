@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
 namespace toast_ui.blazor_calendar.Services
 {
-    public interface ITUICalendarInteropService
+    internal interface ITUICalendarInteropService
     {
         ValueTask Clear();
         ValueTask ChangeView(TUICalendarViewName viewName);

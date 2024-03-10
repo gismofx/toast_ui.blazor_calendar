@@ -26,8 +26,29 @@ namespace toast_ui.blazor_calendar
         Today
     }
 
-    public partial class TUICalendar : ComponentBase, IDisposable
+    public partial class TUICalendar : ComponentBase, INotifyPropertyChanged, IDisposable
     {
+        [Inject]
+        internal IThemeService ThemeService { get; set; }
+
+        public TUICalendar()
+        {
+            PropertyChanged += TUICalendar_PropertyChanged;
+        }
+
+        private void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+
+            {
+                case nameof(CalendarOptions):
+                    if (CalendarOptions?.Theme != null && ThemeService != CalendarOptions.Theme)
+                        ThemeService.SetTheme(CalendarOptions.Theme);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
@@ -35,6 +56,13 @@ namespace toast_ui.blazor_calendar
         /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
         /// </summary>
         private Queue<Task> _OnParameterChangeEvents = new();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void Notify(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Direct access to some calendar functions via the Interop
@@ -45,11 +73,20 @@ namespace toast_ui.blazor_calendar
         [Inject]
         internal IJSRuntime jsRuntime { get; set; }
 
+        private TUICalendarOptions _CalendarOptions = null;
         /// <summary>
         /// Calendar display options and defaults, can be null
         /// </summary>
         [Parameter]
-        public TUICalendarOptions CalendarOptions { get; set; } = null;
+        public TUICalendarOptions CalendarOptions
+        {
+            get => _CalendarOptions;
+            set
+            {
+                _CalendarOptions = value;
+                Notify(nameof(CalendarOptions));
+            }
+        }
 
         public EventCallback<TUICalendarOptions> CalendarOptionsChanged { get; set; }
 
@@ -87,7 +124,7 @@ namespace toast_ui.blazor_calendar
         /// </summary>
         [Parameter]
         public EventCallback<TUIEvent> OnCreateCalendarEventOrTask { get; set; }
-        
+
         /// <summary>
         /// Raised when a calendar Event or Task is Deleted
         /// </summary>
@@ -101,14 +138,13 @@ namespace toast_ui.blazor_calendar
         [Parameter]
         public EventCallback<string> OnDoubleClickCalendarEventOrTask { get; set; }
         */
-
         /// <summary>
         /// IEnumerable of all events/tasks etc of type TUIEvents.
         /// This is the initial set of events to be loaded
         /// </summary>
         [Parameter]
         public ICollection<TUIEvent> Events { get; set; }
-        
+
         /// <summary>
         /// The End Date of the Range of days displayed on the calendar
         /// </summary>
@@ -153,6 +189,7 @@ namespace toast_ui.blazor_calendar
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override async Task SetParametersAsync(ParameterView parameters)
         {
+
             //Use Interop from other code this function is out of scope
             //var viewName = parameters.GetValueOrDefault<TUICalendarViewName>("CalendarViewName");
             //if (viewName != CalendarViewName)
@@ -199,17 +236,17 @@ namespace toast_ui.blazor_calendar
 
         }
 
-/*
-devV2
-        /// <param name="changedSchedule">The changes made to the schedule</param>
-        public async Task UpdateSchedule(TUISchedule changedSchedule)
-        {
-            await CalendarInterop.UpdateSchedule(changedSchedule); 
-            await OnChangeCalendarEventOrTask.InvokeAsync(changedSchedule);
-            Debug.WriteLine($"Schedule {changedSchedule.id} Modified");
+        /*
+        devV2
+                /// <param name="changedSchedule">The changes made to the schedule</param>
+                public async Task UpdateSchedule(TUISchedule changedSchedule)
+                {
+                    await CalendarInterop.UpdateSchedule(changedSchedule); 
+                    await OnChangeCalendarEventOrTask.InvokeAsync(changedSchedule);
+                    Debug.WriteLine($"Schedule {changedSchedule.id} Modified");
 
-*/
-       
+        */
+
         /*@Todo: Waiting for Double click in TUI API
 
         [JSInvokable("OnDoubleClickSchedule")]
@@ -265,7 +302,7 @@ devV2
         /// </summary>
         /// <returns></returns>
         protected override bool ShouldRender() => false;
-        
+
 
     }
 }

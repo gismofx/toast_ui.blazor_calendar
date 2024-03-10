@@ -15,7 +15,7 @@ namespace toast_ui.blazor_calendar.Services
     /// JSInterop for BlazorTuiCalendarInterop.js
     /// API: https://nhn.github.io/tui.calendar/latest/
     /// </summary>
-    public class TUICalendarInteropService : ITUICalendarInteropService, IAsyncDisposable
+    internal class TUICalendarInteropService : ITUICalendarInteropService, IAsyncDisposable
     {
         private readonly IJSRuntime _JSRuntime;
 
