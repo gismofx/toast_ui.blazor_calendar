@@ -104,13 +104,13 @@ public class CalendarViewModel : BaseViewModel
             //startDayOfWeek = 0,
             VisibleWeeksCount = 6,
             //visibleScheduleCount = 0,
-                
+
         };
 
         var weekOptions = new TUIWeekOptions()
         {
             //daynames = new[] { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" },
-            narrowWeekend=true,
+            narrowWeekend = true,
             //startDayOfWeek = 0,
         };
 
@@ -127,13 +127,15 @@ public class CalendarViewModel : BaseViewModel
             {
                 BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
                 Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
-                DayName = System.Drawing.Color.White,
+                DayName = new() { Color = System.Drawing.Color.White },
                 GridSelection = new GridSelectionTheme()
                 {
                     BackgroundColor = System.Drawing.Color.WhiteSmoke,
                     Border = "1px dotted #515ce6"
                 },
-
+                Today = new() { Color = Color.White },
+                Saturday = new() { Color = Color.Pink },
+                Holiday = new() { Color = Color.Red }
             },
             MonthTheme = new MonthTheme()
             {
@@ -141,10 +143,15 @@ public class CalendarViewModel : BaseViewModel
                 {
                     BackgroundColor = Color.FromArgb(30, 30, 30),
                     BorderLeft = null,
+
                 },
                 Weekend = new()
                 {
                     BackgroundColor = Color.FromArgb(45, 45, 48)
+                },
+                DayExceptThisMonth = new()
+                {
+                    Color = Color.LightGray
                 }
             },
             WeekTheme = null//new WeekTheme()
@@ -156,14 +163,14 @@ public class CalendarViewModel : BaseViewModel
             UseFormPopup = true,
             UseDetailPopup = true,
             DefaultView = TUICalendarViewName.Month,
-            GridSelection = new() { EnableClick = true , EnableDbClick = true},
+            GridSelection = new() { EnableClick = true, EnableDbClick = true },
             //taskView = false,
             //scheduleView = true,
             Month = monthOptions,
             Week = weekOptions,
             TUITemplate = calendarTemplate,
             Timezone = timeZones,
-            Theme = _Theme
+            Theme = _Theme,
         };
 
         var calendarProps = new List<CalendarInfo>();
@@ -220,7 +227,7 @@ public class CalendarViewModel : BaseViewModel
     {
         var faker = new Faker();
 
-        var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0,15,0));
+        var startDate = faker.Date.BetweenOffset(DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now.AddDays(10)).RoundToNearest(new TimeSpan(0, 15, 0));
         var endDate = startDate.AddMinutes(faker.Random.Int(15, 300));
         var sched = new TUIEvent()
         {
@@ -234,7 +241,8 @@ public class CalendarViewModel : BaseViewModel
             IsVisible = true,
             IsAllDay = false,
             IsReadOnly = false,
-            State = EventState.Busy
+            State = EventState.Busy,
+            Color = Color.White
         };
 
         return sched;
@@ -279,7 +287,7 @@ public class CalendarViewModel : BaseViewModel
         bool visible = false;
         if (SelectedCalendars.Any(x => ((CalendarInfo)(x.Tag)).Id == calendarId))
             visible = true;
-            
+
         CalendarRef.SetCalendarVisibility(calendarId, visible);
     }
 

@@ -50,8 +50,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Lang\Language.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Language.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="NpmJS\package-lock.json" CopyToOutputDirectory="Never" />
     <Content Update="NpmJS\package.json" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Lang\Language.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Language.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Confiuration)' == 'Debug|AnyCPU'">

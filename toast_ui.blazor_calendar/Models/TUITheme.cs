@@ -56,29 +56,50 @@ namespace toast_ui.blazor_calendar.Models
         /// Day of the week
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color? DayName { get; set; }
+        public DayNameProperties? DayName { get; set; }
 
         /// <summary>
         /// Holiday
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color? Holiday {get; set;}
+        public HolidayProperties? Holiday {get; set;}
 
         /// <summary>
         /// Saturday
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color? Saturday {get; set;}
+        public SaturdayProperties? Saturday {get; set;}
 
         /// <summary>
         /// Current Day
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TodayProperties? Today {get; set;} 
+    }
+
+    public class DayNameProperties
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color? Today {get; set;} 
+        public Color? Color { get; set; }
+    }
+    public class TodayProperties
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Color { get; set; }
+    }
+    public class SaturdayProperties
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Color { get; set; }
+    }
+    public class HolidayProperties
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color? Color { get; set; }
     }
 
     /// <summary>
