@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -164,8 +165,15 @@ namespace toast_ui.blazor_calendar.Services
         public async ValueTask SetTheme(TUITheme theme)
         {
             if (theme is null) return;
+            try
+            {
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.setTheme", JsonSerializer.Serialize(theme));
+            }
             
-            await _JSRuntime.InvokeVoidAsync("TUICalendar.setTheme", theme);
+            catch (Exception ex) 
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
         /// <summary>

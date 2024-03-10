@@ -21,7 +21,7 @@ namespace toast_ui.blazor_calendar
         /// <returns></returns>
         [JSInvokable("DeleteEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal async Task OnDeleteEvent(string eventID)
+        public async Task OnDeleteEvent(string eventID)
         {
             await OnDeleteCalendarEventOrTask.InvokeAsync(eventID);
             Debug.WriteLine($"Event {eventID} Deleted!");
@@ -34,7 +34,7 @@ namespace toast_ui.blazor_calendar
         /// <returns></returns>
         [JSInvokable("OnClickEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal async Task OnScheduleClick(string eventId)
+        public async Task OnScheduleClick(string eventId)
         {
             await OnClickCalendarEventOrTask.InvokeAsync(eventId);
             Debug.WriteLine($"Event {eventId} Clicked!");

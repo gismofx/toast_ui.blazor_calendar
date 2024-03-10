@@ -38,7 +38,7 @@ window.TUICalendar = {
             });
         }
 
-        options.template = templateFunctions;
+        //options.template = templateFunctions;
         TUICalendar.calendarRef = new Calendar('#calendar', options
             /*{
             defaultView: 'month', // monthly view option
@@ -123,8 +123,8 @@ window.TUICalendar = {
         TUICalendar.calendarRef.setCalendars(calendars, true);
     },
 
-    setTheme: function (theme) {
-        TUICalendar.calendarRef.setTheme(theme);
+    setTheme: function (userTheme) {
+        TUICalendar.calendarRef.setTheme(userTheme);
     },
 
     changeView: function (viewName) {

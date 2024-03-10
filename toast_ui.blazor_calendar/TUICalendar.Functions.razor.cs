@@ -99,6 +99,16 @@ namespace toast_ui.blazor_calendar
             await CalendarInterop.SetDate(date);
         }
 
+        /// <summary>
+        /// Set the Calendar Theme
+        /// </summary>
+        /// <param name="theme"></param>
+        /// <returns></returns>
+        public async Task SetTheme(TUITheme theme)
+        {
+            await CalendarInterop.SetTheme(theme);
+        }
+
         public async ValueTask SetCalendarVisibility(string calendarId, bool isVisible)
         {
             await CalendarInterop.SetCalendarVisibility(calendarId, isVisible);

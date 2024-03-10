@@ -4,6 +4,7 @@ using System.Diagnostics;
 using toast_ui.blazor_calendar.Models;
 using System.Drawing;
 using toast_ui.blazor_calendar.Helpers;
+using System.Reflection;
 
 namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.ViewModels;
 
@@ -18,6 +19,8 @@ public class CalendarViewModel : BaseViewModel
     public MudBlazor.MudChip[] SelectedCalendars = null;
 
     private List<TUIEvent> _Events;
+
+    private TUITheme _Theme;
 
     public List<TUIEvent> Events
     {
@@ -117,6 +120,36 @@ public class CalendarViewModel : BaseViewModel
         timeZones.AddTimeZone(TimeZoneInfo.Local);
         //timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
+        //Create a Theme
+        _Theme = new TUITheme()
+        {
+            CommonTheme = new CommonTheme()
+            {
+                BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
+                Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
+                DayName = System.Drawing.Color.White,
+                GridSelection = new GridSelectionTheme()
+                {
+                    BackgroundColor = System.Drawing.Color.WhiteSmoke,
+                    Border = "1px dotted #515ce6"
+                },
+
+            },
+            MonthTheme = new MonthTheme()
+            {
+                DayName = new()
+                {
+                    BackgroundColor = Color.FromArgb(30, 30, 30),
+                    BorderLeft = null,
+                },
+                Weekend = new()
+                {
+                    BackgroundColor = Color.FromArgb(45, 45, 48)
+                }
+            },
+            WeekTheme = null//new WeekTheme()
+        };
+
         //Set the Calendar Options
         CalendarOptions = new TUICalendarOptions()
         {
@@ -129,7 +162,8 @@ public class CalendarViewModel : BaseViewModel
             Month = monthOptions,
             Week = weekOptions,
             TUITemplate = calendarTemplate,
-            Timezone = timeZones
+            Timezone = timeZones,
+            Theme = _Theme
         };
 
         var calendarProps = new List<CalendarInfo>();
@@ -173,12 +207,16 @@ public class CalendarViewModel : BaseViewModel
             _Events = new List<TUIEvent>();
             for (int i = 0; i < 50; i++)
             {
-                _Events.Add(GetFakeSchedule());
+                _Events.Add(GetFakeEvent());
             }
         });
     }
 
-    private TUIEvent GetFakeSchedule()
+    /// <summary>
+    /// Generates Fake Events
+    /// </summary>
+    /// <returns></returns>
+    private TUIEvent GetFakeEvent()
     {
         var faker = new Faker();
 
@@ -251,5 +289,9 @@ public class CalendarViewModel : BaseViewModel
         await CalendarRef.ChangeView(viewAsEnum);
     }
 
+    public async ValueTask SetTheme()
+    {
+        await CalendarRef.SetTheme(_Theme);
+    }
 
 }
