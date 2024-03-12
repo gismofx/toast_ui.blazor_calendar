@@ -33,7 +33,7 @@ namespace toast_ui.blazor_calendar
 
         public TUICalendar()
         {
-            PropertyChanged += TUICalendar_PropertyChanged;
+            //PropertyChanged += TUICalendar_PropertyChanged;
         }
 
         private void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)

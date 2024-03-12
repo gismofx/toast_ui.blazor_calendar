@@ -119,5 +119,10 @@ namespace toast_ui.blazor_calendar
             await CalendarInterop.ChangeView(viewName);
         }
 
+        public async ValueTask SetCalendarOptions(TUICalendarOptions options)
+        {
+            await CalendarInterop.SetCalendarOptions(options);
+        }
+
     }
 }

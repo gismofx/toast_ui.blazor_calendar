@@ -12,22 +12,37 @@ namespace toast_ui.blazor_calendar.JsonConverters
     /// <summary>
     /// Creates a JsonConverter for the Color class.
     /// </summary>
-    public class ColorJsonConverter : JsonConverter<Color>
+    public class ColorJsonConverter : JsonConverter<Color?>
     {
-        public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Color? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var hexValue = reader.GetString();
+            Color? value = null;
+            while (reader.TokenType !=JsonTokenType.EndObject) 
+            {
+                reader.Read();
+                switch (reader.TokenType) 
+                {
+                    case JsonTokenType.String:
+                        var hexValue = reader.GetString();
+                        // Remove the hash sign, if present
+                        if (hexValue != null && hexValue.StartsWith("#"))
+                            hexValue = hexValue.Substring(1);
+                        value = ColorTranslator.FromHtml("#" + hexValue);
+                        reader.Read();
+                        break;
 
-            // Remove the hash sign, if present
-            if (hexValue != null && hexValue.StartsWith("#"))
-                hexValue = hexValue.Substring(1);
-
-            return ColorTranslator.FromHtml("#" + hexValue);
+                    case JsonTokenType.EndObject:
+                        return value;
+                }
+                
+            }
+            throw new JsonException("Unable to parse Color");
+            return null;
         }
 
-        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, Color? value, JsonSerializerOptions options)
         {
-            var hexValue = ColorTranslator.ToHtml(value);
+            var hexValue = ColorTranslator.ToHtml(value.Value);
             writer.WriteStringValue(hexValue);
         }
     }

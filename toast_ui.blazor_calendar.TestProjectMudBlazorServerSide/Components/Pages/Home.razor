@@ -11,10 +11,10 @@
 <PageTitle>Home</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    <MudText Typo="Typo.h4">
+@*     <MudText Typo="Typo.h4">
         TUI Blazor Calendar Demo
-    </MudText>
-    <MudGrid Spacing="2">
+    </MudText> *@
+    <MudGrid Spacing="2" Class="mb-2 pa-2">
         <MudItem sm="2">
             <MudPaper Elevation="2" Class="pa-2">
                 <MudStack>
@@ -26,6 +26,10 @@
                         }
                     </MudChipSet>
                 </MudStack>
+            </MudPaper>
+            <MudPaper Elevation="2" Class="pa-2">
+                <MudText Typo="Typo.caption">Options</MudText>
+                <MudSwitch Label="Use Custom Detail Popup" Value="false" T=bool ValueChanged="@(async (b) => await ViewModel.UseCustomPopup((bool)b))"/>
             </MudPaper>
         </MudItem>
         <MudItem sm="10" Class="d-flex flex-column flex-grow-1 gap-2" Style="height:calc(100vh - 100px)">
