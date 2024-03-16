@@ -8,13 +8,14 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Models.Extensions;
 
 namespace toast_ui.blazor_calendar
 {
     /// <summary>
     /// Functions for the Calendar
     /// </summary>
-    public partial class TUICalendar 
+    public partial class TUICalendar
     {
         /// <summary>
         /// Add a new schedule to the calendar
@@ -26,6 +27,7 @@ namespace toast_ui.blazor_calendar
         public async Task CreateEvent(JsonElement newSchedule)
         {
             var schedule = CalendarInterop.Deserialize(newSchedule);
+            Notify(NotifyUI);
             await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
             Debug.WriteLine("New Event Created");
         }
@@ -48,6 +50,7 @@ namespace toast_ui.blazor_calendar
         public async Task MoveCalendar(CalendarMove moveTo)
         {
             await CalendarInterop.MoveCalendar(moveTo);
+            Notify(NotifyUI);
             await SetDateRange();
         }
 
@@ -62,6 +65,7 @@ namespace toast_ui.blazor_calendar
         public async Task UpdateSchedule(JsonElement eventBeingModified, JsonElement updatedEventFields)
         {
             var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified, updatedEventFields);
+            Notify(NotifyUI);
             await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent.newEvent); //Todo: Test This callback!
             Debug.WriteLine($"Event {updatedEvent.newEvent.Id} Modified");
         }
@@ -117,6 +121,7 @@ namespace toast_ui.blazor_calendar
         public async ValueTask ChangeView(TUICalendarViewName viewName)
         {
             await CalendarInterop.ChangeView(viewName);
+            Notify(NotifyUI);
         }
 
     }
