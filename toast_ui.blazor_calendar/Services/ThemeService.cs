@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Models.Extensions;
 
 namespace toast_ui.blazor_calendar.Services
 {
@@ -31,6 +32,6 @@ namespace toast_ui.blazor_calendar.Services
         {
             CurrentTheme = theme;
             TUICalendarInteropService.SetTheme(theme);
-        }   
+        }
     }
 }

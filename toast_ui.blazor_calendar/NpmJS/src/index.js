@@ -175,4 +175,45 @@ window.TUICalendar = {
         }
     },
 
+    changeTuiEventColor: function (newColor) {
+
+        // Get all elements with the class name
+        var eventTitles = document.querySelectorAll('.toastui-calendar-weekday-event-title');
+        // Loop through the NodeList object and change the color style.
+        eventTitles.forEach(function (title) {
+            title.style.color = newColor;
+        });
+
+        //document.querySelectorAll('.toastui-calendar-weekday-event-block').forEach(function (event) {
+        //    var bgColor = window.getComputedStyle(event, null).getPropertyValue('background-color');
+        //    bgColor = rgbToHex(bgColor); // Funktion um RGB zu Hex zu konvertieren, falls nötig
+        //    var textColor = getContrastYIQ(bgColor);
+        //    event.style.color = textColor;
+        //});
+
+
+
+    },
+
+    getContrastYIQ: function (hexcolor) {
+        hexcolor = hexcolor.replace("#", "");
+        var r = parseInt(hexcolor.substr(0, 2), 16);
+        var g = parseInt(hexcolor.substr(2, 2), 16);
+        var b = parseInt(hexcolor.substr(4, 2), 16);
+        var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? 'black' : 'white';
+    },
+    rgbToHex: function (color) {
+        color = "" + color;
+        if (!color.includes('rgb')) { return color; }
+        var nums = /(.*?)rgb\((\d+), (\d+), (\d+)\)/i.exec(color),
+            r = parseInt(nums[2], 10).toString(16),
+            g = parseInt(nums[3], 10).toString(16),
+            b = parseInt(nums[4], 10).toString(16);
+        return "#" +
+            ((r.length == 1 ? "0" + r : r) +
+                (g.length == 1 ? "0" + g : g) +
+                (b.length == 1 ? "0" + b : b));
+    }
+
 }

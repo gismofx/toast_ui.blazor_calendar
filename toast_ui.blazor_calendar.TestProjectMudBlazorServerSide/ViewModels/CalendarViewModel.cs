@@ -135,7 +135,8 @@ public class CalendarViewModel : BaseViewModel
         {
             CommonTheme = new CommonTheme()
             {
-                BackgroundColor = Color.FromArgb(37, 37, 38),
+                BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
+                EventTitleColor = System.Drawing.Color.White,
                 Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
                 DayName = new() { Color = System.Drawing.Color.White },
                 GridSelection = new GridSelectionTheme()
@@ -164,7 +165,6 @@ public class CalendarViewModel : BaseViewModel
                     Color = Color.FromArgb(179,179,179)
                 }
             },
-            WeekTheme = null//new WeekTheme()
         };
 
         //Set the Calendar Options
@@ -338,7 +338,5 @@ public class CalendarViewModel : BaseViewModel
         await CalendarRef.SetCalendarOptions(options);
         //use code to switch to showing custom popup
     }
-
-
 
 }

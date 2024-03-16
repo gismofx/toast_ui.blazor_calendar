@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
 using System.Text.Json.Nodes;
+using toast_ui.blazor_calendar.Models.Extensions;
 
 namespace toast_ui.blazor_calendar
 {
@@ -28,16 +29,23 @@ namespace toast_ui.blazor_calendar
 
     public partial class TUICalendar : ComponentBase, INotifyPropertyChanged, IDisposable
     {
+        internal static readonly string NotifyUI = "UI";
         [Inject]
         internal IThemeService ThemeService { get; set; }
 
         public TUICalendar()
         {
-            //PropertyChanged += TUICalendar_PropertyChanged;
+            PropertyChanged += TUICalendar_PropertyChanged;
         }
 
-        private void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == NotifyUI)
+            {
+                await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                return;
+            }
+            
             switch (e.PropertyName)
             {
                 case nameof(CalendarOptions):
@@ -263,6 +271,7 @@ namespace toast_ui.blazor_calendar
                 await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
                 await CalendarInterop.SetCalendars(CalendarProperties);
                 await CalendarInterop.CreateEventsAsync(Events);
+                Notify(NotifyUI);
                 await SetDateRange();
             }
         }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using toast_ui.blazor_calendar.JsonConverters;
 using toast_ui.blazor_calendar.Models;
+using toast_ui.blazor_calendar.Models.Extensions;
 
 namespace toast_ui.blazor_calendar.Services
 {
@@ -171,6 +172,20 @@ namespace toast_ui.blazor_calendar.Services
             }
             
             catch (Exception ex) 
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        }
+
+        public async ValueTask ChangeTUIEventColors(string color)
+        {
+            if (color is null) return;
+            try
+            {
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.changeTuiEventColor", color);
+            }
+
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }

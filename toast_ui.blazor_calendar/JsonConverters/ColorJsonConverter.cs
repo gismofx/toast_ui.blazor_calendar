@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using toast_ui.blazor_calendar.Models.Extensions;
 
 namespace toast_ui.blazor_calendar.JsonConverters
 {
@@ -25,9 +26,9 @@ namespace toast_ui.blazor_calendar.JsonConverters
                     case JsonTokenType.String:
                         var hexValue = reader.GetString();
                         // Remove the hash sign, if present
-                        if (hexValue != null && hexValue.StartsWith("#"))
-                            hexValue = hexValue.Substring(1);
-                        value = ColorTranslator.FromHtml("#" + hexValue);
+                        if (!hexValue.StartsWith("#") && Color.FromName(hexValue) is Color c)
+                            hexValue = c.ToHex();
+                        value = ColorTranslator.FromHtml(hexValue);
                         reader.Read();
                         break;
 
@@ -37,7 +38,6 @@ namespace toast_ui.blazor_calendar.JsonConverters
                 
             }
             throw new JsonException("Unable to parse Color");
-            return null;
         }
 
         public override void Write(Utf8JsonWriter writer, Color? value, JsonSerializerOptions options)
