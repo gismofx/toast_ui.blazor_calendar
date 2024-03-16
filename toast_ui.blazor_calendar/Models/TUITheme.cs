@@ -75,6 +75,7 @@ namespace toast_ui.blazor_calendar.Models
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public TodayProperties? Today {get; set;}
+        
         public Color EventTitleColor { get; set; }
     }
 
