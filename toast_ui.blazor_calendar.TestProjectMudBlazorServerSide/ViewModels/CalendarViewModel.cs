@@ -6,13 +6,20 @@ using System.Drawing;
 using toast_ui.blazor_calendar.Helpers;
 using System.Reflection;
 using Microsoft.Extensions.Options;
+using MudBlazor;
+using Color = System.Drawing.Color;
+using Microsoft.AspNetCore.Hosting.Server;
+
 
 namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.ViewModels;
 
 public class CalendarViewModel : BaseViewModel
 {
-    public CalendarViewModel()
+    private IDialogService _dialogService;
+
+    public CalendarViewModel(IDialogService dialogService)
     {
+        _dialogService = dialogService;
     }
 
     public TUICalendar CalendarRef { get; set; }
@@ -22,6 +29,8 @@ public class CalendarViewModel : BaseViewModel
     private List<TUIEvent> _Events;
 
     private TUITheme _Theme;
+
+    public bool UseCustomPopup { get; set; } = false;
 
     public List<TUIEvent> Events
     {
@@ -132,7 +141,7 @@ public class CalendarViewModel : BaseViewModel
                 DayName = new() { Color = System.Drawing.Color.White },
                 GridSelection = new GridSelectionTheme()
                 {
-                    BackgroundColor = System.Drawing.Color.WhiteSmoke,
+                    BackgroundColor = Color.WhiteSmoke,
                     Border = "1px dotted #515ce6"
                 },
                 Today = new() { Color = Color.White },
@@ -257,13 +266,32 @@ public class CalendarViewModel : BaseViewModel
         await Task.Delay(10);
     }
 
-    public async Task OnClickCalendarEventOrTask(string eventId)
+    public async Task OnClickCalendarEventOrTask(TUIEvent clickedEvent)
     {
         //do something when an event is clicked
         //You can find Event in Database by Id
-        Debug.WriteLine($"Event or Task Clicked: {eventId}");
+        Debug.WriteLine($"Event or Task Clicked: {clickedEvent.Id}");
+        
+        if (UseCustomPopup)
+        {
+
+            var parameters = new DialogParameters<Components.Dialogs.CustomPopup> { { x => x.MyEvent, clickedEvent } };
+
+            var dialog = await _dialogService.ShowAsync<Components.Dialogs.CustomPopup>("This is a custom popup", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Canceled)
+            {
+                //Snackbar.Add("Event Something", Severity.Success);
+                //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
+                //Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
+                //Servers.RemoveAll(item => item.Id == deletedServer);
+            }
+        }
         //Simulate long running task
         await Task.Delay(10);
+
+
     }
 
     public async Task OnCreateCalendarEventOrTask(TUIEvent newSchedule)
@@ -302,8 +330,9 @@ public class CalendarViewModel : BaseViewModel
         await CalendarRef.SetTheme(_Theme);
     }
 
-    public async Task UseCustomPopup(bool useCustomPopup)
+    public async Task UseCustomPopupChange(bool useCustomPopup)
     {
+        UseCustomPopup = useCustomPopup; 
         var options = new TUICalendarOptions()
         { UseDetailPopup = !useCustomPopup };
         await CalendarRef.SetCalendarOptions(options);

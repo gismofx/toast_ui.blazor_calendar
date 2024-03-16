@@ -1,0 +1,63 @@
+﻿
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.CalendarViewDay" Class="mr-3 mb-n1" />
+            Edit Event Details
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField Label="Title" @bind-Value="@MyEvent.Title" ReadOnly="@MyEvent.IsReadOnly.GetValueOrDefault(false)"/>
+        <MudTextField Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.EditLocation" Label="Location" @bind-Value="@MyEvent.Location" ReadOnly="@MyEvent.IsReadOnly.GetValueOrDefault(false)" />
+        <MudStack Row=true>
+            <MudDatePicker Label="Start Date" />
+            <MudTimePicker Label="Start Time" AmPm=true/>
+        </MudStack>
+        <MudStack Row=true>
+            <MudDatePicker Label="End Date" />
+            <MudTimePicker Label="End Time" AmPm=true />
+        </MudStack>
+
+        <MudDateRangePicker @bind-DateRange=@dateRange ReadOnly="@MyEvent.IsReadOnly.GetValueOrDefault(false)" />
+        <MudTextField Label="Body" Lines="5" @bind-Value="@MyEvent.Body" ReadOnly="@MyEvent.IsReadOnly.GetValueOrDefault(false)" />
+        @* <MudTextField Value="@server.Id.ToString()" Label="Server ID" ReadOnly="true" />
+        <MudTextField Value="@server.Name" Label="Server Name" ReadOnly="true" />
+        <MudTextField Value="@server.Location" Label="Location" ReadOnly="true" />
+        <MudTextField Value="@server.IpAddress" Label="IP Address" ReadOnly="true" /> *@
+        <MudSwitch @bind-Value=@MyEvent.IsReadOnly Label="Read Only" Color="Color.Primary"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Save" Color="Color.Success" OnClick="DeleteServer">Save Event</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public TUIEvent MyEvent { get; set; } = new TUIEvent();
+
+    private DateRange dateRange;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            var dr = new DateRange(MyEvent.Start.Value.LocalDateTime, MyEvent.End.Value.LocalDateTime);
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void DeleteServer()
+    {
+        //In a real world scenario this bool would probably be a service to delete the item from api/database
+
+        MudDialog.Close(DialogResult.Ok(""));
+    }
+}

@@ -1,6 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
-
+@inject IDialogService DialogService
 @inject CalendarViewModel ViewModel
 @using toast_ui.blazor_calendar.Models
 @implements IDisposable
@@ -29,7 +29,7 @@
             </MudPaper>
             <MudPaper Elevation="2" Class="pa-2">
                 <MudText Typo="Typo.caption">Options</MudText>
-                <MudSwitch Label="Use Custom Detail Popup" Value="false" T=bool ValueChanged="@(async (b) => await ViewModel.UseCustomPopup((bool)b))"/>
+                <MudSwitch Label="Use Custom Detail Popup" Value="ViewModel.UseCustomPopup" T=bool ValueChanged="@(async (b) => await ViewModel.UseCustomPopupChange((bool)b))"/>
             </MudPaper>
         </MudItem>
         <MudItem sm="10" Class="d-flex flex-column flex-grow-1 gap-2" Style="height:calc(100vh - 100px)">
