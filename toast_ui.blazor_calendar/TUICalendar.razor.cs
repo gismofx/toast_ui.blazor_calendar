@@ -116,7 +116,7 @@ namespace toast_ui.blazor_calendar
         /// Invoked when a calendar Event or Task is Clicked
         /// </summary>
         [Parameter]
-        public EventCallback<string> OnClickCalendarEventOrTask { get; set; }
+        public EventCallback<TUIEvent> OnClickCalendarEventOrTask { get; set; }
 
         /// <summary>
         /// Raised when a calendar Event or Task is Created
@@ -228,7 +228,7 @@ namespace toast_ui.blazor_calendar
             //Events
             OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnChangeCalendarEventOrTask");
             OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnCreateCalendarEventOrTask");
-            OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnClickCalendarEventOrTask");
+            OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnClickCalendarEventOrTask");
             OnDeleteCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEventOrTask");
 
             await base.SetParametersAsync(ParameterView.Empty);

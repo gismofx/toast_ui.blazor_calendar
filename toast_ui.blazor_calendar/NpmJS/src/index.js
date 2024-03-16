@@ -90,7 +90,7 @@ window.TUICalendar = {
 
         //clickEvent
         TUICalendar.calendarRef.on('clickEvent', function (event) {
-            TUICalendar.dotNetRef.invokeMethodAsync('OnClickEvent', event.id);
+            TUICalendar.dotNetRef.invokeMethodAsync('OnClickEvent', event.event);
             /*
             var triggerEventName = event.triggerEventName;
             if (triggerEventName === 'click') {

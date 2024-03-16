@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
@@ -28,16 +29,17 @@ namespace toast_ui.blazor_calendar
         }
 
         /// <summary>
-        /// When a schedule is clicked from the calendar UI, this is invoked
+        /// When an event is clicked from the calendar UI, this is invoked
         /// </summary>
         /// <param name="eventId"></param>
         /// <returns></returns>
         [JSInvokable("OnClickEvent")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task OnScheduleClick(string eventId)
+        public async Task OnClickEvent(JsonElement clickedEventJson)
         {
-            await OnClickCalendarEventOrTask.InvokeAsync(eventId);
-            Debug.WriteLine($"Event {eventId} Clicked!");
+            var clickedEvent = CalendarInterop.Deserialize(clickedEventJson);
+            await OnClickCalendarEventOrTask.InvokeAsync(clickedEvent);
+            Debug.WriteLine($"Event {clickedEvent.Id} Clicked!");
         }
     }
 }
