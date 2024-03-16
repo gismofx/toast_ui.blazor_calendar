@@ -127,7 +127,7 @@ public class CalendarViewModel : BaseViewModel
             CommonTheme = new CommonTheme()
             {
                 BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
-                EventTitleColor = System.Drawing.Color.Red,
+                EventTitleColor = System.Drawing.Color.White,
                 Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
                 DayName = new() { Color = System.Drawing.Color.White },
                 GridSelection = new GridSelectionTheme()
