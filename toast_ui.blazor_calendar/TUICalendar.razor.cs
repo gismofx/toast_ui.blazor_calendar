@@ -43,7 +43,7 @@ namespace toast_ui.blazor_calendar
         {
             if (e.PropertyName == NotifyUI)
             {
-                //await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
                 return;
             }
             
