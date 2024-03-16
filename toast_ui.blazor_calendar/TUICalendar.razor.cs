@@ -30,19 +30,20 @@ namespace toast_ui.blazor_calendar
     public partial class TUICalendar : ComponentBase, INotifyPropertyChanged, IDisposable
     {
         internal static readonly string NotifyUI = "UI";
-        [Inject]
-        internal IThemeService ThemeService { get; set; }
+        
+        [Inject] internal IThemeService ThemeService { get; set; }
 
         public TUICalendar()
         {
-            //PropertyChanged += TUICalendar_PropertyChanged;
+            PropertyChanged -= TUICalendar_PropertyChanged;
+            PropertyChanged += TUICalendar_PropertyChanged;
         }
 
         private async void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == NotifyUI)
             {
-                //await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
                 return;
             }
             
