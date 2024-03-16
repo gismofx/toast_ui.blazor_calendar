@@ -80,6 +80,7 @@ namespace toast_ui.blazor_calendar
             {
                 await VisibleStartDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeStart());
                 await VisibleEndDateRangeChanged.InvokeAsync(await CalendarInterop.GetDateRangeEnd());
+                Notify(NotifyUI);
             }
         }
 
@@ -91,6 +92,7 @@ namespace toast_ui.blazor_calendar
         public async Task ScrollToNow()
         {
             await CalendarInterop.ScrollToNow();
+            Notify(NotifyUI);
         }
 
         /// <summary>
@@ -101,6 +103,7 @@ namespace toast_ui.blazor_calendar
         public async Task SetDate(DateTimeOffset date)
         {
             await CalendarInterop.SetDate(date);
+            Notify(NotifyUI);
         }
 
         /// <summary>
@@ -111,11 +114,13 @@ namespace toast_ui.blazor_calendar
         public async Task SetTheme(TUITheme theme)
         {
             await CalendarInterop.SetTheme(theme);
+            Notify(NotifyUI);
         }
 
         public async ValueTask SetCalendarVisibility(string calendarId, bool isVisible)
         {
             await CalendarInterop.SetCalendarVisibility(calendarId, isVisible);
+            Notify(NotifyUI);
         }
 
         public async ValueTask ChangeView(TUICalendarViewName viewName)
@@ -127,6 +132,7 @@ namespace toast_ui.blazor_calendar
         public async ValueTask SetCalendarOptions(TUICalendarOptions options)
         {
             await CalendarInterop.SetCalendarOptions(options);
+            Notify(NotifyUI);
         }
 
     }
