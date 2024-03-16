@@ -20,7 +20,7 @@ namespace toast_ui.blazor_calendar.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("common")]
         public CommonTheme CommonTheme { get; set; } = null;
-
+        
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("week")]
         public WeekTheme WeekTheme { get; set; } = null;
@@ -46,9 +46,6 @@ namespace toast_ui.blazor_calendar.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Border { get; set; } = "1px solid #e5e5e5";
 
-        [JsonIgnore]
-        public Color? EventTitleColor { get; set; }
-
         /// <summary>
         /// Selected date/time area
         /// </summary>
@@ -65,19 +62,20 @@ namespace toast_ui.blazor_calendar.Models
         /// Holiday
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public HolidayProperties? Holiday { get; set; }
+        public HolidayProperties? Holiday {get; set;}
 
         /// <summary>
         /// Saturday
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public SaturdayProperties? Saturday { get; set; }
+        public SaturdayProperties? Saturday {get; set;}
 
         /// <summary>
         /// Current Day
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TodayProperties? Today { get; set; }
+        public TodayProperties? Today {get; set;}
+        public Color EventTitleColor { get; set; }
     }
 
     public class DayNameProperties
@@ -155,7 +153,7 @@ namespace toast_ui.blazor_calendar.Models
         }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayGridTheme DayGridLeft { get; set; }
+        public DayGridTheme DayGridLeft {get; set;}
 
         public class TimeGridTheme : ITimeGrid
         {
@@ -170,23 +168,23 @@ namespace toast_ui.blazor_calendar.Models
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public TimeGridTheme TimeGrid { get; set; } = null;
-
-
-        public ITimeGridLeft TimeGridLeft { get; set; }
-        public ITimeGridLeftAdditionalTimeZone TimeGridLeftAdditionalTimeZone { get; set; }
-        public ITimeGridHalfHour TimeGridHalfHour { get; set; }
-        public INowIndicatorLabel NowIndicatorLabel { get; set; }
-        public INowIndicatorPast NowIndicatorPast { get; set; }
-        public INowIndicatorBullet NowIndicatorBullet { get; set; }
-        public INowIndicatorToday NowIndicatorToday { get; set; }
-        public INowIndicatorFuture NowIndicatorFuture { get; set; }
-        public IPastTime PastTime { get; set; }
-        public IFutureTime FutureTime { get; set; }
-        public IWeekend Weekend { get; set; }
-        public IToday Today { get; set; }
-        public IPastDay PastDay { get; set; }
-        public IPanelResizer PanelResizer { get; set; }
-        public IGridSelection GridSelection { get; set; }
+        
+        
+        public ITimeGridLeft TimeGridLeft {get; set;}
+        public ITimeGridLeftAdditionalTimeZone TimeGridLeftAdditionalTimeZone {get; set;}
+        public ITimeGridHalfHour TimeGridHalfHour {get; set;}
+        public INowIndicatorLabel NowIndicatorLabel {get; set;}
+        public INowIndicatorPast NowIndicatorPast {get; set;}
+        public INowIndicatorBullet NowIndicatorBullet {get; set;}
+        public INowIndicatorToday NowIndicatorToday {get; set;}
+        public INowIndicatorFuture NowIndicatorFuture {get; set;}
+        public IPastTime PastTime {get; set;}
+        public IFutureTime FutureTime {get; set;}
+        public IWeekend Weekend {get; set;}
+        public IToday Today {get; set;}
+        public IPastDay PastDay {get; set;}
+        public IPanelResizer PanelResizer {get; set;}
+        public IGridSelection GridSelection {get; set;}
     }
 
     /// <summary>
@@ -207,7 +205,7 @@ namespace toast_ui.blazor_calendar.Models
         /// i.e. dimmed/muted grey
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayExceptThisMonthTheme DayExceptThisMonth { get; set; }
+        public DayExceptThisMonthTheme DayExceptThisMonth { get; set;}
 
         public class HolidayExceptThisMonthTheme
         {
@@ -236,7 +234,7 @@ namespace toast_ui.blazor_calendar.Models
         /// The Day Name Header for day names in month view
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayNameMonthTheme DayName { get; set; }
+        public DayNameMonthTheme DayName {get; set;}
 
         public class MoreViewTheme
         {
@@ -265,7 +263,7 @@ namespace toast_ui.blazor_calendar.Models
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public MoreViewTitleTheme MoreViewTitle { get; set; }
+        public MoreViewTitleTheme MoreViewTitle {get; set;}
 
         /// <summary>
         /// Weekend cell in monthly view
@@ -281,7 +279,7 @@ namespace toast_ui.blazor_calendar.Models
         /// 
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public WeekendTheme Weekend { get; set; }
+        public WeekendTheme Weekend {get; set;}
 
 
 
@@ -297,7 +295,7 @@ namespace toast_ui.blazor_calendar.Models
         /// Header and footer height of all cells in monthly view
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public GridCellTheme GridCell { get; set; }
+        public GridCellTheme GridCell {get; set;}
     }
 
 }

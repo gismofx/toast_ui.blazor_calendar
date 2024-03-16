@@ -282,7 +282,7 @@ public class CalendarViewModel : BaseViewModel
 
             if (!result.Canceled)
             {
-                Snackbar.Add("Server Deleted", Severity.Success);
+                //Snackbar.Add("Event Something", Severity.Success);
                 //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
                 //Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
                 //Servers.RemoveAll(item => item.Id == deletedServer);

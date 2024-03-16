@@ -200,11 +200,11 @@ namespace toast_ui.blazor_calendar.TestProject.ViewModels
             await Task.Delay(10);
         }
 
-        public async Task OnClickCalendarEventOrTask(string eventId)
+        public async Task OnClickCalendarEventOrTask(TUIEvent eventClicked)
         {
             //do something when an event is clicked
             //You can find Event in Database by Id
-            Debug.WriteLine($"Event or Task Clicked: {eventId}");
+            Debug.WriteLine($"Event or Task Clicked: {eventClicked.Id}");
             //Simulate long running task
             await Task.Delay(10);
         }

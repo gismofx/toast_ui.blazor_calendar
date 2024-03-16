@@ -35,14 +35,14 @@ namespace toast_ui.blazor_calendar
 
         public TUICalendar()
         {
-            PropertyChanged += TUICalendar_PropertyChanged;
+            //PropertyChanged += TUICalendar_PropertyChanged;
         }
 
         private async void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == NotifyUI)
             {
-                await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                //await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
                 return;
             }
             
