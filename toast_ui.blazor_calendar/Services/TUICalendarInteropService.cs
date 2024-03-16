@@ -24,7 +24,7 @@ namespace toast_ui.blazor_calendar.Services
         private static JsonSerializerOptions _JsonSerializerOptions = new JsonSerializerOptions() 
         { 
             PropertyNameCaseInsensitive = true, 
-            UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip 
+            UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip
         };
 
         public TUICalendarInteropService(IJSRuntime jsRuntime)

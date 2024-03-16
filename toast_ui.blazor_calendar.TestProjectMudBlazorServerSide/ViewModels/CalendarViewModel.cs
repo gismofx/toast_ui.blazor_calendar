@@ -5,6 +5,7 @@ using toast_ui.blazor_calendar.Models;
 using System.Drawing;
 using toast_ui.blazor_calendar.Helpers;
 using System.Reflection;
+using Microsoft.Extensions.Options;
 
 namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.ViewModels;
 
@@ -152,7 +153,7 @@ public class CalendarViewModel : BaseViewModel
                 },
                 DayExceptThisMonth = new()
                 {
-                    Color = Color.LightGray
+                    Color = Color.FromArgb(179,179,179)
                 }
             },
         };
@@ -177,9 +178,9 @@ public class CalendarViewModel : BaseViewModel
         var calendar1 = new CalendarInfo()
         {
             Id = "1",
-            Name = "My Test Calendar",
-            Color = Color.Red,
-            BackgroundColor = Color.Aqua,
+            Name = "Calendar 1",
+            Color = Color.White,
+            BackgroundColor = Color.CadetBlue,
             DragBackgroundColor = Color.DarkBlue,
             BorderColor = Color.Black,
         };
@@ -188,9 +189,9 @@ public class CalendarViewModel : BaseViewModel
         var calendar2 = new CalendarInfo()
         {
             Id = "2",
-            Name = "My Test Calendar2",
-            Color = Color.Green,
-            BackgroundColor = Color.LightGreen,
+            Name = "Calendar 2",
+            Color = Color.White,
+            BackgroundColor = Color.DarkSeaGreen,
             DragBackgroundColor = Color.DarkGreen,
             BorderColor = Color.Black,
         };
@@ -199,8 +200,8 @@ public class CalendarViewModel : BaseViewModel
         var calendar3 = new CalendarInfo()
         {
             Id = "3",
-            Name = "My Test Calendar3",
-            Color = Color.Black,
+            Name = "Calendar 3",
+            Color = Color.White,
             BackgroundColor = Color.MediumPurple,
             DragBackgroundColor = Color.LightPink,
             BorderColor = Color.Black
@@ -242,7 +243,6 @@ public class CalendarViewModel : BaseViewModel
             IsAllDay = false,
             IsReadOnly = false,
             State = EventState.Busy,
-            Color = Color.White
         };
 
         return sched;
@@ -300,6 +300,14 @@ public class CalendarViewModel : BaseViewModel
     public async ValueTask SetTheme()
     {
         await CalendarRef.SetTheme(_Theme);
+    }
+
+    public async Task UseCustomPopup(bool useCustomPopup)
+    {
+        var options = new TUICalendarOptions()
+        { UseDetailPopup = !useCustomPopup };
+        await CalendarRef.SetCalendarOptions(options);
+        //use code to switch to showing custom popup
     }
 
 }

@@ -22,29 +22,35 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Default view of calendar. The default value is 'week'.
         /// </summary>
-        public TUICalendarViewName DefaultView { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TUICalendarViewName? DefaultView { get; set; }
 
         /// <summary>
         /// Whether use default creation popup or not. The default value is false.
         /// </summary>
-        public bool UseFormPopup { get; set; } = false;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? UseFormPopup { get; set; }
 
         /// <summary>
         /// Whether use default detail popup or not. The default value is false.
         /// </summary>
-        public bool UseDetailPopup { get; set; } = false;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? UseDetailPopup { get; set; }
 
         /// <summary>
         /// Calendar is read-only mode and a user can't create and modify any schedule.
         /// The default value is false.
         /// </summary>
-        public bool IsReadOnly { get; set; } = false;
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] 
+        public bool? IsReadOnly { get; set; }
 
         /// <summary>
         /// Let us know the hostname.
         /// If you don't want to send the hostname, please set to false.
         /// </summary>
-        public bool UsageStatistics { get; set; } = true;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? UsageStatistics { get; set; }
 
         /*
         //eventFilter = some js function. maybe can be a string that can be evaluated as a function
@@ -53,11 +59,13 @@ namespace toast_ui.blazor_calendar.Models
         /// <summary>
         /// Week options for view
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public TUIWeekOptions Week { get; set; } = null;
 
         /// <summary>
         /// Month options for view
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public TUIMonthOptions Month { get; set; } = null;
 
         /// <summary>
@@ -85,7 +93,6 @@ namespace toast_ui.blazor_calendar.Models
         /// themeConfig for custom style.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        /// 
         public TUITheme Theme { get; set; } = null;
 
         /// <summary>

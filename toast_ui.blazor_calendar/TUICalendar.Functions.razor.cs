@@ -124,5 +124,10 @@ namespace toast_ui.blazor_calendar
             Notify(NotifyUI);
         }
 
+        public async ValueTask SetCalendarOptions(TUICalendarOptions options)
+        {
+            await CalendarInterop.SetCalendarOptions(options);
+        }
+
     }
 }

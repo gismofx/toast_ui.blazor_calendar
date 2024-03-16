@@ -118,24 +118,28 @@ namespace toast_ui.blazor_calendar.Models
         /// Event Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Color? Color { get; set; }
 
         /// <summary>
         /// Event Background Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Color? BackgroundColor { get; set; }
 
         /// <summary>
         /// Event Drag Background Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Color? DragBackgroundColor { get; set; }
 
         /// <summary>
         /// Event Border Color
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Color? BorderColor { get; set; }
 
         // TODO: Create Structure for CustomStyle
@@ -143,6 +147,7 @@ namespace toast_ui.blazor_calendar.Models
         /// Event Custom Style
         /// </summary>
         [JsonConverter(typeof(ColorJsonConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Color? CustomStyle { get; set; }
 
         /// <summary>
