@@ -57,10 +57,10 @@
                                  CalendarProperties="ViewModel.CalendarProps"
                                  @bind-VisibleStartDateRange="ViewModel.StartDate"
                                  @bind-VisibleEndDateRange="ViewModel.EndDate"
-                                 OnChangeCalendarEventOrTask="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
-                                 OnClickCalendarEventOrTask="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
-                                 OnCreateCalendarEventOrTask="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
-                                 OnDeleteCalendarEventOrTask="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
+                                 OnChangeCalendarEvent="@(async (x) => await ViewModel.OnChangeCalendarEventOrTask(x))"
+                                 OnClickCalendarEvent="@(async (x) => await ViewModel.OnClickCalendarEventOrTask(x))"
+                                 OnCreateCalendarEvent="@(async (x) => await ViewModel.OnCreateCalendarEventOrTask(x))"
+                                 OnDeleteCalendarEvent="(async (x) => await ViewModel.OnDeleteCalendarEventOrTask(x))"
                                  @ref=ViewModel.CalendarRef/>
                     </div>
 @*                     CalendarViewName="ViewModel.CalendarViewName" *@

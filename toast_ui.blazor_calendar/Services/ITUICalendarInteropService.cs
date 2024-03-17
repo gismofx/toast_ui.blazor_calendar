@@ -26,8 +26,7 @@ namespace toast_ui.blazor_calendar.Services
         ValueTask SetCalendarOptions(TUICalendarOptions calendarOptions);
         ValueTask ScrollToNow();
         ValueTask SetTheme(TUITheme theme);
-        ValueTask ChangeTUIEventColors(string color);
+        ValueTask ChangeTUIEventColors(string fontColor);
         TUIEvent Deserialize(JsonElement jsonEvent);
-
     }
 }

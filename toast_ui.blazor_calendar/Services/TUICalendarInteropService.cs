@@ -177,12 +177,17 @@ namespace toast_ui.blazor_calendar.Services
             }
         }
 
-        public async ValueTask ChangeTUIEventColors(string color)
+        /// <summary>
+        /// This is custom JS script to update the Event Title Font Color
+        /// </summary>
+        /// <param name="fontColor"></param>
+        /// <returns></returns>
+        public async ValueTask ChangeTUIEventColors(string fontColor)
         {
-            if (color is null) return;
+            if (fontColor is null) return;
             try
             {
-                await _JSRuntime.InvokeVoidAsync("TUICalendar.changeTuiEventColor", color);
+                await _JSRuntime.InvokeVoidAsync("TUICalendar.changeTuiEventColor", fontColor);
             }
 
             catch (Exception ex)

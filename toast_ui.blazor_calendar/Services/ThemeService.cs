@@ -15,8 +15,6 @@ namespace toast_ui.blazor_calendar.Services
         void SetTheme(TUITheme theme);
     }
 
-
-
     public class ThemeService : IThemeService
     {
         private ITUICalendarInteropService TUICalendarInteropService { get; set; }

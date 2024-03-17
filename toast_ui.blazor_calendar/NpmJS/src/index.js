@@ -197,11 +197,9 @@ window.TUICalendar = {
         }
     },
 
+    //Change the color the event title font. Seems to not bet a setting in TUI calendar
+    //This is a work-around
     changeTuiEventColor: function (newColor) {
-
-
-
-
 
         // Get all elements with the class name
         var eventTitles = document.querySelectorAll('.toastui-calendar-weekday-event-title');
@@ -245,8 +243,6 @@ window.TUICalendar = {
         //    var textColor = getContrastYIQ(bgColor);
         //    event.style.color = textColor;
         //});
-
-
 
     },
 }

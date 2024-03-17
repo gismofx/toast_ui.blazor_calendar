@@ -28,7 +28,7 @@ namespace toast_ui.blazor_calendar
         {
             var schedule = CalendarInterop.Deserialize(newSchedule);
             Notify(NotifyUI);
-            await OnCreateCalendarEventOrTask.InvokeAsync(schedule);
+            await OnCreateCalendarEvent.InvokeAsync(schedule);
             Debug.WriteLine("New Event Created");
         }
 
@@ -66,7 +66,7 @@ namespace toast_ui.blazor_calendar
         {
             var updatedEvent = CalendarInterop.UpdateEvent(eventBeingModified, updatedEventFields);
             Notify(NotifyUI);
-            await OnChangeCalendarEventOrTask.InvokeAsync(updatedEvent.newEvent); //Todo: Test This callback!
+            await OnChangeCalendarEvent.InvokeAsync(updatedEvent.newEvent); //Todo: Test This callback!
             Debug.WriteLine($"Event {updatedEvent.newEvent.Id} Modified");
         }
 

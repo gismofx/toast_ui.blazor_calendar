@@ -24,7 +24,7 @@ namespace toast_ui.blazor_calendar
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnDeleteEvent(string eventID)
         {
-            await OnDeleteCalendarEventOrTask.InvokeAsync(eventID);
+            await OnDeleteCalendarEvent.InvokeAsync(eventID);
             Debug.WriteLine($"Event {eventID} Deleted!");
         }
 
@@ -38,7 +38,7 @@ namespace toast_ui.blazor_calendar
         public async Task OnClickEvent(JsonElement clickedEventJson)
         {
             var clickedEvent = CalendarInterop.Deserialize(clickedEventJson);
-            await OnClickCalendarEventOrTask.InvokeAsync(clickedEvent);
+            await OnClickCalendarEvent.InvokeAsync(clickedEvent);
             Debug.WriteLine($"Event {clickedEvent.Id} Clicked!");
         }
     }

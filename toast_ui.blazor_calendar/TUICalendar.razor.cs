@@ -30,27 +30,29 @@ namespace toast_ui.blazor_calendar
     public partial class TUICalendar : ComponentBase, INotifyPropertyChanged, IDisposable
     {
         internal static readonly string NotifyUI = "UI";
-        
+
+        private bool _IsRendered = false;//this value is set to true after first render. We can't call JS until the component is rendered.
+
         [Inject] internal IThemeService ThemeService { get; set; }
 
         public TUICalendar()
         {
-            PropertyChanged -= TUICalendar_PropertyChanged;
             PropertyChanged += TUICalendar_PropertyChanged;
         }
 
         private async void TUICalendar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == NotifyUI)
+            if (e.PropertyName == NotifyUI && _IsRendered)
             {
-                await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                //await CalendarInterop.ChangeTUIEventColors(ThemeService.CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
+                await CalendarInterop.ChangeTUIEventColors(CalendarOptions.Theme.CommonTheme.EventTitleColor.Value.ToHex());// CurrentTheme.CommonTheme.EventTitleColor.Value.ToHex());
                 return;
             }
             
             switch (e.PropertyName)
             {
                 case nameof(CalendarOptions):
-                    if (CalendarOptions?.Theme != null && ThemeService.CurrentTheme != CalendarOptions.Theme)
+                    if (CalendarOptions?.Theme != null && ThemeService.CurrentTheme != CalendarOptions.Theme && _IsRendered)
                         ThemeService.SetTheme(CalendarOptions.Theme);
                     break;
                 default:
@@ -67,7 +69,7 @@ namespace toast_ui.blazor_calendar
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Notify(string propertyName)
+        private void Notify(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -105,39 +107,28 @@ namespace toast_ui.blazor_calendar
         public IEnumerable<CalendarInfo> CalendarProperties { get; set; } = null;
 
         /// <summary>
-        /// One-Way bind to this value to change/jump to any date
-        /// which will be made visible for any given calendar view name
-        /// Initial setting of this parameter will have no affect during 
-        /// loading of this component
-        /// </summary>
-        //[Parameter]
-        //public DateTimeOffset? GoToDate { get; set; }
-
-
-
-        /// <summary>
         /// Invoked when a calendar Event or Task is changed
         /// </summary>
         [Parameter]
-        public EventCallback<TUIEvent> OnChangeCalendarEventOrTask { get; set; }
+        public EventCallback<TUIEvent> OnChangeCalendarEvent { get; set; }
 
         /// <summary>
         /// Invoked when a calendar Event or Task is Clicked
         /// </summary>
         [Parameter]
-        public EventCallback<TUIEvent> OnClickCalendarEventOrTask { get; set; }
+        public EventCallback<TUIEvent> OnClickCalendarEvent { get; set; }
 
         /// <summary>
         /// Raised when a calendar Event or Task is Created
         /// </summary>
         [Parameter]
-        public EventCallback<TUIEvent> OnCreateCalendarEventOrTask { get; set; }
+        public EventCallback<TUIEvent> OnCreateCalendarEvent { get; set; }
 
         /// <summary>
-        /// Raised when a calendar Event or Task is Deleted
+        /// Raised when a calendar Event or Task is Deleted. The parameter is the Id of the deleted event.
         /// </summary>
         [Parameter]
-        public EventCallback<string> OnDeleteCalendarEventOrTask { get; set; }
+        public EventCallback<string> OnDeleteCalendarEvent { get; set; }
 
         /// <summary>
         /// Not Working
@@ -180,6 +171,7 @@ namespace toast_ui.blazor_calendar
 
         public void Dispose()
         {
+            PropertyChanged -= TUICalendar_PropertyChanged; //Unsubscribe
             GC.SuppressFinalize(this);
             if (_ObjectReference != null)
             {
@@ -235,10 +227,10 @@ namespace toast_ui.blazor_calendar
             VisibleEndDateRangeChanged = parameters.GetValueOrDefault<EventCallback<DateTimeOffset?>>("VisibleEndDateRangeChanged");
 
             //Events
-            OnChangeCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnChangeCalendarEventOrTask");
-            OnCreateCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnCreateCalendarEventOrTask");
-            OnClickCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnClickCalendarEventOrTask");
-            OnDeleteCalendarEventOrTask = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEventOrTask");
+            OnChangeCalendarEvent = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnChangeCalendarEvent");
+            OnCreateCalendarEvent = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnCreateCalendarEvent");
+            OnClickCalendarEvent = parameters.GetValueOrDefault<EventCallback<TUIEvent>>("OnClickCalendarEvent");
+            OnDeleteCalendarEvent = parameters.GetValueOrDefault<EventCallback<string>>("OnDeleteCalendarEvent");
 
             await base.SetParametersAsync(ParameterView.Empty);
 
@@ -269,6 +261,7 @@ namespace toast_ui.blazor_calendar
         {
             if (firstRender)
             {
+                _IsRendered = true;
                 await CalendarInterop.InitCalendarAsync(_ObjectReference, CalendarOptions);
                 await CalendarInterop.SetCalendars(CalendarProperties);
                 await CalendarInterop.CreateEventsAsync(Events);
