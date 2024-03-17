@@ -35,6 +35,15 @@ namespace toast_ui.blazor_calendar
 
         [Inject] internal IThemeService ThemeService { get; set; }
 
+        /// <summary>
+        /// Direct access to some calendar functions via the Interop
+        /// </summary>
+        [Inject]
+        internal ITUICalendarInteropService CalendarInterop { get; private set; } = null;
+
+        [Inject]
+        internal IJSRuntime jsRuntime { get; set; }
+
         public TUICalendar()
         {
             PropertyChanged += TUICalendar_PropertyChanged;
@@ -62,11 +71,6 @@ namespace toast_ui.blazor_calendar
 
         private DotNetObjectReference<TUICalendar> _ObjectReference;
 
-        /// <summary>
-        /// Used to Queue events in SetParametersAsync. Code cannot be left until after all parameters have been set
-        /// </summary>
-        private Queue<Task> _OnParameterChangeEvents = new();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void Notify(string propertyName)
@@ -74,14 +78,7 @@ namespace toast_ui.blazor_calendar
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary>
-        /// Direct access to some calendar functions via the Interop
-        /// </summary>
-        [Inject]
-        internal ITUICalendarInteropService CalendarInterop { get; private set; } = null;
 
-        [Inject]
-        internal IJSRuntime jsRuntime { get; set; }
 
         private TUICalendarOptions _CalendarOptions = null;
         /// <summary>
@@ -180,7 +177,8 @@ namespace toast_ui.blazor_calendar
             }
         }
 
-
+        /* This is not needed anymore
+         * 
         /// <summary>
         /// Any time a new parameter is added, it must be MANUALLY set here
         /// </summary>
@@ -235,6 +233,7 @@ namespace toast_ui.blazor_calendar
             await base.SetParametersAsync(ParameterView.Empty);
 
         }
+        */
 
         /*
         devV2
@@ -278,6 +277,8 @@ namespace toast_ui.blazor_calendar
                 CalendarInterop = new TUICalendarInteropService(jsRuntime);
             }
         }
+
+        /*
         protected override async Task OnParametersSetAsync()
         {
             _OnParameterChangeEvents.Clear();
@@ -298,6 +299,7 @@ namespace toast_ui.blazor_calendar
             //    }
             //}
         }
+        */
 
         /// <summary>
         /// Since there is no subsequent rendering required by blazor after the first render, this must be set to false
