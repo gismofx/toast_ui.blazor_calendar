@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using toast_ui.blazor_calendar.ThemeTranslator;
 
 namespace toast_ui.blazor_calendar.Services
 {
@@ -16,6 +17,18 @@ namespace toast_ui.blazor_calendar.Services
         {
             services.AddTransient<ITUICalendarInteropService, TUICalendarInteropService>();
             services.AddScoped<IThemeService, ThemeService>();
+            return services;
+        }
+
+        public static IServiceCollection AddThemeBinder(this IServiceCollection services, Action<ThemeBinder> configure)
+        {
+            services.AddScoped(provider =>
+            {
+                var themeBinder = new ThemeBinder();
+                configure(themeBinder);
+                return themeBinder;
+            });
+
             return services;
         }
     }
