@@ -170,7 +170,6 @@ namespace toast_ui.blazor_calendar.Services
             {
                 await _JSRuntime.InvokeVoidAsync("TUICalendar.setTheme", JsonSerializer.Serialize(theme));
             }
-            
             catch (Exception ex) 
             {
                 System.Diagnostics.Debug.WriteLine(ex);

@@ -7,6 +7,7 @@ using toast_ui.blazor_calendar.ThemeTranslator;
 using toast_ui.blazor_calendar.Models;
 using toast_ui.blazor_calendar.Models.Extensions;
 using toast_ui.blazor_calendar.TestProjectMudBlazorServerSide.Themes;
+using MudBlazor.Utilities;
 
 namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide
 {
@@ -28,8 +29,8 @@ namespace toast_ui.blazor_calendar.TestProjectMudBlazorServerSide
             builder.Services.AddTUIBlazorCalendar();
             builder.Services.AddThemeBinder(th =>
             {
-                th.AddThemeBinding("Light", (theme) => new Light());
-                th.AddThemeBinding("Dark", (theme) => new Dark());
+                th.AddThemeBinding("Light", new Light());
+                th.AddThemeBinding("Dark", new Dark());
             });
 
 

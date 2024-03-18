@@ -1,22 +1,25 @@
-﻿@inherits LayoutComponentBase
+﻿@using toast_ui.blazor_calendar.Services
+@using toast_ui.blazor_calendar.ThemeTranslator
+@inherits LayoutComponentBase
+@inject ThemeBinder ThemeBinder
 
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">TUI Blazor Calendar Demo</MudText>
-         <MudSpacer />
+        <MudSpacer />
         @*<MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" /> *@
-        <MudDivider Vertical=true/>
+        <MudDivider Vertical=true />
         <MudToggleIconButton @bind-Toggled="@_isDarkMode"
-            Icon="@Icons.Material.Filled.WbSunny" Color="@Color.Info" Title="Off"
-            ToggledIcon="@Icons.Material.Filled.ModeNight" ToggledColor="@Color.Success" ToggledTitle="On" />
+                             Icon="@Icons.Material.Filled.WbSunny" Color="@Color.Info" Title="Off"
+                             ToggledIcon="@Icons.Material.Filled.ModeNight" ToggledColor="@Color.Success" ToggledTitle="On" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu/>
+        <NavMenu />
     </MudDrawer>
     <MudMainContent>
         @Body
@@ -32,7 +35,19 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    private bool _isDarkMode;
+    private bool __isDarkMode;
+    private bool _isDarkMode
+    {
+        get
+        {
+            return __isDarkMode;
+        }
+        set
+        {
+            __isDarkMode = value;
+            ThemeChanged(value);
+        }
+    }
     private MudThemeProvider _mudThemeProvider;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -40,7 +55,21 @@
         if (firstRender)
         {
             _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+
             StateHasChanged();
+        }
+    }
+
+
+    private void ThemeChanged(bool isDarkModeEnabled)
+    {
+        if (_isDarkMode)
+        {
+            ThemeBinder.UpdateTheme("Dark");
+        }
+        else
+        {
+            ThemeBinder.UpdateTheme("Light");
         }
     }
 }

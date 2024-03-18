@@ -131,41 +131,41 @@ public class CalendarViewModel : BaseViewModel
         //timeZones.AddTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
         //Create a Theme
-        _Theme = new TUITheme()
-        {
-            CommonTheme = new CommonTheme()
-            {
-                BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
-                EventTitleColor = System.Drawing.Color.White,
-                Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
-                DayName = new() { Color = System.Drawing.Color.White },
-                GridSelection = new GridSelectionTheme()
-                {
-                    BackgroundColor = Color.WhiteSmoke,
-                    Border = "1px dotted #515ce6"
-                },
-                Today = new() { Color = Color.White },
-                Saturday = new() { Color = Color.Pink },
-                Holiday = new() { Color = Color.Red }
-            },
-            MonthTheme = new MonthTheme()
-            {
-                DayName = new()
-                {
-                    BackgroundColor = Color.FromArgb(30, 30, 30),
-                    BorderLeft = null,
+        //_Theme = new TUITheme()
+        //{
+        //    CommonTheme = new CommonTheme()
+        //    {
+        //        BackgroundColor = System.Drawing.Color.FromArgb(37, 37, 38),
+        //        EventTitleColor = System.Drawing.Color.White,
+        //        Border = $"1px solid {System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(62, 62, 66))}",
+        //        DayName = new() { Color = System.Drawing.Color.White },
+        //        GridSelection = new GridSelectionTheme()
+        //        {
+        //            BackgroundColor = Color.WhiteSmoke,
+        //            Border = "1px dotted #515ce6"
+        //        },
+        //        Today = new() { Color = Color.White },
+        //        Saturday = new() { Color = Color.Pink },
+        //        Holiday = new() { Color = Color.Red }
+        //    },
+        //    MonthTheme = new MonthTheme()
+        //    {
+        //        DayName = new()
+        //        {
+        //            BackgroundColor = Color.FromArgb(30, 30, 30),
+        //            BorderLeft = null,
 
-                },
-                Weekend = new()
-                {
-                    BackgroundColor = Color.FromArgb(45, 45, 48)
-                },
-                DayExceptThisMonth = new()
-                {
-                    Color = Color.FromArgb(179,179,179)
-                }
-            },
-        };
+        //        },
+        //        Weekend = new()
+        //        {
+        //            BackgroundColor = Color.FromArgb(45, 45, 48)
+        //        },
+        //        DayExceptThisMonth = new()
+        //        {
+        //            Color = Color.FromArgb(179,179,179)
+        //        }
+        //    },
+        //};
 
         //Set the Calendar Options
         CalendarOptions = new TUICalendarOptions()
@@ -180,7 +180,7 @@ public class CalendarViewModel : BaseViewModel
             Week = weekOptions,
             TUITemplate = calendarTemplate,
             Timezone = timeZones,
-            Theme = _Theme,
+            //Theme = _Theme,
         };
 
         var calendarProps = new List<CalendarInfo>();
